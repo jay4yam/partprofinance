@@ -1,0 +1,3 @@
+<templateSet group="LaravelCollective">
+  <template name="fo" value="{{ Form::open() }}" shortcut="TAB" description="form open" toReformat="true" toShortenFQNames="true" />
+</templateSet>
