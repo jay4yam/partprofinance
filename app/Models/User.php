@@ -26,4 +26,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Relation 1/1 vers la table prospect
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function prospect()
+    {
+        return $this->hasOne(Prospect::class, 'user_id');
+    }
 }
