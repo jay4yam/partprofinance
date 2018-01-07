@@ -1,2 +1,0 @@
-# partprofinance
-crm de partprofinance
