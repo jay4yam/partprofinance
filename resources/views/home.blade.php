@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activeDashboard' => 'active'])
+@extends('layouts.app', ['title' => 'Tableau de bord', 'activeDashboard' => 'active'])
 
 @section('css')
     <!-- Morris chart -->
@@ -552,8 +552,7 @@
     <script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <!-- Slimscroll -->
 
-    <!-- AdminLTE App -->
-    <script src="{{ asset('js/adminlte.min.js') }}"></script>
+
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->

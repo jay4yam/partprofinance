@@ -5670,3 +5670,33 @@ table.text-center th {
     white-space: normal !important;
   }
 }
+
+
+/* CSS PERSO JAY */
+
+/* SPINNER AJAX */
+.ajax-spinner{
+  background-image: url('../img/ajax-loader.gif');
+  background-repeat:no-repeat;
+  background-size: 100px 100px;
+  z-index: 9999;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 45%;
+  top: 45vh;
+  display: none;
+}
+/*PAGE EDIT PROSPECT*/
+#notes{
+  width: 100%;
+  height: 240px;
+}
+
+td.data{
+  width: 60%;
+}
+a.updateData{
+  display: none;
+}
+/* FIN CSS PERSO JAY*/

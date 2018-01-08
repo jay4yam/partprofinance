@@ -27,6 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function scopeGuest($query)
+    {
+        return $query->where('role', 'guest');
+    }
+
     /**
      * Relation 1/1 vers la table prospect
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
