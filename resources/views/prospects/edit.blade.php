@@ -479,9 +479,10 @@
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
-            var charges = <?php foreach(unserialize($user->prospect->credits) as $valeur){ $valeur+= $valeur;} echo $valeur ?>;
-                charges += <?php echo $user->prospect->loyer; ?>;
-                charges += <?php echo $user->prospect->loyer ? $user->prospect->loyer : 0 ; ?>;
+            var charges = <?php echo $user->prospect->loyer; ?>;
+                charges += <?php $valeur2=0; foreach(unserialize($user->prospect->credits) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
+
+                charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
 
             var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
                 revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
