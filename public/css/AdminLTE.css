@@ -5690,12 +5690,18 @@ table.text-center th {
 /*PAGE EDIT PROSPECT*/
 #notes{
   width: 100%;
-  height: 240px;
+  height: 180px;
+}
+
+.updateNotesbutton{
+  width: 100%;
+  margin: 5px 0;
 }
 
 td.data{
   width: 60%;
 }
+
 a.updateData{
   display: none;
 }

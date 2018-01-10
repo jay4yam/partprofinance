@@ -43,6 +43,7 @@ class ProspectRepository
      * Gère la mise à jour d'un item de la base
      * @param array $input
      * @param $id
+     * @return array
      */
     public function update(array $input, $id)
     {
