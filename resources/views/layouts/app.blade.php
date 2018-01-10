@@ -586,10 +586,10 @@
 <!-- FastClick -->
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
 
-@yield('js')
-
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.js') }}"></script>
 
+<!-- JS PAGE -->
+@yield('js')
 </body>
 </html>
