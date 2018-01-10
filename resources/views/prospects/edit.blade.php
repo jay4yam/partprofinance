@@ -406,6 +406,83 @@
                     </div>
                     <!-- /.box information -->
                 </div>
+                <!-- Habitation -->
+                <div class="col-md-8 col-xs-12">
+                    <!-- box revenus -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Habitation</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Habitation</td>
+                                    <td id="habitation" class="data">
+                                        <b class="value">{{ $user->prospect->habitation }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Habite Depuis</td>
+                                    <td id="habiteDepuis" class="data">
+                                        <b class="value">{{ $user->prospect->habiteDepuis }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Adresse</td>
+                                    <td id="adresse" class="data">
+                                        <b class="value">{{ $user->prospect->adresse }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Complément adresse</td>
+                                    <td id="complementAdresse" class="data">
+                                        <b class="value">{{ $user->prospect->complementAdresse }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Code postal</td>
+                                    <td id="codePostal" class="data">
+                                        <b class="value">{{ $user->prospect->codePostal }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ville</td>
+                                    <td id="ville" class="data">
+                                        <b class="value">{{ $user->prospect->ville }} €</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box information -->
+                </div>
             </div>
         </div>
     </section>
