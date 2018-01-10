@@ -24,7 +24,7 @@
             <div class="row">
                 <!-- Informations -->
                 <div class="col-md-8 col-xs-12">
-                    <!-- box information -->
+                    <!-- box informations -->
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Informations</h3>
@@ -97,7 +97,7 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box information -->
+                    <!-- /.box informations -->
                 </div>
                 <!-- Notes -->
                 <div class="col-md-4 col-xs-12">
@@ -133,7 +133,7 @@
                 </div>
                 <!-- Civilite -->
                 <div class="col-md-8 col-xs-12">
-                    <!-- box revenus -->
+                    <!-- box civilite -->
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Civilite</h3>
@@ -148,6 +148,15 @@
                         </div>
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Situation Familiale</td>
+                                    <td id="situationFamiliale" class="data">
+                                        <b class="value">{{ $user->prospect->situationFamiliale }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>Nationalite</td>
                                     <td id="nationalite" class="data">
@@ -188,11 +197,11 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box information -->
+                    <!-- /.box civilite -->
                 </div>
                 <!-- Endettement -->
                 <div class="col-md-4 col-xs-12">
-                    <!-- box notes -->
+                    <!-- box Endettement -->
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Endettement</h3>
@@ -205,11 +214,11 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <canvas id="pieChart" style="height:250px"></canvas>
+                            <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box notes -->
+                    <!-- /.box Endettement -->
                 </div>
                 <!-- Revenus -->
                 <div class="col-md-8 col-xs-12">
@@ -268,11 +277,62 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box information -->
+                    <!-- /.box revenus -->
+                </div>
+                <!-- Charges -->
+                <div class="col-md-4 col-xs-12">
+                    <!-- box charges -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Endettement</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Loyer</td>
+                                    <td id="loyer" class="data">
+                                        <b class="value">{{ $user->prospect->loyer }}</b><b> €</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pension Alimentaire</td>
+                                    <td id="pensionAlimentaire" class="data">
+                                        <b class="value">{{ $user->prospect->pensionAlimentaire }}</b><b> €</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @foreach(unserialize($user->prospect->credits) as $credit => $montant)
+                                    <tr>
+                                        <td>{{ $credit }}</td>
+                                        <td id="credits" class="data">
+                                            <b class="value">{{ $montant }}</b><b> €</b>
+                                            <a href="#" class="updateData pull-right btn-xs btn-success">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box charges -->
                 </div>
                 <!-- Revenus Conjoint-->
                 <div class="col-md-8 col-xs-12">
-                    <!-- box revenus -->
+                    <!-- box revenus conjoint-->
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Revenus conjoint</h3>
@@ -317,7 +377,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel conjoint</td>
                                     <td id="revenusNetMensuelConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->revenusNetMensuelConjoint }} €</b>
+                                        <b class="value">{{ $user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -327,11 +387,11 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box information -->
+                    <!-- /.box revenus conjoint -->
                 </div>
                 <!-- Habitation -->
                 <div class="col-md-8 col-xs-12">
-                    <!-- box revenus -->
+                    <!-- box habitation -->
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Habitation</h3>
@@ -394,7 +454,7 @@
                                 <tr>
                                     <td>Ville</td>
                                     <td id="ville" class="data">
-                                        <b class="value">{{ $user->prospect->ville }} €</b>
+                                        <b class="value">{{ $user->prospect->ville }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -404,7 +464,7 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <!-- /.box information -->
+                    <!-- /.box habitation -->
                 </div>
             </div>
         </div>
@@ -418,10 +478,13 @@
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
+            var charges = <?php echo $user->prospect->revenusNetMensuel; ?>;
+            var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
+                revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
             editProspect.showEditButton();
             editProspect.clickOnEditButton();
             editProspect.ajaxUpdateNotes();
-            editProspect.graphEndettement();
+            editProspect.graphEndettement(charges, revenus);
         });
     </script>
 

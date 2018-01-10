@@ -82,18 +82,107 @@ var editProspect = {
      * @param dataValue
      */
     _showInput:function (ObjetTd, dataKey, dataValue) {
+        var arrayList = [];
+        var selected =[];
+        var input ='';
         switch (dataKey){
             case 'civilite':
-                var selected = dataValue='Madame' ? '' : 'selected';
-                var input = '<div class="input-group">';
-                    input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
-                    input += '<option value="Madame" '+selected+'>Madame</option>';
-                    input += '<option value="Monsieur" '+selected+'>Monsieur</option>';
-                    input += '</select>';
-                    input += '<div class="input-group-btn">';
-                    input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
-                    input += '</div>';
-                    input += '</div>';
+                selected = dataValue='Madame' ? '' : 'selected';
+                input = '<div class="input-group">';
+                input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
+                input += '<option value="Madame" '+selected+'>Madame</option>';
+                input += '<option value="Monsieur" '+selected+'>Monsieur</option>';
+                input += '</select>';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'situationFamiliale':
+                arrayList = ['Célibataire','Marié(e)','Divorcé(e)','Vie maritale/Pacs','Veuf(ve)'];
+                for(var i = 0; i < arrayList.length; i++ )
+                {
+                    if(arrayList[i] == dataValue){ selected[i] = 'selected'; }
+                    else{ selected[i] = '';}
+                }
+                input = '<div class="input-group">';
+                input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
+                input += '<option value="Célibataire" '+selected[0]+'>Célibataire</option>';
+                input += '<option value="Marié(e)" '+selected[1]+'>Marié(e)</option>';
+                input += '<option value="Divorcé(e)" '+selected[2]+'>Divorcé(e)</option>';
+                input += '<option value="Vie maritale/Pacs" '+selected[3]+'>Vie maritale/Pacs</option>';
+                input += '<option value="Veuf(ve)" '+selected[4]+'>Veuf(ve)</option>';
+                input += '</select>';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'habitation':
+                arrayList = ['Accèdent à la propriété','Propriétaire','Locataire','Logé par la famille','Logé par employeur','autre'];
+                for(i = 0; i < arrayList.length; i++ ) {
+                    if(arrayList[i] === dataValue){ selected[i] = 'selected'; }
+                    else{ selected[i] = '';}
+                }
+                input = '<div class="input-group">';
+                input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
+                input += '<option value="Accèdent à la propriété" '+selected[0]+'>Accèdent à la propriété</option>';
+                input += '<option value="Propriétaire" '+selected[1]+'>Propriétaire</option>';
+                input += '<option value="Locataire" '+selected[2]+'>Locataire</option>';
+                input += '<option value="Logé par la famille" '+selected[3]+'>Logé par la famille</option>';
+                input += '<option value="Logé par employeur" '+selected[4]+'>Logé par employeur</option>';
+                input += '<option value="autre" '+selected[5]+'>autre</option>';
+                input += '</select>';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'secteurActivite':
+                arrayList = ['Secteur privé','Secteur public','Secteur agricole','Artisans-Commerçants','Professions libérales','Autres'];
+                for(i = 0; i < arrayList.length; i++ )
+                {
+                    if(arrayList[i] === dataValue){ selected[i] = 'selected'; }
+                    else{ selected[i] = '';}
+                }
+                input = '<div class="input-group">';
+                input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
+                input += '<option value="Secteur privé" '+selected[0]+'>Secteur privé</option>';
+                input += '<option value="Secteur public" '+selected[1]+'>Secteur public</option>';
+                input += '<option value="Secteur agricole" '+selected[2]+'>Secteur agricole</option>';
+                input += '<option value="Artisans-Commerçants" '+selected[3]+'>Artisans-Commerçants</option>';
+                input += '<option value="Professions libérales" '+selected[4]+'>Professions libérales</option>';
+                input += '<option value="Autres" '+selected[5]+'>Autres</option>';
+                input += '</select>';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'secteurActiviteConjoint':
+                arrayList = ['Secteur privé','Secteur public','Secteur agricole','Artisans-Commerçants','Professions libérales','Autres'];
+                for(i = 0; i < arrayList.length; i++ )
+                {
+                    if(arrayList[i] === dataValue){ selected[i] = 'selected'; }
+                    else{ selected[i] = '';}
+                }
+                input = '<div class="input-group">';
+                input += '<select class="form-control" id="'+dataKey+'" name="'+dataKey+'">';
+                input += '<option value="Secteur privé" '+selected[0]+'>Secteur privé</option>';
+                input += '<option value="Secteur public" '+selected[1]+'>Secteur public</option>';
+                input += '<option value="Secteur agricole" '+selected[2]+'>Secteur agricole</option>';
+                input += '<option value="Artisans-Commerçants" '+selected[3]+'>Artisans-Commerçants</option>';
+                input += '<option value="Professions libérales" '+selected[4]+'>Professions libérales</option>';
+                input += '<option value="Autres" '+selected[5]+'>Autres</option>';
+                input += '</select>';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
                 ObjetTd.html(input);
                 break;
             default:
@@ -202,7 +291,7 @@ var editProspect = {
     /**
      * Affiche le camembert endettement
      */
-    graphEndettement:function () {
+    graphEndettement:function (charges, revenus) {
         //-------------
         //- PIE CHART -
         //-------------
@@ -211,7 +300,7 @@ var editProspect = {
         var pieChart       = new Chart(pieChartCanvas);
         var PieData        = [
             {
-                value    : 700,
+                value    : revenus,
                 color    : '#00c0ef',
                 highlight: '#00c0ef',
                 label    : 'Revenus'

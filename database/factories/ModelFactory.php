@@ -55,7 +55,7 @@ $factory->define(App\Models\Prospect::class, function ( Faker\Generator $faker){
         'revenusNetMensuel' => mt_rand(1000, 4000),
         'revenusNetMensuelConjoint' => mt_rand(0, 1) ? NULL : 2000.00,
         'loyer' => mt_rand(400,1500),
-        'credits'=> json_encode(['banque pop' => mt_rand(40, 300), 'cetelem' => mt_rand(40, 300)]),
+        'credits'=> serialize(['banque pop' => mt_rand(40, 300), 'cetelem' => mt_rand(40, 300)]),
         'pensionAlimentaire' => mt_rand(0, 1) ? NULL : mt_rand(40, 300),
         'NomBanque' => mt_rand(0, 1) ? 'BNP PARISBAS' : 'BANQUE POSTALE',
         'BanqueDepuis' => $faker->date(),
