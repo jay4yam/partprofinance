@@ -492,7 +492,7 @@
 @section('js')
     <script src="{{ asset('js/editProspect.js') }}"></script>
     <!-- ChartJS -->
-    <script src="{{ asset('bower_components/Chart.js/Chart.js') }}"></script>
+    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
             editProspect.showEditButton();
