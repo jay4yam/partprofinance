@@ -42,6 +42,9 @@ var editProspect = {
         });
     },
 
+    /**
+     * Met à jour les notes
+     */
     ajaxUpdateNotes:function () {
         $('#ajaxnotesupdate').on('click', function (e) {
             e.preventDefault();
@@ -289,7 +292,9 @@ var editProspect = {
     },
 
     /**
-     * Affiche le camembert endettement
+     * Affiche le graphique donut
+     * @param charges
+     * @param revenus
      */
     graphEndettement:function (charges, revenus) {
         //-------------
@@ -298,6 +303,8 @@ var editProspect = {
         // Get context with jQuery - using jQuery's .get() method.
         var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
         var pieChart       = new Chart(pieChartCanvas);
+
+
         var PieData        = [
             {
                 value    : revenus,
@@ -306,7 +313,7 @@ var editProspect = {
                 label    : 'Revenus'
             },
             {
-                value    : 500,
+                value    : charges,
                 color    : '#f39c12',
                 highlight: '#f39c12',
                 label    : 'Charges'
@@ -339,6 +346,7 @@ var editProspect = {
         //Create pie or douhnut chart
         // You can switch between pie and Doughnut using the method below.
         pieChart.Pie(PieData, pieOptions);
+
     }
 };
 

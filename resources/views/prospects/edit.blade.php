@@ -204,7 +204,7 @@
                     <!-- box Endettement -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Endettement</h3>
+                            <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -215,6 +215,7 @@
                         </div>
                         <div class="box-body">
                             <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
+                            <div id="legendDiv"></div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -478,9 +479,18 @@
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
-            var charges = <?php echo $user->prospect->revenusNetMensuel; ?>;
+            var charges = <?php foreach(unserialize($user->prospect->credits) as $valeur){ $valeur+= $valeur;} echo $valeur ?>;
+                charges += <?php echo $user->prospect->loyer; ?>;
+                charges += <?php echo $user->prospect->loyer ? $user->prospect->loyer : 0 ; ?>;
+
             var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
                 revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
+
+            function precisionRound(number, precision) {
+                var factor = Math.pow(10, precision);
+                return Math.round(number * factor) / factor;
+            }
+            $('#txEndettement').html( precisionRound( (charges / revenus)*100, 2)+' %');
             editProspect.showEditButton();
             editProspect.clickOnEditButton();
             editProspect.ajaxUpdateNotes();
