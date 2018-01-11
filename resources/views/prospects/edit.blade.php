@@ -474,7 +474,7 @@
                 </div>
                 <!-- Supression -->
                 <div class="col-md-12 col-xs-12">
-                    <form action="{{ route('prospect.destroy', ['prospect' => $user->id]) }}" method="post">
+                    <form class='delete' action="{{ route('prospect.destroy', ['prospect' => $user->id]) }}" method="post">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="DELETE">
                         <button class="btn btn-danger">
@@ -516,6 +516,10 @@
             editProspect.ajaxUpdateNotes();
             editProspect.graphEndettement(charges, revenus);
             editProspect.addCredit();
+        });
+
+        $(".delete").on("submit", function(){
+            return confirm("La suppression est definitive, êtes vous sure ?");
         });
     </script>
 
