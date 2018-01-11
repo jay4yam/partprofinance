@@ -68,17 +68,6 @@ class ProspectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -100,6 +89,8 @@ class ProspectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $message = $this->prospectRepository->delete($id);
+
+        return redirect()->route('prospect.index')->with('message', $message);
     }
 }

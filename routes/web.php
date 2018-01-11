@@ -15,5 +15,6 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', 'HomeController@index')->name('home');
     Route::resource('prospect', 'ProspectController');
+    Route::post('/prospect/add-credit/{prospectId}', 'ProspectController@ajaxAddCredit');
 });
 

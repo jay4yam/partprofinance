@@ -63,4 +63,22 @@ class ProspectRepository
         }
         return ['success' => 'MAJ OK'];
     }
+
+    /**
+     * Supprime un prospect
+     * @param $id
+     * @return string
+     */
+    public function delete($id)
+    {
+        try{
+            $user = $this->user->findOrFail($id);
+            $user->prospect()->delete();
+            $user->delete();
+        }catch (\Exception $exception){
+            return back()->with(['message', $exception->getMessage()]);
+        }
+
+        return 'prospect supprimé';
+    }
 }

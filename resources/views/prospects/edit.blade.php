@@ -285,7 +285,7 @@
                     <!-- box charges -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Endettement</h3>
+                            <h3 class="box-title">Charges</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -295,7 +295,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <table class="table table-bordered table-hover">
+                            <table id="chargesTable" class="table table-bordered table-hover">
                                 <tr>
                                     <td>Loyer</td>
                                     <td id="loyer" class="data">
@@ -326,6 +326,11 @@
                                     </tr>
                                 @endforeach
                             </table>
+                            <div class="text-center" style="padding-top: 10px;">
+                                <button id="addCreditButton" class="btn btn-success btn-sm">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Ajouter un credit
+                                </button>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -467,6 +472,16 @@
                     </div>
                     <!-- /.box habitation -->
                 </div>
+                <!-- Supression -->
+                <div class="col-md-12 col-xs-12">
+                    <form action="{{ route('prospect.destroy', ['prospect' => $user->id]) }}" method="post">
+                        {{ csrf_field() }}
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -479,23 +494,28 @@
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
+            //récupération de la sommes des charges
             var charges = <?php echo $user->prospect->loyer; ?>;
                 charges += <?php $valeur2=0; foreach(unserialize($user->prospect->credits) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
-
                 charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
 
+            //récupération de la sommes des revenus
             var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
                 revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
 
+            //Fonction arrondir le taux d'endettement
             function precisionRound(number, precision) {
                 var factor = Math.pow(10, precision);
                 return Math.round(number * factor) / factor;
             }
-            $('#txEndettement').html( precisionRound( (charges / revenus)*100, 2)+' %');
+            //Affiche le taux d'endettement
+            $('#txEndettement').html('<b>'+ precisionRound( (charges / revenus)*100, 2)+'</b> %');
+
             editProspect.showEditButton();
             editProspect.clickOnEditButton();
             editProspect.ajaxUpdateNotes();
             editProspect.graphEndettement(charges, revenus);
+            editProspect.addCredit();
         });
     </script>
 

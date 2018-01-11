@@ -79,6 +79,56 @@ var editProspect = {
     },
 
     /**
+     * Ajoute un nouveau credit
+     */
+    addCredit:function () {
+        $('#addCreditButton').on('click', function (e) {
+            e.preventDefault();
+
+            //recupère la dernière ligne du tableau
+            // ajoute les inputs via la méthode privée _drawNewTableRow()
+            $('#chargesTable tr:last').after( editProspect._drawNewTableRow() );
+        });
+    },
+
+    /**
+     * Dessine une nouvelle table row avec les inputs pour sauv. les données
+     * @returns {string}
+     * @private
+     */
+    _drawNewTableRow:function () {
+    var tr = '<tr>';
+        tr += '<td><input class="form-control" id="creditName" name="creditName" placeholder="nom credit"></td>';
+        tr += '<td>';
+        tr += '<div class="input-group">';
+        tr += '<input class="form-control" id="creditValue" name="creditValue" placeholder="montant credit">';
+        tr += '<div class="input-group-btn">';
+        tr += '<button type="button" id="AddCredit" class="btn btn-success">';
+        tr += '<i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button></div></div>';
+        tr += '</td></tr>';
+
+        return tr;
+    },
+
+    _ajaxAddCredit:function () {
+      var creditName = $('#creditName').val();
+      var creditValue = $('#creditValue').val();
+
+        $.ajax({
+            method: "PUT",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: 'http://'+location.host+'/prospect/add-credit/'+prospectId,
+            data: {id:id, value:value},
+            beforeSend:function () {
+                $('.ajax-spinner').show();
+            }
+        }).done(function (message) {
+            //1. masque le spinner ajax
+            $('.ajax-spinner').hide();
+        });
+    },
+
+    /**
      * Affiche le bon type d'input : input, dropdownlist, etc...
      * @param ObjetTd
      * @param dataKey
