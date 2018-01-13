@@ -314,16 +314,21 @@
                                         </a>
                                     </td>
                                 </tr>
-                                @foreach(unserialize($user->prospect->credits) as $credit => $montant)
+                                <?php $index = 0; ?>
+                                @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
                                     <tr>
                                         <td>{{ $credit }}</td>
                                         <td id="credits" class="data">
                                             <b class="value">{{ $montant }}</b><b> €</b>
-                                            <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <a href="#" id="{{ $index }}" class="deleteCredit pull-right btn-xs btn-danger">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                         </td>
                                     </tr>
+                                    <?php $index++; ?>
                                 @endforeach
                             </table>
                             <div class="text-center" style="padding-top: 10px;">
@@ -496,7 +501,7 @@
         $(document).ready(function () {
             //récupération de la sommes des charges
             var charges = <?php echo $user->prospect->loyer; ?>;
-                charges += <?php $valeur2=0; foreach(unserialize($user->prospect->credits) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
+                charges += <?php $valeur2=0; foreach(json_decode($user->prospect->credits, true) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
                 charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
 
             //récupération de la sommes des revenus
@@ -516,6 +521,7 @@
             editProspect.ajaxUpdateNotes();
             editProspect.graphEndettement(charges, revenus);
             editProspect.addCredit();
+            editProspect.deleteCredit();
         });
 
         $(".delete").on("submit", function(){

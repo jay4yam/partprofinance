@@ -5702,7 +5702,7 @@ td.data{
   width: 60%;
 }
 
-a.updateData{
+a.updateData, a.deleteCredit{
   display: none;
 }
 /* FIN CSS PERSO JAY*/

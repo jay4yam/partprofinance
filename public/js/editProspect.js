@@ -8,9 +8,11 @@ var editProspect = {
     showEditButton:function () {
         $('td.data').on('mouseover', function () {
             $(this).children('.updateData').toggle();
+            $(this).children('.deleteCredit').toggle();
         });
         $('td.data').on('mouseout', function () {
             $(this).children('.updateData').toggle();
+            $(this).children('.deleteCredit').toggle();
         });
     },
 
@@ -88,11 +90,48 @@ var editProspect = {
             //recupère la dernière ligne du tableau
             // ajoute les inputs via la méthode privée _drawNewTableRow()
             $('#chargesTable tr:last').after( editProspect._drawNewTableRow() );
+
+            //Utilisation methode privee avec requete ajax pour ajout d'un credit
+            editProspect._ajaxAddCredit();
+        });
+    },
+
+    deleteCredit: function () {
+        $('.deleteCredit').on('click', function (e) {
+            e.preventDefault();
+            //1. init la var qui contient le lien
+            var tr = $(this).closest('tr');
+
+            //2. recupere le nom du credit
+            var creditToDelete = $(tr).find('td').html();
+
+            //3. détermine le prospect à modifier
+            //récupère l'id du prospect à updater
+            var pathName = location.pathname;
+            var array = pathName.split('/');
+            var prospectId = array[array.length-1];
+
+            $.ajax({
+                method: "DELETE",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: 'http://'+location.host+'/prospect/delete-credit/'+prospectId,
+                data: {creditToDelete:creditToDelete},
+                beforeSend:function () {
+                    $('.ajax-spinner').show();
+                }
+            }).done(function (message) {
+                //1. masque le spinner ajax
+                $('.ajax-spinner').hide();
+                if(message.success)
+                {
+                    tr.remove();
+                }
+            });
         });
     },
 
     /**
-     * Dessine une nouvelle table row avec les inputs pour sauv. les données
+     * Dessine une nouvelle table row avec deux inputs (creditname, creditValue) pour sauv. les données
      * @returns {string}
      * @private
      */
@@ -110,22 +149,44 @@ var editProspect = {
         return tr;
     },
 
+    /**
+     * AJoute un credit, insertion en base du nom et du montant
+     * Changement du td si ajax success
+     * @private
+     */
     _ajaxAddCredit:function () {
-      var creditName = $('#creditName').val();
-      var creditValue = $('#creditValue').val();
+      //si on observe un click sur le bouton ='addcredit'
+      $('#AddCredit').on('click',function (e) {
+          e.preventDefault();
+          //recup le nom de credit
+          var creditName = $('#creditName').val();
+          //recup le montant du credit
+          var creditValue = $('#creditValue').val();
 
-        $.ajax({
-            method: "PUT",
+          //récupère l'id du prospect à updater
+          var pathName = location.pathname;
+          var array = pathName.split('/');
+          var prospectId = array[array.length-1];
+
+          $.ajax({
+            method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: 'http://'+location.host+'/prospect/add-credit/'+prospectId,
-            data: {id:id, value:value},
+            data: {creditName:creditName, creditValue:creditValue},
             beforeSend:function () {
                 $('.ajax-spinner').show();
             }
         }).done(function (message) {
             //1. masque le spinner ajax
             $('.ajax-spinner').hide();
+            if(message.success)
+            {
+                var tr = $('#chargesTable tr:last');
+                var td = '<td>'+creditName+'</td><td><b>'+creditValue+' €</b></td>';
+                tr.html(td);
+            }
         });
+      });
     },
 
     /**

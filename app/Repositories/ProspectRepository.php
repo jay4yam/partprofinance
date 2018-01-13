@@ -50,17 +50,67 @@ class ProspectRepository
         try {
             $user = $this->getById($id);
 
-            if($input['id'] == "email")
+            //met à jour les items en base
+            //si c'est le mail qui est mise a jour on update pas
+            // le même model entre $user et $user->prospect
+            if(isset($input['id']) && $input['id'] == "email")
             {
+                //met à jour l'email de l'utilisateur
                 $user->update([$input['id'] => $input['value']]);
                 $user->save();
-            } else {
+            }
+
+            //Si c'est un item qui appartient à la table prospect
+            if( isset($input['id']) && $input['id'] != "email"){
+                //met à jour le champs de la table ($input[id] avec la nouvelle valeur $input[value]
                 $user->prospect()->update([$input['id'] => $input['value']]);
+
+                //sauv. le model
                 $user->save();
             }
+
+            //Ajout d'un crédit
+            if( isset($input['creditName']) && isset($input['creditValue'])){
+                //recupere le tableau de credit à modifier
+                $creditArray = json_decode($user->prospect->credits, true);
+
+                //Ajoute le nouveau credit et son montant
+                $creditArray[ $input['creditName'] ] = (double)$input['creditValue'];
+
+                //init une variable serialize du tableau credit pour sauv.
+                $serializeCredit = json_encode($creditArray);
+
+                //met à jour le credit
+                $user->prospect()->update( ['credits' => $serializeCredit] );
+
+                //sauv. le model
+                $user->save();
+            }
+
+            //Suppression d'un crédit
+            if( isset($input['creditToDelete'])){
+                //recupere le tableau de credit à modifier
+                $creditArray = json_decode($user->prospect->credits, true);
+
+                //supprimer le credit du tableau
+                unset( $creditArray[ $input['creditToDelete'] ] );
+
+                //init. le nouveau tableau de credit à enregistré
+                $serializeCredit = json_encode($creditArray);
+
+                //enregistre le nouveau tableau de credit
+                $user->prospect()->update( ['credits' => $serializeCredit ] );
+
+                //sauv. le model.
+                $user->save();
+
+            }
+
         }catch (\Exception $exception){
+            //retourne un message avec l'erreur pour débuger
             return ['fail' => $exception->getMessage()];
         }
+        //si on est là c'est que les étapes de sauv. du model ce sont bien déroulées
         return ['success' => 'MAJ OK'];
     }
 

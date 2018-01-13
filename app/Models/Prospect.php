@@ -48,9 +48,6 @@ class Prospect extends Model
         'user_id'
     ];
 
-    protected $casts = [
-        'credits' => 'json',
-    ];
 
     /**
      * Relation 1/1 vers la table user

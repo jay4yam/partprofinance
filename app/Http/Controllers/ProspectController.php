@@ -82,6 +82,32 @@ class ProspectController extends Controller
     }
 
     /**
+     * Gère la requête Ajax 'addCredit'
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxAddCredit(Request $request, $id)
+    {
+        $message = $this->prospectRepository->update($request->all(), $id);
+
+        return response($message);
+    }
+
+    /**
+     * Gère la requête Ajax DeleteCredit
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxDeleteCredit(Request $request, $id)
+    {
+        $message = $this->prospectRepository->update($request->all(), $id);
+
+        return response($message);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
