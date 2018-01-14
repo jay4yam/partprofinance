@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class TempProspect extends Model
 {
     /**
+     * @var string
+     */
+    protected $table = 'temp_prospects';
+
+    /**
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * @var array

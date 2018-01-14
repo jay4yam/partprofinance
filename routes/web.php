@@ -28,7 +28,11 @@ Route::group(['middleware' => 'auth'], function(){
      */
     Route::get('import', 'UploadProspect@index')->name('prospect.import');
     Route::post('import/upload', 'UploadProspect@uploadFile')->name('prospect.upload');
+    Route::delete('remove/file', 'UploadProspect@deleteFile')->name('remove.file');
     Route::post('import/csv/builder', 'UploadProspect@csvBuilder')->name('prospect.csv.import');
+
+    Route::post('save/temp/prospect/{id}', 'UploadProspect@save')->name('save.temp.prospect');
+    Route::delete('delete/temp/prospect/{id}', 'UploadProspect@delete')->name('delete.temp.prospect');
 
 });
 

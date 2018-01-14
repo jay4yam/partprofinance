@@ -42,6 +42,7 @@ class CreateTempProspectsTable extends Migration
             $table->string('contrat_du_conjoint')->nullable();
             $table->string('contrat_conjoint_depuis_mois')->nullable();
             $table->string('salaire_conjoint')->nullable();
+            $table->timestamps();
         });
     }
 

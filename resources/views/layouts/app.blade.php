@@ -367,6 +367,11 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
+    @if( session('message'))
+        <div class="message-front-admin">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="ajax-spinner"></div>
     <div class="content-wrapper">
         @yield('content')
@@ -594,6 +599,9 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.js') }}"></script>
 
+<script>
+    $('div.message-front-admin').not('.alert-important').delay(3000).fadeOut(350);
+</script>
 <!-- JS PAGE -->
 @yield('js')
 </body>

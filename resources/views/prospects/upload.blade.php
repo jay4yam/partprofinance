@@ -88,10 +88,16 @@
                                             {{ $file->getFilename() }}
                                         </td>
                                         <td>
-                                            {{ Form::open(['route' => 'prospect.csv.import', 'method' => 'post']) }}
+                                            {{ Form::open(['route' => 'prospect.csv.import', 'method' => 'post', 'style' => 'float:left']) }}
                                                 {{ Form::hidden('fileName', $file->getFilename() ) }}
                                                 <button class="btn btn-warning">
                                                     <i class="fa fa-cog"></i> Importer
+                                                </button>
+                                            {{ Form::close() }}
+                                            {{ Form::open(['route' => 'remove.file', 'method' => 'DELETE']) }}
+                                                {{ Form::hidden('fileName', $file->getFilename() ) }}
+                                                <button class="btn btn-danger pull-right">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </button>
                                             {{ Form::close() }}
                                         </td>
@@ -123,6 +129,7 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Ajouté le</th>
                                     <th>Source</th>
                                     <th>Nom</th>
                                     <th>Email</th>
@@ -132,10 +139,22 @@
                                 @foreach($prospectsTemp as $prospect)
                                     <tr>
                                         <td>{{ $prospect->id }}</td>
+                                        <td>{{ $prospect->created_at->format('d M Y') }}</td>
                                         <td>{{ $prospect->prospect_source }}</td>
                                         <td>{{ $prospect->nom }}</td>
                                         <td>{{ $prospect->email }}</td>
-                                        <td>action</td>
+                                        <td>
+                                            {{ Form::open(['route' => ['save.temp.prospect', $prospect], 'method' => 'POST', 'style' => 'float:left']) }}
+                                            <button class="btn btn-success">
+                                                <i class="fa fa-database" aria-hidden="true"></i> Enregistrer
+                                            </button>
+                                            {{ Form::close() }}
+                                            {{ Form::open(['route' => ['delete.temp.prospect', $prospect], 'method' => 'DELETE']) }}
+                                            <button class="btn btn-danger pull-right">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </button>
+                                            {{ Form::close() }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </table>

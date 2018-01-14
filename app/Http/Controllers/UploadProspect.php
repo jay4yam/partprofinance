@@ -9,7 +9,9 @@ use App\Http\Requests\UploadProspectCSVRequest;
 use App\Models\TempProspect;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
+use Mockery\Exception;
 
 class UploadProspect extends Controller
 {
@@ -21,9 +23,42 @@ class UploadProspect extends Controller
     public function index()
     {
         //Récupère la liste des prospects de la table tempProspects
-        $prospectsTemp = TempProspect::all(['id', 'prospect_source', 'nom', 'email']);
+        $prospectsTemp = TempProspect::all(['id', 'prospect_source', 'nom', 'email', 'created_at']);
 
         return view('prospects.upload', compact('prospectsTemp'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     */
+    public function save(Request $request, $id)
+    {
+        dd($id);
+    }
+
+    /**
+     * Suppression d'une ligne de la table tempprospect
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Request $request, $id)
+    {
+        try {
+
+            //1. recupere l'enregistrement à effacer
+            $temp = TempProspect::findOrFail($id);
+
+            //2. Efface l'enregistrement
+            $temp->delete();
+
+        }catch (\Exception $exception){
+            //renvois un mesage si erreur
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+        // renvois un message si succès
+        return back()->with(['message' => 'suppression du prospect OK']);
     }
 
     /**
@@ -40,12 +75,32 @@ class UploadProspect extends Controller
             try {
                 $file->storeAs('public/csvimport', $name.'.csv');
             }catch (\Exception $exception){
-                return back()->withException($exception);
+                return back()->with(['message' => $exception]);
             }
-
-            return back();
         }
-        return back();
+        return back()->with(['message' => 'upload du fichier csv OK']);
+    }
+
+    /**
+     * Supprime l'un des fichiers csv
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteFile(Request $request)
+    {
+        try {
+
+            //1. récupère le nom du fichier
+            $fileName = $request->fileName;
+            //2. Supprime le ficher du dossier
+            Storage::delete('/public/csvimport/' . $fileName);
+
+        }catch (\Exception $exception){
+            //Renvois un message d'erreur
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+        //redirect avec message
+        return back()->with(['message' => 'Supression du fichier csv OK']);
     }
 
     /**
@@ -57,22 +112,26 @@ class UploadProspect extends Controller
      */
     public function csvBuilder(Request $request, Application $app, Excel $excel)
     {
-        //Récupère le nom du fichier importer par l'utilisateur
-        $fileName = storage_path('app/public/csvimport/'.$request->fileName);
+        try {
+            //Récupère le nom du fichier importer par l'utilisateur
+            $fileName = storage_path('app/public/csvimport/' . $request->fileName);
 
-        //Instancie un import "Excel"
-        $import = new ImportCSV($app, $excel, $fileName);
+            //Instancie un import "Excel"
+            $import = new ImportCSV($app, $excel, $fileName);
 
-        //Récupère le contenu du fichier
-        $results = $import->get();
+            //Récupère le contenu du fichier
+            $results = $import->get();
 
-        //Récupère la source du fichier ('assureagency' ou 'devisprox')
-        $prospectSource = $this->dataType($request->fileName);
+            //Récupère la source du fichier ('assureagency' ou 'devisprox')
+            $prospectSource = $this->dataType($request->fileName);
 
-        //Enregistre en session dans un tableau de prospects
-        $import->storeInTemp($results, $prospectSource);
+            //Enregistre en session dans un tableau de prospects
+            $import->storeInTemp($results, $prospectSource);
+        }catch (\Exception $exception){
+            return back()->with(['message' => $exception->getMessage()]);
+        }
 
-        return back();
+        return back()->with(['message' => 'Traitement fichier OK']);
     }
 
     /**
