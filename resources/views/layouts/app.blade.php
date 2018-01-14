@@ -354,6 +354,11 @@
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> Créer un prospect
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ url()->route('prospect.import') }}">
+                                <i class="fa fa-upload" aria-hidden="true"></i> Importer vos prospects
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

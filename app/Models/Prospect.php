@@ -4,6 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Prospect
+ *
+ * @property-read \App\Models\User $user
+ * @mixin \Eloquent
+ */
 class Prospect extends Model
 {
     protected $table = 'prospects';

@@ -6077,7 +6077,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 			this.offset.parent = this._getParentOffset();
 		}
 
-		//Compute the helpers position
+		//Compute the Helpers position
 		this.position = this._generatePosition( event, true );
 		this.positionAbs = this._convertPositionTo("absolute");
 
@@ -6499,7 +6499,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 		}
 	},
 
-	// From now on bulk stuff - mainly helpers
+	// From now on bulk stuff - mainly Helpers
 
 	_trigger: function( type, event, ui ) {
 		ui = ui || this._uiHash();
@@ -13784,7 +13784,7 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 			o = this.options,
 			scrolled = false;
 
-		//Compute the helpers position
+		//Compute the Helpers position
 		this.position = this._generatePosition(event);
 		this.positionAbs = this._convertPositionTo("absolute");
 

@@ -1,9 +1,5 @@
 @extends('layouts.app', ['title' => 'Edition de prospects', 'activeDashboard' => 'active'])
 
-@section('css')
-
-@endsection
-
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
