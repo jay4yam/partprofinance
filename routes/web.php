@@ -10,7 +10,31 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'auth'], function(){
+
+    Route::get('/', 'HomeController@index')->name('home');
+
+    /**
+     * RESOURCE MODEL PROSPECT
+     */
+    Route::resource('prospect', 'ProspectController');
+    Route::post('/prospect/add-credit/{prospectId}', 'ProspectController@ajaxAddCredit');
+    Route::delete('/prospect/delete-credit/{prospectId}', 'ProspectController@ajaxDeleteCredit');
+
+    /**
+     * IMPORT DE PROSPECT
+     */
+    Route::get('import', 'UploadProspect@index')->name('prospect.import');
+    Route::post('import/upload', 'UploadProspect@uploadFile')->name('prospect.upload');
+    Route::delete('remove/file', 'UploadProspect@deleteFile')->name('remove.file');
+    Route::post('import/csv/builder', 'UploadProspect@csvBuilder')->name('prospect.csv.import');
+
+    Route::post('save/temp/prospect/{id}', 'UploadProspect@save')->name('save.temp.prospect');
+    Route::delete('delete/temp/prospect/{id}', 'UploadProspect@delete')->name('delete.temp.prospect');
+
+    Route::get('/create/imported/prospect/{userId}/{prospectId}', 'UploadProspect@createProspect' )->name('create.imported.prospect');
+
 });
+
