@@ -34,5 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('save/temp/prospect/{id}', 'UploadProspect@save')->name('save.temp.prospect');
     Route::delete('delete/temp/prospect/{id}', 'UploadProspect@delete')->name('delete.temp.prospect');
 
+    Route::get('/create/imported/prospect/{userId}/{prospectId}', 'UploadProspect@createProspect' )->name('create.imported.prospect');
+
 });
 

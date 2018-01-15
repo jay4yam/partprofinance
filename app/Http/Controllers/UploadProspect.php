@@ -7,6 +7,7 @@ use App\Helpers\DevisProxData;
 use App\Helpers\ImportCSV;
 use App\Http\Requests\UploadProspectCSVRequest;
 use App\Models\TempProspect;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,10 +32,42 @@ class UploadProspect extends Controller
     /**
      * @param Request $request
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function save(Request $request, $id)
     {
-        dd($id);
+        //1. récupère le prospect temporaire
+        $prospect = TempProspect::findOrFail($id);
+
+        //2. crée un model user
+        $user = User::create([
+                        'name' => $prospect->nom,
+                        'email' => $prospect->email,
+                        'password' => bcrypt('password'),
+                        'role' => 'admin',
+                        'avatar' => 'avatar.png'
+                    ]);
+
+        //3. redirige vers la page de création 'prospect' liée à la table l'utilisateur
+        return redirect()->route('create.imported.prospect', [ 'userId' => $user->id, 'prospectId' => $prospect->id]);
+    }
+
+    /**
+     * Affiche la vue de création de prospect liée à la table user
+     * @param $userId
+     * @param $prospectId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createProspect($userId, $prospectId)
+    {
+        //Récupère le nouvel utilisateur
+        $user = User::findOrFail($userId);
+
+        //Récupère les infos stockées dans la table tempProspect
+        $tempProspect = TempProspect::findOrFail($prospectId);
+
+        //Retourne la vue en lui passant en paramètre le user et le tempProspect
+        return view('prospects.create', compact('user', 'tempProspect'));
     }
 
     /**
