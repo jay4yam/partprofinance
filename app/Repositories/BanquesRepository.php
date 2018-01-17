@@ -65,8 +65,9 @@ class BanquesRepository
             $ext = $file->getClientOriginalExtension();
             $name = str_slug($inputs['nom']).'-logo.'.$ext;
             $file->storeAs( "public/img", $name);
+
+            $banque->logo = $inputs['nom'].'-logo.'.$inputs['logo']->getClientOriginalExtension();
         }
-        $banque->logo = $inputs['nom'].'-logo.'.$inputs['logo']->getClientOriginalExtension();
 
         $banque->save();
     }

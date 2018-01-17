@@ -36,7 +36,7 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->user->guest()->with('prospect')->paginate(10);
+        return $this->user->guest()->orderBy('id', 'desc')->with('prospect')->paginate(10);
     }
 
     /**

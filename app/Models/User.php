@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Prospect::class, 'user_id');
     }
+
+    public function dossier()
+    {
+        return $this->hasMany(Banque::class, 'user_id');
+    }
 }

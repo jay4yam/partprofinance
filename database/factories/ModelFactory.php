@@ -66,3 +66,24 @@ $factory->define(App\Models\Prospect::class, function ( Faker\Generator $faker){
         'notes' => mt_rand(0, 1) ? NULL : $faker->paragraph(1),
     ];
 });
+
+/**
+ * Défini un dossier
+ */
+
+$factory->define(App\Models\Dossier::class, function ( Faker\Generator $faker){
+    $objet = array('Voitures','Moto','Caravane','Camping-car','Bateaux','Travaux');
+    $status = array('Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé');
+    $randObjet_keys = array_rand($objet);
+    $randStatus_key = array_rand($status);
+
+    return[
+        'signature' => mt_rand(0,1) ? 'Electronique' : 'Physique',
+        'objet_du_pret' => $objet[$randObjet_keys],
+        'montant_demande' => mt_rand('10000.00', '20000.00'),
+        'montant_final' => mt_rand('10000.00', '20000.00'),
+        'status' => $status[$randStatus_key],
+        'banque_id' => mt_rand(1,3),
+        'user_id' => mt_rand(2,20)
+    ];
+});
