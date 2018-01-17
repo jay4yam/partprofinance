@@ -34,13 +34,12 @@ class ProspectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Affiche la page de création de prospect from scratch /// distinct de la page création après importation
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('prospects.create');
     }
 
     /**
@@ -51,7 +50,7 @@ class ProspectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

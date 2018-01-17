@@ -16,9 +16,9 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <!-- Informations -->
+                <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
                     <!-- box informations -->
                     <div class="box">
@@ -94,41 +94,6 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box informations -->
-                </div>
-                <!-- Notes -->
-                <div class="col-md-4 col-xs-12">
-                    <!-- box notes -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Notes</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <form id="notesUpdate">
-                                {!! csrf_field() !!}
-                                <input type="hidden" name="_method" value="PUT">
-                                <input type="hidden" name="id" value="notes">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                    <textarea title="notes" name="value" id="notes" class="form-control">{{ $user->prospect->notes }}</textarea>
-                                </div>
-                                <button type="submit" id="ajaxnotesupdate" class="btn btn-success updateNotesbutton">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box notes -->
-                </div>
-                <!-- Civilite -->
-                <div class="col-md-8 col-xs-12">
                     <!-- box civilite -->
                     <div class="box">
                         <div class="box-header with-border">
@@ -144,6 +109,15 @@
                         </div>
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Date de Naissance</td>
+                                    <td id="dateDeNaissance" class="data">
+                                        <b class="value">{{ $user->prospect->dateDeNaissance }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>Situation Familiale</td>
                                     <td id="situationFamiliale" class="data">
@@ -194,31 +168,7 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box civilite -->
-                </div>
-                <!-- Endettement -->
-                <div class="col-md-4 col-xs-12">
-                    <!-- box Endettement -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
-                            <div id="legendDiv"></div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box Endettement -->
-                </div>
-                <!-- Revenus -->
-                <div class="col-md-8 col-xs-12">
+
                     <!-- box revenus -->
                     <div class="box">
                         <div class="box-header with-border">
@@ -275,70 +225,7 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box revenus -->
-                </div>
-                <!-- Charges -->
-                <div class="col-md-4 col-xs-12">
-                    <!-- box charges -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Charges</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <table id="chargesTable" class="table table-bordered table-hover">
-                                <tr>
-                                    <td>Loyer</td>
-                                    <td id="loyer" class="data">
-                                        <b class="value">{{ $user->prospect->loyer }}</b><b> €</b>
-                                        <a href="#" class="updateData pull-right btn-xs btn-success">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pension Alimentaire</td>
-                                    <td id="pensionAlimentaire" class="data">
-                                        <b class="value">{{ $user->prospect->pensionAlimentaire }}</b><b> €</b>
-                                        <a href="#" class="updateData pull-right btn-xs btn-success">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php $index = 0; ?>
-                                @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
-                                    <tr>
-                                        <td>{{ $credit }}</td>
-                                        <td id="credits" class="data">
-                                            <b class="value">{{ $montant }}</b><b> €</b>
-                                            <a href="#" id="{{ $index }}" class="deleteCredit pull-right btn-xs btn-danger">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php $index++; ?>
-                                @endforeach
-                            </table>
-                            <div class="text-center" style="padding-top: 10px;">
-                                <button id="addCreditButton" class="btn btn-success btn-sm">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Ajouter un credit
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box charges -->
-                </div>
-                <!-- Revenus Conjoint-->
-                <div class="col-md-8 col-xs-12">
+
                     <!-- box revenus conjoint-->
                     <div class="box">
                         <div class="box-header with-border">
@@ -395,9 +282,7 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box revenus conjoint -->
-                </div>
-                <!-- Habitation -->
-                <div class="col-md-8 col-xs-12">
+
                     <!-- box habitation -->
                     <div class="box">
                         <div class="box-header with-border">
@@ -473,8 +358,120 @@
                     </div>
                     <!-- /.box habitation -->
                 </div>
-                <!-- Supression -->
-                <div class="col-md-12 col-xs-12">
+                <!-- col droite -->
+                <div class="col-md-4 col-xs-12">
+                    <!-- box notes -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Notes</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <form id="notesUpdate">
+                                {!! csrf_field() !!}
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="id" value="notes">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
+                                    <textarea title="notes" name="value" id="notes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                </div>
+                                <button type="submit" id="ajaxnotesupdate" class="btn btn-success updateNotesbutton">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box notes -->
+
+                    <!-- box Endettement -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
+                            <div id="legendDiv"></div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box Endettement -->
+
+                    <!-- box charges -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Charges</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="chargesTable" class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Loyer</td>
+                                    <td id="loyer" class="data">
+                                        <b class="value">{{ $user->prospect->loyer }}</b><b> €</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pension Alimentaire</td>
+                                    <td id="pensionAlimentaire" class="data">
+                                        <b class="value">{{ $user->prospect->pensionAlimentaire }}</b><b> €</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php $index = 0; ?>
+                                @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
+                                    <tr>
+                                        <td>{{ $credit }}</td>
+                                        <td id="credits" class="data">
+                                            <b class="value">{{ $montant }}</b><b> €</b>
+                                            <a href="#" id="{{ $index }}" class="deleteCredit pull-right btn-xs btn-danger">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php $index++; ?>
+                                @endforeach
+                            </table>
+                            <div class="text-center" style="padding-top: 10px;">
+                                <button id="addCreditButton" class="btn btn-success btn-sm">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Ajouter un credit
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box charges -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
                     <form class='delete' action="{{ route('prospect.destroy', ['prospect' => $user->id]) }}" method="post">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="DELETE">

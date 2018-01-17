@@ -361,6 +361,58 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- Dossiers -->
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                        <span>Dossiers</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{ url()->route('prospect.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des dossiers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url()->route('prospect.create') }}">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> Créer un dossier
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Commerciaux -->
+                <li class="">
+                    <a href="#">
+                        <i class="fa fa-female" aria-hidden="true"></i>
+                        <span>Commerciaux</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Banques -->
+                <li class="treeview {{ @$activeBanque }}">
+                    <a href="#">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        <span>Banques</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu ">
+                        <li class="{{ @$activeBanque }}">
+                            <a href="{{ url()->route('banques.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des Banques
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->

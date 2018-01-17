@@ -58,7 +58,7 @@ class UploadProspect extends Controller
      * @param $prospectId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function createProspect($userId, $prospectId)
+    public function createImportedProspect($userId, $prospectId)
     {
         //Récupère le nouvel utilisateur
         $user = User::findOrFail($userId);
@@ -67,7 +67,7 @@ class UploadProspect extends Controller
         $tempProspect = TempProspect::findOrFail($prospectId);
 
         //Retourne la vue en lui passant en paramètre le user et le tempProspect
-        return view('prospects.create', compact('user', 'tempProspect'));
+        return view('prospects.createImported', compact('user', 'tempProspect'));
     }
 
     /**

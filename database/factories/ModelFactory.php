@@ -25,6 +25,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+/**
+ * Défini un prospect
+ */
 $factory->define(App\Models\Prospect::class, function ( Faker\Generator $faker){
     return[
         'civilite' => mt_rand(0,1) ? 'Madame' : 'Monsieur',
