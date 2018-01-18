@@ -5718,4 +5718,13 @@ td.data{
 a.updateData, a.deleteCredit{
   display: none;
 }
+
+
+/*dossiers*/
+.refuse{  background-color: #f56954;  }
+.a-l-etude{  background-color: #00c0ef;  }
+.accepte{  background-color:#00a65a;  }
+.paye{background-color:#3c8dbc }
+.impaye{ background-color: #ff851b}
+/*fin-dossiers*/
 /* FIN CSS PERSO JAY*/

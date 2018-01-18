@@ -40,5 +40,10 @@ Route::group(['middleware' => 'auth'], function(){
      * GESTION DES BANQUES
      */
     Route::resource('banques', 'BanquesController');
+
+    /**
+     * GESTION DES DOSSIERS
+     */
+    Route::resource('dossiers', 'DossierController');
 });
 

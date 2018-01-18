@@ -363,7 +363,7 @@
                 </li>
 
                 <!-- Dossiers -->
-                <li class="treeview">
+                <li class="treeview {{ @$activeDossier }}">
                     <a href="#">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                         <span>Dossiers</span>
@@ -373,7 +373,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="{{ url()->route('prospect.index') }}">
+                            <a href="{{ url()->route('dossiers.index') }}">
                                 <i class="fa fa-th-list" aria-hidden="true"></i> Liste des dossiers
                             </a>
                         </li>

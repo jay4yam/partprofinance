@@ -22,11 +22,19 @@ class Dossier extends Model
         'banque_id'
     ];
 
-    public function users()
+    /**
+     * Relation 1:n avec la table User
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Relation 1:n avec la table banque
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function banque()
     {
         return $this->belongsTo(Banque::class, 'banque_id');

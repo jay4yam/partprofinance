@@ -16,6 +16,6 @@ class Banque extends Model
      */
     public function dossier()
     {
-        return $this->hasMany(Dossier::class, 'banque_id');
+        return $this->hasMany(Dossier::class);
     }
 }
