@@ -40,6 +40,7 @@
                     <thead>
                     <tr>
                         <th>id</th>
+                        <th>date</th>
                         <th>Clients</th>
                         <th>status</th>
                         <th>banque</th>
@@ -52,6 +53,7 @@
                     @foreach($dossiers as $dossier)
                         <tr>
                             <td>{{ $dossier->id }}</td>
+                            <td>{{ $dossier->created_at->format('d M y') }}</td>
                             <td>{{ $dossier->user->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $dossier->banque->logo}}" height="30"></td>
@@ -87,43 +89,6 @@
             <!-- /.box-body -->
             <div class="box-footer text-center">
                 {{ $dossiers->links() }}
-            </div>
-            <!-- /.box-footer-->
-        </div>
-        <!-- /.box -->
-
-        <!-- Insertion de banque -->
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Insérer une banque</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i></button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i></button>
-                </div>
-            </div>
-            <div class="box-body">
-                {{ Form::open([ 'route' => 'banques.store', 'method' => 'post', 'files' => true]) }}
-
-                <div class="form-group">
-                    {{ Form::label('nom', 'Nom de la banque / Organisme préteur') }}
-                    {{ Form::text('nom', null,['class' => 'form-control']) }}
-                </div>
-
-                <div class="form-group">
-                    {{ Form::label('logo', 'Insérer le logo') }}
-                    {{ Form::file('logo', ['class' => 'form-control-file']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::submit('Sauvegarder', ['class' => 'btn btn-success']) }}
-                </div>
-                {{ Form::close() }}
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-center">
             </div>
             <!-- /.box-footer-->
         </div>
