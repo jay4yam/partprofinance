@@ -379,7 +379,7 @@
                         </li>
                         <li>
                             <a href="{{ url()->route('prospect.create') }}">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i> Créer un dossier
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Créer un dossier
                             </a>
                         </li>
                     </ul>

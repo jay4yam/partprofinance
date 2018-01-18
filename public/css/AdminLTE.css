@@ -5724,7 +5724,13 @@ a.updateData, a.deleteCredit{
 .refuse{  background-color: #f56954;  }
 .a-l-etude{  background-color: #00c0ef;  }
 .accepte{  background-color:#00a65a;  }
-.paye{background-color:#3c8dbc }
-.impaye{ background-color: #ff851b}
+.paye{background-color:#3c8dbc; }
+.impaye{ background-color: #ff851b; }
+
+.box-refuse{ border-top-color: #f56954; }
+.box-a-l-etude{ border-top-color: #00c0ef;}
+.box-accepte{ border-top-color: #00a65a;}
+.box-paye{ border-top-color: #3c8dbc;}
+.box-impaye{ border-top-color: #ff851b;}
 /*fin-dossiers*/
 /* FIN CSS PERSO JAY*/

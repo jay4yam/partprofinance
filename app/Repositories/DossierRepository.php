@@ -35,4 +35,14 @@ class DossierRepository
     {
         return $this->dossier->with('user', 'banque')->paginate(10);
     }
+
+    /**
+     * Retourne un dossier en particulier
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    public function getById($id)
+    {
+        return $this->dossier->with('user', 'banque')->findOrFail($id);
+    }
 }

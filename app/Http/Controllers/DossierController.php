@@ -73,7 +73,9 @@ class DossierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dossier = $this->dossierRepository->getById($id);
+
+        return view('dossiers.edit', compact('dossier'));
     }
 
     /**
