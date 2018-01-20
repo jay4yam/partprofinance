@@ -125,7 +125,7 @@ class DossierRepository
         $results = DB::table('prospects')
             ->join('users', 'users.id', '=', 'prospects.user_id')
             ->where('nom', 'LIKE', '%'.$request->term.'%')
-            ->select('users.email', 'prospects.nom', 'prospects.prenom', 'prospects.user_id')
+            ->select('users.email', 'prospects.nom', 'prospects.prenom', 'prospects.user_id', 'prospects.iban')
             ->get();
 
         //init un tableau vide
@@ -134,7 +134,7 @@ class DossierRepository
         //itère sur la collection pour peupler lz tableau array
         foreach ($results as $valeur)
         {
-            $array[] = ['value' => $valeur->nom.'-'.$valeur->prenom.'-'.$valeur->email, 'id' => $valeur->user_id,];
+            $array[] = ['value' => $valeur->nom.' / '.$valeur->prenom.' / '.$valeur->email.' / '.$valeur->iban, 'id' => $valeur->user_id,];
         }
 
         //test si le tableau est rempli

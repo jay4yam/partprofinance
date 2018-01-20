@@ -77,15 +77,15 @@
                                 {{ Form::label('montant_demande', 'Montant demandé : ') }}
                                 {{ Form::text('montant_demande', null, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-3 {{ $errors->has('montant_final') ? ' has-error' : '' }}">
+                            <div class="col-md-2 {{ $errors->has('montant_final') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_final', 'Montant final : ') }}
                                 {{ Form::text('montant_final', null, ['class' => 'form-control']) }}
                             </div>
                             <div class="col-md-2 {{ $errors->has('duree_du_pret') ? ' has-error' : '' }}">
                                 {{ Form::label('duree_du_pret', 'duree_du_pret : ') }}
-                                {{ Form::select('duree_du_pret', ['12'=>'12','24'=>'24','36'=>'36','48'=>'48','60'=>'60','72'=>'72','84'=>'84','96'=>'96'], $dossier->duree_du_pret, ['class' => 'form-control']) }}
+                                {{ Form::select('duree_du_pret', ['12'=>'12','24'=>'24','36'=>'36','48'=>'48','60'=>'60','72'=>'72','84'=>'84','96'=>'96'], '84', ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-3 {{ $errors->has('taux_commission') ? ' has-error' : '' }}">
+                            <div class="col-md-2 {{ $errors->has('taux_commission') ? ' has-error' : '' }}">
                                 {{ Form::label('taux_commission', 'Commission : ') }}
                                 {{ Form::text('taux_commission', 12.00, ['class' => 'form-control', 'disable']) }}
                             </div>

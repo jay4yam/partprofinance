@@ -75,15 +75,17 @@ var dossierJS = {
                 var items = ui.item.value;
 
                 //split la chaine avec le séparateur '-'
-                var array = items.split('-');
+                var array = items.split(' / ');
 
                 //init. les valeurs
                 var nom = array[0];
                 var prenom = array[1];
                 var email = array[2];
+                var iban = array[3];
 
                 $('#prenom').val(prenom);
                 $('#email').val(email);
+                $('#iban').val(iban);
 
                 //reinitialise le ui.item.value avec seulement le nom
                 //sinon ca affiche nom-prenom-email (et ce n'est pas la résultat attendu
