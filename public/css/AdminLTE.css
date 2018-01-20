@@ -5721,16 +5721,17 @@ a.updateData, a.deleteCredit{
 
 
 /*dossiers*/
-.refuse{  background-color: #f56954;  }
-.a-l-etude{  background-color: #00c0ef;  }
-.accepte{  background-color:#00a65a;  }
-.paye{background-color:#3c8dbc; }
-.impaye{ background-color: #ff851b; }
+.refuse{  background-color: #d73925;  }
+.a-l-etude{  background-color: #FFF;  }
+.accepte{  background-color:#25ce81;  }
+.paye{background-color:#2092e2; color: #FFF; }
+.impaye{ background-color: #af1616; color: #FFF; }
 
-.box-refuse{ border-top-color: #f56954; }
-.box-a-l-etude{ border-top-color: #00c0ef;}
-.box-accepte{ border-top-color: #00a65a;}
-.box-paye{ border-top-color: #3c8dbc;}
-.box-impaye{ border-top-color: #ff851b;}
+.box-refuse { border-top-color: #d73925;}
+.box-a-l-etude { border-top-color:#FFF; }
+.box-accepte { border-top-color:#25ce81; }
+.box-paye { border-top-color:#2092e2; }
+.box-impaye { border-top-color:#af1616; }
 /*fin-dossiers*/
+
 /* FIN CSS PERSO JAY*/

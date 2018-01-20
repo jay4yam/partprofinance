@@ -45,5 +45,6 @@ Route::group(['middleware' => 'auth'], function(){
      * GESTION DES DOSSIERS
      */
     Route::resource('dossiers', 'DossierController');
+    Route::get('dossier/prospect/autocomplete/name', 'DossierController@autoCompleteNom');
 });
 

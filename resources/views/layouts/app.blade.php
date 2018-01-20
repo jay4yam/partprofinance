@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
+    <!-- JQUERY UI CSS -->
+    <link rel="stylesheet" href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -378,7 +380,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url()->route('prospect.create') }}">
+                            <a href="{{ url()->route('dossiers.create') }}">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Créer un dossier
                             </a>
                         </li>
@@ -634,6 +636,8 @@
 
 <!-- jQuery 3 -->
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<!-- jQuery Migrate 3 -->
+<script src="{{ asset('js/jquery-migrate-3.0.0.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

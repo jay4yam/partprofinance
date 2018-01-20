@@ -131,7 +131,7 @@
 
 
                             {{ Form::label('status', 'Status du dossier : ') }}
-                            {{ Form::select('status', ['Refusé' => 'Refusé','A l étude' => 'A l étude','Accepté' => 'Accepté','Payé' => 'Payé' ,'Impayé' => 'Impayé'], $dossier->status, ['class' => 'form-control']) }}
+                            {{ Form::select('status', ['Refusé' => 'Refusé', 'A l étude' => 'A l étude', 'Accepté' => 'Accepté', 'Payé' => 'Payé' , 'Impayé' => 'Impayé'], $dossier->status, ['class' => 'form-control']) }}
 
                             {{ Form::label('apporteur', 'Apporteur : ') }}
                             {{ Form::text('apporteur', $dossier->apporteur, ['class' => 'form-control']) }}
@@ -158,9 +158,15 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('js/editDossier.js') }}" type="application/javascript"></script>
     <script>
-        $(".delete").on("submit", function(){
-            return confirm("La suppression est definitive, êtes vous sure ?");
+        $(document).ready(function () {
+            //Affiche un message en cas de suppression d'un dossier
+            $(".delete").on("submit", function(){
+                return confirm("La suppression est definitive, êtes vous sure ?");
+            });
+
+            editDossier.changeMontantDemande();
         });
     </script>
 @endsection

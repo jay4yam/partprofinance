@@ -40,7 +40,7 @@ class DossierController extends Controller
      */
     public function create()
     {
-        //
+        return view('dossiers.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class DossierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -87,7 +87,9 @@ class DossierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->dossierRepository->update($request->all(), $id);
+
+        return back()->with(['message' => 'Dossier mise  jour OK!']);
     }
 
     /**
@@ -99,5 +101,17 @@ class DossierController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Gère la recherche de nom d'utilisateur pour l'autocomplete de la vue dossiers.create
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function autoCompleteNom(Request $request)
+    {
+        $results = $this->dossierRepository->autoCompleteName($request);
+
+        return response()->json($results);
     }
 }

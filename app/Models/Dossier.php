@@ -17,7 +17,7 @@ class Dossier extends Model
         'montant_commission_partpro',
         'apporteur',
         'taux_commission',
-        'statut',
+        'status',
         'user_id',
         'banque_id'
     ];
