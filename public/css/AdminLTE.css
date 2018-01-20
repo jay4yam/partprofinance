@@ -5718,4 +5718,20 @@ td.data{
 a.updateData, a.deleteCredit{
   display: none;
 }
+
+
+/*dossiers*/
+.refuse{  background-color: #d73925;  }
+.a-l-etude{  background-color: #FFF;  }
+.accepte{  background-color:#25ce81;  }
+.paye{background-color:#2092e2; color: #FFF; }
+.impaye{ background-color: #af1616; color: #FFF; }
+
+.box-refuse { border-top-color: #d73925;}
+.box-a-l-etude { border-top-color:#FFF; }
+.box-accepte { border-top-color:#25ce81; }
+.box-paye { border-top-color:#2092e2; }
+.box-impaye { border-top-color:#af1616; }
+/*fin-dossiers*/
+
 /* FIN CSS PERSO JAY*/

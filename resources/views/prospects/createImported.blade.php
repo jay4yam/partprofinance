@@ -5,12 +5,12 @@
     <section class="content-header">
         <h1>
             Prospects
-            <small>Créer un prospect</small>
+            <small>Insérez les informations sur votre prospects</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Prospect</a></li>
-            <li class="active">création de prospect</li>
+            <li class="active">Insertion informations</li>
         </ol>
     </section>
 
@@ -48,25 +48,25 @@
                                 <tr>
                                     <td><label for="nom">nom</label></td>
                                     <td class="data">
-                                        <input type="text" id="nom" name="nom" class="form-control">
+                                        <input type="text" id="nom" name="nom" class="form-control" value="{{ $tempProspect->nom }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="prenom">prenom</label></td>
                                     <td class="data">
-                                        <input type="text" id="prenom" name="prenom" class="form-control">
+                                        <input type="text" id="prenom" name="prenom" class="form-control" value="{{ $tempProspect->prenom }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="email">email</label></td>
                                     <td class="data">
-                                        <input type="text" id="email" name="email" class="form-control">
+                                        <input type="text" id="email" name="email" class="form-control" value="{{ $tempProspect->e_mail }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelFixe">Téléphone Fixe</label></td>
                                     <td class="data">
-                                        <input type="text" id="numTelFixe" name="numTelFixe" class="form-control">
+                                        <input type="text" id="numTelFixe" name="numTelFixe" class="form-control" value="{{ $tempProspect->tel_professionnel }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -95,6 +95,12 @@
                         </div>
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td><label for="dateDeNaissance">Date De Naissance</label></td>
+                                    <td class="data">
+                                        <input type="text" class="form-control" id="dateDeNaissance" name="dateDeNaissance">
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td><label for="situationFamiliale">Situation Familiale</label></td>
                                     <td class="data">
@@ -173,13 +179,13 @@
                                 <tr>
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="professionDepuis" name="professionDepuis">
+                                        <input type="text" class="form-control" id="professionDepuis" name="professionDepuis" value="{{ $tempProspect->votre_profession }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="revenusNetMensuel">revenusNetMensuel</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="revenusNetMensuel" name="revenusNetMensuel">
+                                        <input type="text" class="form-control" id="revenusNetMensuel" name="revenusNetMensuel" value="{{ $tempProspect->votre_salaire }}">
                                     </td>
                                 </tr>
                             </table>
@@ -224,13 +230,13 @@
                                 <tr>
                                     <td><label for="professionDepuisConjoint">profession Depuis Conjoint</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="professionDepuisConjoint" name="professionDepuisConjoint">
+                                        <input type="text" class="form-control" id="professionDepuisConjoint" name="professionDepuisConjoint" value="{{ $tempProspect->profession_du_conjoint }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="revenusNetMensuelConjoint">revenus net mensuel conjoint</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="revenusNetMensuelConjoint" name="revenusNetMensuelConjoint">
+                                        <input type="text" class="form-control" id="revenusNetMensuelConjoint" name="revenusNetMensuelConjoint" value="{{ $tempProspect->salaire_conjoint }}">
                                     </td>
                                 </tr>
                             </table>
@@ -269,31 +275,31 @@
                                 <tr>
                                     <td><label for="habiteDepuis">habiteDepuis</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="habiteDepuis" name="habiteDepuis">
+                                        <input type="text" class="form-control" id="habiteDepuis" name="habiteDepuis" value="{{ $tempProspect->lgmt_depuis_mois }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="adresse">adresse</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="adresse" name="adresse">
+                                        <input type="text" class="form-control" id="adresse" name="adresse" value="{{ $tempProspect->adresse }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="complementAdresse">complement adresse</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="complementAdresse" name="complementAdresse">
+                                        <input type="text" class="form-control" id="complementAdresse" name="complementAdresse" value="{{ $tempProspect->adresse_2 }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="codePostal">code postal</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="codePostal" name="codePostal">
+                                        <input type="text" class="form-control" id="codePostal" name="codePostal" value="{{ $tempProspect->code_postal }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="ville">ville</label></td>
                                     <td class="data">
-                                        <input type="text" class="form-control" id="ville" name="ville">
+                                        <input type="text" class="form-control" id="ville" name="ville" value="{{ $tempProspect->ville }}">
                                     </td>
                                 </tr>
                             </table>
@@ -345,7 +351,7 @@
                                 <tr>
                                     <td><label for="loyer">loyer</label></td>
                                     <td>
-                                        <input type="text" class="form-control" id="loyer" name="loyer">
+                                        <input type="text" class="form-control" id="loyer" name="loyer" value="{{ $tempProspect->montant_de_votre_loyer }}">
                                     </td>
                                 </tr>
                                 <tr>

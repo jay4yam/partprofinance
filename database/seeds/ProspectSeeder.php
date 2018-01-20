@@ -16,6 +16,5 @@ class ProspectSeeder extends Seeder
                 $u->prospect()->save(factory(App\Models\Prospect::class)->make());
             });
         });
-
     }
 }

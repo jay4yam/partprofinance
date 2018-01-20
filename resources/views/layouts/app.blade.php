@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
+    <!-- JQUERY UI CSS -->
+    <link rel="stylesheet" href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -361,6 +363,58 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- Dossiers -->
+                <li class="treeview {{ @$activeDossier }}">
+                    <a href="#">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                        <span>Dossiers</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{ url()->route('dossiers.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des dossiers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url()->route('dossiers.create') }}">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Créer un dossier
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Commerciaux -->
+                <li class="">
+                    <a href="#">
+                        <i class="fa fa-female" aria-hidden="true"></i>
+                        <span>Commerciaux</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Banques -->
+                <li class="treeview {{ @$activeBanque }}">
+                    <a href="#">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        <span>Banques</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu ">
+                        <li class="{{ @$activeBanque }}">
+                            <a href="{{ url()->route('banques.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des Banques
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -582,6 +636,8 @@
 
 <!-- jQuery 3 -->
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<!-- jQuery Migrate 3 -->
+<script src="{{ asset('js/jquery-migrate-3.0.0.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
