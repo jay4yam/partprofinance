@@ -13,6 +13,7 @@ class Dossier extends Model
     protected $fillable = [
         'signature',
         'objet_du_pret',
+        'duree_du_pret',
         'montant_demande',
         'montant_final',
         'taux_commission',
@@ -21,7 +22,8 @@ class Dossier extends Model
         'taux_commission',
         'status',
         'user_id',
-        'banque_id'
+        'banque_id',
+        'num_dossier_banque'
     ];
 
     /**

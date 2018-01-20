@@ -96,14 +96,21 @@
                         <!-- ./Montant & commission -->
 
                         <!-- Organisme préteur  -->
-                        <div class="form-group col-md-6" style="padding-top: 10px">
+                        <div class="form-group col-md-4" style="padding-top: 10px">
                             {{ Form::label('banque_id', 'Dossier passé chez : ') }}
                             {{ Form::select('banque_id', \App\Models\Banque::pluck('nom', 'id'), $dossier->banque_id , ['class' => 'form-control']) }}
                         </div>
                         <!-- Organisme préteur  -->
 
+                        <!-- Num Dossier banque -->
+                        <div class="form-group col-md-4" style="padding-top: 10px">
+                            {{ Form::label('num_dossier_banque', 'N° de dossier : ') }}
+                            {{ Form::text('num_dossier_banque', $dossier->num_dossier_banque , ['class' => 'form-control']) }}
+                        </div>
+                        <!-- ./Num Dossier banque -->
+
                         <!-- IBAN -->
-                        <div class="form-group col-md-6" style="padding-top: 10px">
+                        <div class="form-group col-md-4" style="padding-top: 10px">
                             {{ Form::label('iban', 'Iban du client : ') }}
                             {{ Form::text('iban', $dossier->user->prospect->iban , ['class' => 'form-control']) }}
                         </div>
@@ -164,7 +171,10 @@
             <!-- ./ Col. droite -->
 
             <div class="col-md-12 text-center">
-                {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning']) }}
+                <a href="{{ url()->route('dossiers.index') }}" class="btn btn-lg btn-default pull-left">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> liste des dossiers
+                </a>
+                {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning pull-right']) }}
             </div>
             {{ Form::close() }}
         </div>

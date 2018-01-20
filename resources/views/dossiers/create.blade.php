@@ -97,18 +97,25 @@
                         <!-- ./Montant & commission -->
 
                         <!-- Organisme préteur  -->
-                        <div class="form-group col-md-6" style="padding-top: 10px">
+                        <div class="form-group col-md-4" style="padding-top: 10px">
                             {{ Form::label('banque_id', 'Dossier passé chez : ') }}
                             {{ Form::select('banque_id', \App\Models\Banque::pluck('nom', 'id'), null , ['class' => 'form-control']) }}
                         </div>
-                        <!-- Organisme préteur  -->
+                        <!-- ./Organisme préteur  -->
+
+                        <!-- Num Dossier banque -->
+                        <div class="form-group col-md-4" style="padding-top: 10px">
+                            {{ Form::label('num_dossier_banque', 'N° de dossier : ') }}
+                            {{ Form::text('num_dossier_banque', null , ['class' => 'form-control']) }}
+                        </div>
+                        <!-- ./Num Dossier banque -->
 
                         <!-- IBAN -->
-                        <div class="form-group col-md-6" style="padding-top: 10px">
+                        <div class="form-group col-md-4" style="padding-top: 10px">
                             {{ Form::label('iban', 'Iban du client : ') }}
                             {{ Form::text('iban', null , ['class' => 'form-control']) }}
                         </div>
-                        <!-- IBAN -->
+                        <!-- ./IBAN -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer text-center">

@@ -24,6 +24,7 @@ class CreateDossiersTable extends Migration
             $table->decimal('montant_commission_partpro')->nullable();
             $table->string('apporteur')->nullable();
             $table->enum('status', ['Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé'])->default('A l étude');
+            $table->string('num_dossier_banque')->nullable();
             $table->timestamps();
         });
 
