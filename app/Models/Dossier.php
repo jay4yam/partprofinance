@@ -8,6 +8,8 @@ class Dossier extends Model
 {
     protected $table = 'dossiers';
 
+    public $iban = 0;
+
     protected $fillable = [
         'signature',
         'objet_du_pret',

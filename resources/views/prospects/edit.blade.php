@@ -391,23 +391,7 @@
                     <!-- /.box notes -->
 
                     <!-- box Endettement -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
-                            <div id="legendDiv"></div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
+                    @include('endettement._graph')
                     <!-- /.box Endettement -->
 
                     <!-- box charges -->
@@ -488,31 +472,11 @@
 
 @section('js')
     <script src="{{ asset('js/editProspect.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
-            //récupération de la sommes des charges
-            var charges = <?php echo $user->prospect->loyer; ?>;
-                charges += <?php $valeur2=0; foreach(json_decode($user->prospect->credits, true) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
-                charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
-
-            //récupération de la sommes des revenus
-            var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
-                revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
-
-            //Fonction arrondir le taux d'endettement
-            function precisionRound(number, precision) {
-                var factor = Math.pow(10, precision);
-                return Math.round(number * factor) / factor;
-            }
-            //Affiche le taux d'endettement
-            $('#txEndettement').html('<b>'+ precisionRound( (charges / revenus)*100, 2)+'</b> %');
-
             editProspect.showEditButton();
             editProspect.clickOnEditButton();
             editProspect.ajaxUpdateNotes();
-            editProspect.graphEndettement(charges, revenus);
             editProspect.addCredit();
             editProspect.deleteCredit();
         });
@@ -521,5 +485,32 @@
             return confirm("La suppression est definitive, êtes vous sure ?");
         });
     </script>
+    <!-- ChartJS -->
+    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
+    <!-- endettement -->
+    <script src="{{ asset('js/endettement.js') }}"></script>
+    <script>
+        //récupération de la sommes des charges
+        var charges = <?php echo $user->prospect->loyer; ?>;
+        charges += <?php $valeur2=0; foreach(json_decode($user->prospect->credits, true) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
+        charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
+
+        //récupération de la sommes des revenus
+        var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
+        revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
+
+        //Fonction arrondir le taux d'endettement
+        function precisionRound(number, precision) {
+            var factor = Math.pow(10, precision);
+            return Math.round(number * factor) / factor;
+        }
+        //Affiche le taux d'endettement
+        $('#txEndettement').html('<b>'+ precisionRound( (charges / revenus)*100, 2)+'</b> %');
+
+        $(document).ready(function () {
+            endettement.graphEndettement(charges, revenus);
+        });
+    </script>
+
 
 @endsection

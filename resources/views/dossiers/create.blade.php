@@ -43,15 +43,15 @@
 
                         <!-- Infos prospect (non editable) -->
                         <div class="form-group">
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                 {{ Form::label('nom', 'Nom : ') }}
                                 {{ Form::text('nom', null, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                 {{ Form::label('prenom', 'Prenom : ') }}
                                 {{ Form::text('prenom', null, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('email') ? ' has-error' : '' }}">
                                 {{ Form::label('email', 'Email : ') }}
                                 {{ Form::text('email', null, ['class' => 'form-control']) }}
                             </div>
@@ -73,19 +73,19 @@
 
                         <!-- Montant & commission -->
                         <div class="form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('montant_demande') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_demande', 'Montant demandé : ') }}
                                 {{ Form::text('montant_demande', null, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('montant_final') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_final', 'Montant final : ') }}
                                 {{ Form::text('montant_final', null, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('taux_commission') ? ' has-error' : '' }}">
                                 {{ Form::label('taux_commission', 'Commission : ') }}
                                 {{ Form::text('taux_commission', 12.00, ['class' => 'form-control', 'disable']) }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('montant_commission_partpro') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_commission_partpro', 'Montant Com PartPro : ') }}
                                 {{ Form::text('montant_commission_partpro', null, ['class' => 'form-control success', 'style' => 'color:#FFF;background-color:#00a65a', 'disable']) }}
                             </div>
@@ -93,11 +93,18 @@
                         <!-- ./Montant & commission -->
 
                         <!-- Organisme préteur  -->
-                        <div class="form-group col-md-12" style="padding-top: 10px">
+                        <div class="form-group col-md-6" style="padding-top: 10px">
                             {{ Form::label('banque_id', 'Dossier passé chez : ') }}
                             {{ Form::select('banque_id', \App\Models\Banque::pluck('nom', 'id'), null , ['class' => 'form-control']) }}
                         </div>
                         <!-- Organisme préteur  -->
+
+                        <!-- IBAN -->
+                        <div class="form-group col-md-6" style="padding-top: 10px">
+                            {{ Form::label('iban', 'Iban du client : ') }}
+                            {{ Form::text('iban', null , ['class' => 'form-control']) }}
+                        </div>
+                        <!-- IBAN -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer text-center">
@@ -128,7 +135,7 @@
                         <!-- Infos prospect (non editable) -->
                         <div class="form-group">
                             {{ Form::label('created_at', 'Date de création : ') }}
-                            {{ Form::date('created_at', null, ['class' => 'form-control']) }}
+                            {{ Form::date('created_at', Carbon\Carbon::now(), ['class' => 'form-control']) }}
 
 
                             {{ Form::label('status', 'Status du dossier : ') }}
@@ -146,12 +153,12 @@
                     <!-- /.box-footer-->
                 </div>
                 <!-- /.Etat du  Dossier -->
+
+                <!-- Bouton Enregistré -->
+                {{ Form::submit('Enregistrer', ['class' => 'btn btn-lg btn-success col-md-12']) }}
             </div>
             <!-- ./ Col. droite -->
 
-            <div class="col-md-12 text-center">
-                {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning']) }}
-            </div>
             {{ Form::close() }}
         </div>
     </section>

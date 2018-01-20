@@ -18,6 +18,7 @@
     <section class="content">
         <div class="row">
             {{ Form::model($dossier,['route' => ['dossiers.update', $dossier], 'method' => 'PATCH', 'class' => 'form'] ) }}
+            {{ Form::hidden('user_id', $dossier->user->id, ['id' => 'user_id']) }}
             <!-- Col. gauche -->
             <div class="col-md-9">
                 <!-- Edition Dossier -->
@@ -92,11 +93,18 @@
                             <!-- ./Montant & commission -->
 
                             <!-- Organisme préteur  -->
-                            <div class="form-group col-md-12" style="padding-top: 10px">
+                            <div class="form-group col-md-6" style="padding-top: 10px">
                                 {{ Form::label('banque_id', 'Dossier passé chez : ') }}
                                 {{ Form::select('banque_id', \App\Models\Banque::pluck('nom', 'id'), $dossier->banque_id , ['class' => 'form-control']) }}
                             </div>
                             <!-- Organisme préteur  -->
+
+                            <!-- IBAN -->
+                            <div class="form-group col-md-6" style="padding-top: 10px">
+                                {{ Form::label('iban', 'Iban du client : ') }}
+                                {{ Form::text('iban', $dossier->user->prospect->iban , ['class' => 'form-control']) }}
+                            </div>
+                            <!-- IBAN -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer text-center">
@@ -166,7 +174,7 @@
                 return confirm("La suppression est definitive, êtes vous sure ?");
             });
 
-            editDossier.changeMontantDemande();
+            dossierJS.changeMontantDemande();
         });
     </script>
 @endsection
