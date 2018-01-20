@@ -41,9 +41,10 @@
                     <tr>
                         <th>id</th>
                         <th>date</th>
-                        <th>Clients</th>
+                        <th>clients</th>
                         <th>status</th>
                         <th>banque</th>
+                        <th>montant demande</th>
                         <th>montant final</th>
                         <th>commission</th>
                         <th style="width: 15%">Edition</th>
@@ -57,6 +58,7 @@
                             <td>{{ $dossier->user->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $dossier->banque->logo}}" height="30"></td>
+                            <td>{{ $dossier->montant_demande }} €</td>
                             <td>{{ $dossier->montant_final }} €</td>
                             <td>{{ $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro :  $dossier->montant_final * $dossier->taux_commission /100}} €</td>
                             <td>
@@ -76,12 +78,17 @@
                     </tbody>
                     <tfoot>
                     <tr>
+                    <tr>
                         <th>id</th>
+                        <th>date</th>
+                        <th>clients</th>
                         <th>status</th>
                         <th>banque</th>
+                        <th>montant demande</th>
                         <th>montant final</th>
-                        <th>Clients</th>
+                        <th>commission</th>
                         <th style="width: 15%">Edition</th>
+                    </tr>
                     </tr>
                     </tfoot>
                 </table>

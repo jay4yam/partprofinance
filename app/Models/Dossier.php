@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Dossier extends Model
@@ -25,6 +26,50 @@ class Dossier extends Model
         'banque_id',
         'num_dossier_banque'
     ];
+
+    /**
+     * Retourne les dossiers du mois
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierOfTheMonth($query)
+    {
+        return $query->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    /**
+     * Retourne les dossiers du mois refusés
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierRefusedOfTheMonth($query)
+    {
+        return $query->whereMonth('created_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Refusé');
+    }
+
+    /**
+     * Retourne les dossiers du mois acceptés
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierAcceptedOfTheMonth($query)
+    {
+        return $query->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Accepté');
+    }
+
+    /**
+     * Retourne les dossiers du montant dont le status est payé
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierPayeeOfTheMonth($query)
+    {
+        return $query->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Payé');
+    }
+
 
     /**
      * Relation 1:n avec la table User
