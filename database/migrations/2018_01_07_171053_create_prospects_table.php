@@ -49,6 +49,7 @@ class CreateProspectsTable extends Migration
             $table->date('BanqueDepuis');
             $table->string('iban')->nullable();
             $table->text('notes')->nullable();
+            $table->text('prospect_source')->nullable();
         });
 
         Schema::table('prospects', function (Blueprint $table){

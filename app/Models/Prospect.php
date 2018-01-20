@@ -51,7 +51,8 @@ class Prospect extends Model
         'BanqueDepuis',
         'iban',
         'notes',
-        'user_id'
+        'user_id',
+        'prospect_source'
     ];
 
 

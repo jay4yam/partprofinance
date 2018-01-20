@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProspectRequest;
 use App\Repositories\ProspectRepository;
 use Illuminate\Http\Request;
 
@@ -48,9 +49,15 @@ class ProspectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProspectRequest $request)
     {
-        dd($request);
+        try {
+            $this->prospectRepository->store($request->all());
+        }catch (\Exception $exception) {
+            return redirect()->route('prospect.index')->with(['message' => $exception->getMessage()]);
+        }
+
+        return redirect()->route('prospect.index')->with(['message' => 'Insertion Prospect OK']);
     }
 
     /**

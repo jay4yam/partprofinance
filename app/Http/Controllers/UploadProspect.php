@@ -39,17 +39,8 @@ class UploadProspect extends Controller
         //1. récupère le prospect temporaire
         $prospect = TempProspect::findOrFail($id);
 
-        //2. crée un model user
-        $user = User::create([
-                        'name' => $prospect->nom,
-                        'email' => $prospect->email,
-                        'password' => bcrypt('password'),
-                        'role' => 'admin',
-                        'avatar' => 'avatar.png'
-                    ]);
-
         //3. redirige vers la page de création 'prospect' liée à la table l'utilisateur
-        return redirect()->route('create.imported.prospect', [ 'userId' => $user->id, 'prospectId' => $prospect->id]);
+        return redirect()->route('create.imported.prospect', [ 'prospectId' => $prospect->id ]);
     }
 
     /**
@@ -58,11 +49,8 @@ class UploadProspect extends Controller
      * @param $prospectId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function createImportedProspect($userId, $prospectId)
+    public function createImportedProspect($prospectId)
     {
-        //Récupère le nouvel utilisateur
-        $user = User::findOrFail($userId);
-
         //Récupère les infos stockées dans la table tempProspect
         $tempProspect = TempProspect::findOrFail($prospectId);
 

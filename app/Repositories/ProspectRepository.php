@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Prospect;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class ProspectRepository
 {
@@ -37,6 +39,32 @@ class ProspectRepository
     public function getAll()
     {
         return $this->user->guest()->orderBy('id', 'desc')->with('prospect')->paginate(10);
+    }
+
+    /**
+     * Gère l'ajout d'un model prospect
+     * @param Request $request
+     */
+    public function store(array $request)
+    {
+        $prospect = new Prospect();
+
+        $this->save($prospect, $request);
+    }
+
+    private function save(Prospect $prospect, array $inputs)
+    {
+        \DB::transaction(function () use($prospect, $inputs) {
+                $user = User::create([
+                    'name' => $inputs['nom'],
+                    'email' => $inputs['email'],
+                    'password' => bcrypt('partpro'),
+                    'role' => 'guest',
+                    'avatar' => 'avatar.png'
+                ]);
+            $user->prospect()->create($inputs);
+        });
+
     }
 
     /**
