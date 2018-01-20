@@ -77,6 +77,8 @@ class DossierRepository
 
         //utilise methode privee save()
         $this->save($dossier, $inputs);
+
+        return $dossier;
     }
 
     /**

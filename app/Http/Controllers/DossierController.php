@@ -53,12 +53,12 @@ class DossierController extends Controller
     public function store(DossierRequest $request)
     {
         try {
-            $this->dossierRepository->store($request->all());
+            $dossier = $this->dossierRepository->store($request->all());
         }catch (\Exception $exception){
             return back()->with( ['message' => $exception->getMessage()] );
         }
 
-        return redirect()->route('dossiers.index')->with(['message' => 'Création du dossier OK !']);
+        return redirect()->route('dossiers.edit', ['dossier' => $dossier])->with(['message' => 'Création du dossier OK !']);
     }
 
     /**
