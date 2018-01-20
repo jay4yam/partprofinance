@@ -20,7 +20,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
-        'role' => mt_rand(0,1) ? 'admin' : 'guest',
+        'role' => 'guest',
         'avatar' => mt_rand(0,1) ? 'avatar.png' : 'avatar2.png',
     ];
 });
@@ -70,7 +70,6 @@ $factory->define(App\Models\Prospect::class, function ( Faker\Generator $faker){
 /**
  * Défini un dossier
  */
-
 $factory->define(App\Models\Dossier::class, function ( Faker\Generator $faker){
     $objet = array('Voitures','Moto','Caravane','Camping-car','Bateaux','Travaux');
     $status = array('Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé');
