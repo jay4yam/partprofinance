@@ -38,7 +38,7 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->user->guest()->orderBy('id', 'desc')->with('prospect')->paginate(10);
+        return $this->user->guest()->orderBy('id', 'desc')->with('prospect', 'dossier')->paginate(10);
     }
 
     /**
@@ -52,6 +52,11 @@ class ProspectRepository
         $this->save($prospect, $request);
     }
 
+    /**
+     * Gère la sauv d'un nouveau model prospect
+     * @param Prospect $prospect
+     * @param array $inputs
+     */
     private function save(Prospect $prospect, array $inputs)
     {
         \DB::transaction(function () use($prospect, $inputs) {

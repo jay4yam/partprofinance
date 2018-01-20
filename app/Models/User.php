@@ -71,6 +71,6 @@ class User extends Authenticatable
      */
     public function dossier()
     {
-        return $this->hasMany(Banque::class, 'user_id');
+        return $this->hasMany(Dossier::class, 'user_id');
     }
 }

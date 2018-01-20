@@ -65,7 +65,11 @@
                             <td style="text-align: center">
                                 {!! $user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
-                            <td>Dossier</td>
+                            <td>
+                                @foreach($user->dossier as $dossier)
+                                    <small class="label {{ str_slug($dossier->status) }}">{{ $dossier->montant_demande }}</small>
+                                @endforeach
+                            </td>
                             <td>
                                 <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}">
                                     Edit
