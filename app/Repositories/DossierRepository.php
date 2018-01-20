@@ -88,6 +88,7 @@ class DossierRepository
     {
         $dossier->signature = $inputs['signature'];
         $dossier->objet_du_pret = $inputs['objet_du_pret'];
+        $dossier->duree_du_pret = $inputs['duree_du_pret'];
         $dossier->montant_demande = $inputs['montant_demande'];
         $dossier->montant_final = $inputs['montant_final'];
         $dossier->taux_commission = $inputs['taux_commission'];

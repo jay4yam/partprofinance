@@ -131,4 +131,35 @@ class ProspectRepository
 
         return 'prospect supprimé';
     }
+
+    /**
+     * Retourne un tableau contenant "la somme revenus" et "la sommes des charges"
+     * @param User $user
+     * @return array
+     */
+    public function revenusAndChargesToArray(User $user)
+    {
+        //init un tableau vide
+        $array = [];
+
+        //additionne les revenus prospect & conjoint
+        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuel;
+
+        //cree l'index charges du tableau pour y stocker les charges
+        $array['charges'] = 0;
+
+        //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
+        foreach ( json_decode($user->prospect->credits) as $credit => $montant)
+        {
+            $array['charges'] += $montant;
+        }
+
+        //additionne le loyer
+        $array['charges'] += $user->prospect->loyer;
+
+        //additionne la pension alimentaire
+        $array['charges'] += $user->prospect->pensionAlimentaire;
+
+        return $array;
+    }
 }

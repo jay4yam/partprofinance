@@ -660,5 +660,6 @@
 </script>
 <!-- JS PAGE -->
 @yield('js')
+@yield('js2')
 </body>
 </html>

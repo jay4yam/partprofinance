@@ -391,7 +391,7 @@
                     <!-- /.box notes -->
 
                     <!-- box Endettement -->
-                    @include('endettement._graph')
+                    @include('endettement._prospectgraph')
                     <!-- /.box Endettement -->
 
                     <!-- box charges -->
@@ -485,32 +485,4 @@
             return confirm("La suppression est definitive, êtes vous sure ?");
         });
     </script>
-    <!-- ChartJS -->
-    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
-    <!-- endettement -->
-    <script src="{{ asset('js/endettement.js') }}"></script>
-    <script>
-        //récupération de la sommes des charges
-        var charges = <?php echo $user->prospect->loyer; ?>;
-        charges += <?php $valeur2=0; foreach(json_decode($user->prospect->credits, true) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
-        charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
-
-        //récupération de la sommes des revenus
-        var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
-        revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
-
-        //Fonction arrondir le taux d'endettement
-        function precisionRound(number, precision) {
-            var factor = Math.pow(10, precision);
-            return Math.round(number * factor) / factor;
-        }
-        //Affiche le taux d'endettement
-        $('#txEndettement').html('<b>'+ precisionRound( (charges / revenus)*100, 2)+'</b> %');
-
-        $(document).ready(function () {
-            endettement.graphEndettement(charges, revenus);
-        });
-    </script>
-
-
 @endsection
