@@ -37,15 +37,15 @@
                     <div class="box-body">
                         <!-- Infos prospect (non editable) -->
                         <div class="form-group">
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('nom') ? ' has-error' : '' }}">
                             {{ Form::label('nom', 'Nom : ') }}
                             {{ Form::text('nom', $dossier->user->prospect->nom, ['class' => 'form-control', 'disabled']) }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                             {{ Form::label('prenom', 'Prenom : ') }}
                             {{ Form::text('prenom', $dossier->user->prospect->prenom, ['class' => 'form-control', 'disabled']) }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 {{ $errors->has('email') ? ' has-error' : '' }}">
                             {{ Form::label('email', 'Email : ') }}
                             {{ Form::text('email', $dossier->user->email, ['class' => 'form-control', 'disabled']) }}
                             </div>
@@ -67,23 +67,23 @@
 
                         <!-- Montant & commission -->
                         <div class="form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('montant_demande') ? ' has-error' : '' }}">
                             {{ Form::label('montant_demande', 'Montant demandé : ') }}
                             {{ Form::text('montant_demande', $dossier->montant_demande, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 {{ $errors->has('montant_final') ? ' has-error' : '' }}">
                             {{ Form::label('montant_final', 'Montant final : ') }}
                             {{ Form::text('montant_final', $dossier->montant_final, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 {{ $errors->has('duree_du_pret') ? ' has-error' : '' }}">
                                 {{ Form::label('duree_du_pret', 'duree_du_pret : ') }}
                                 {{ Form::select('duree_du_pret', ['12'=>'12','24'=>'24','36'=>'36','48'=>'48','60'=>'60','72'=>'72','84'=>'84','96'=>'96'], $dossier->duree_du_pret, ['class' => 'form-control']) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 {{ $errors->has('taux_commission') ? ' has-error' : '' }}">
                             {{ Form::label('taux_commission', 'Commission : ') }}
                             {{ Form::text('taux_commission', $dossier->taux_commission, ['class' => 'form-control', 'disable']) }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 {{ $errors->has('montant_commission_partpro') ? ' has-error' : '' }}">
                                 <?php
                                 if( $dossier->montant_commission_partpro == null)
                                     $comPartPro = $dossier->montant_demande * $dossier->taux_commission / 100;
@@ -103,14 +103,14 @@
                         <!-- Organisme préteur  -->
 
                         <!-- Num Dossier banque -->
-                        <div class="form-group col-md-4" style="padding-top: 10px">
+                        <div class="form-group col-md-4 {{ $errors->has('num_dossier_banque') ? ' has-error' : '' }}" style="padding-top: 10px">
                             {{ Form::label('num_dossier_banque', 'N° de dossier : ') }}
                             {{ Form::text('num_dossier_banque', $dossier->num_dossier_banque , ['class' => 'form-control']) }}
                         </div>
                         <!-- ./Num Dossier banque -->
 
                         <!-- IBAN -->
-                        <div class="form-group col-md-4" style="padding-top: 10px">
+                        <div class="form-group col-md-4 {{ $errors->has('iban') ? ' has-error' : '' }}" style="padding-top: 10px">
                             {{ Form::label('iban', 'Iban du client : ') }}
                             {{ Form::text('iban', $dossier->user->prospect->iban , ['class' => 'form-control']) }}
                         </div>
@@ -171,9 +171,6 @@
             <!-- ./ Col. droite -->
 
             <div class="col-md-12 text-center">
-                <a href="{{ url()->route('dossiers.index') }}" class="btn btn-lg btn-default pull-left">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i> liste des dossiers
-                </a>
                 {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning pull-right']) }}
             </div>
             {{ Form::close() }}

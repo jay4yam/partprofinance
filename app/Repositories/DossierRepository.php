@@ -60,6 +60,7 @@ class DossierRepository
             $dossier = $this->getById($id);
 
             $dossier->update($inputs);
+            $dossier->save();
 
             $user = User::findOrFail( $inputs['user_id']);
 
