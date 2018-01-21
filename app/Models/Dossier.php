@@ -88,4 +88,10 @@ class Dossier extends Model
     {
         return $this->belongsTo(Banque::class, 'banque_id');
     }
+
+
+    public function prospect()
+    {
+        return $this->belongsTo(Prospect::class, 'user_id');
+    }
 }

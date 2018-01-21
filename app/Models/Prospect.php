@@ -64,4 +64,9 @@ class Prospect extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function dossier()
+    {
+        return $this->hasMany(Dossier::class, 'user_id');
+    }
 }

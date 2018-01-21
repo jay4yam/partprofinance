@@ -177,6 +177,7 @@ $(function () {
     gridTextSize     : 10
   });
 
+  /*
   // Donut Chart
   var donut = new Morris.Donut({
     element  : 'sales-chart',
@@ -189,6 +190,7 @@ $(function () {
     ],
     hideHover: 'auto'
   });
+  */
 
   // Fix for charts under tabs
   $('.box ul.nav a').on('shown.bs.tab', function () {

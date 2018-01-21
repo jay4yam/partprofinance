@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\EndettementComposer;
+use App\Http\ViewComposers\LeadStatComposer;
 use App\Http\ViewComposers\StatistiquesComposer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -25,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
 
         // utilise la classe statistiqueComposer pour renvoyer des variables à vue 'home' (stats)
         View::composer('home', StatistiquesComposer::class);
+
+        // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
+        View::composer('stats._leadsStats', LeadStatComposer::class);
     }
 
     /**
