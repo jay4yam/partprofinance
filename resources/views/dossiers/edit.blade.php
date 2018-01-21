@@ -181,11 +181,16 @@
 
 @section('js')
     <script src="{{ asset('js/editDossier.js') }}" type="application/javascript"></script>
+    <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script>
         $(document).ready(function () {
             //Affiche un message en cas de suppression d'un dossier
             $(".delete").on("submit", function(){
                 return confirm("La suppression est definitive, êtes vous sure ?");
+            });
+
+            $('#iban').mask('SS00 0000 0000 0000 0000 0000 000', {
+                placeholder: '____ ____ ____ ____ ____ ____ ___'
             });
 
             dossierJS.changeMontantDemande();
