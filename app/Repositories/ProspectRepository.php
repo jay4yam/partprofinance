@@ -181,6 +181,7 @@ class ProspectRepository
         //cree l'index charges du tableau pour y stocker les charges
         $array['charges'] = 0;
 
+        //Si le champs credit n'est pas vide
         if($user->prospect->credits) {
             //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
             foreach (json_decode($user->prospect->credits) as $credit => $montant) {
