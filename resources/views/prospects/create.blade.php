@@ -300,7 +300,7 @@
                                 <tr>
                                     <td><label for="codePostal">code postal</label></td>
                                     <td class="data {{ $errors->has('codePostal') ? ' has-error' : '' }}">
-                                        {{ Form::text('codePostal', null, ['class' => 'form-control'] ) }}
+                                        {{ Form::text('codePostal', null, ['class' => 'form-control', 'id' => 'codePostal'] ) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -416,13 +416,13 @@
                     </div>
                     <!-- /.box Banque -->
 
-                    <!-- boutton submit -->
+                    <!-- bouton submit -->
                     <div class="text-center col-md-12">
                         <button class="btn btn-lg btn-success">
                             <i class="fa fa-floppy-o" aria-hidden="true"></i> Enregistrer
                         </button>
                     </div>
-                    <!-- ./ boutton submit -->
+                    <!-- ./ bouton submit -->
                 </div>
             </div>
             {{ Form::close() }}
@@ -431,9 +431,18 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script>
         $(document).ready(function () {
-           $('select#situationFamiliale').on('change', function (e) {
+            //Format Code Postal
+            $('#codePostal').mask('00000', { placeholder: '_____'});
+
+            $('#numTelFixe').mask('00.00.00.00.00', { placeholder: '__.__.__.__.__'});
+
+            $('#numTelPortable').mask('00.00.00.00.00', { placeholder: '__.__.__.__.__'});
+
+            //Affiche et/ou Masque la
+            $('select#situationFamiliale').on('change', function (e) {
                e.preventDefault();
 
                var val = $('select#situationFamiliale option:selected').text();

@@ -52,7 +52,7 @@
                     <div class="inner">
                         <h3>{{ $dossiers }} </h3>
 
-                        <p>{{ $percentageOfDossier }}% de dossier passés</p>
+                        <p>{{ round($percentageOfDossier,1) }} % de dossier passés</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>

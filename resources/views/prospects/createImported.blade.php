@@ -301,7 +301,7 @@
                                 <tr>
                                     <td><label for="codePostal">code postal</label></td>
                                     <td class="data {{ $errors->has('codePostal') ? ' has-error' : '' }}">
-                                        {{ Form::text('codePostal', $tempProspect->code_postal, ['class' => 'form-control'] ) }}
+                                        {{ Form::text('codePostal', $tempProspect->code_postal, ['class' => 'form-control', 'id' => 'codePostal'] ) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -432,8 +432,19 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script>
         $(document).ready(function () {
+            //Format Code Postal
+            $('#codePostal').mask('00000', { placeholder: '_____'});
+
+            //Format num tel
+            $('#numTelFixe').mask('00.00.00.00.00', { placeholder: '__.__.__.__.__'});
+
+            //Format num port
+            $('#numTelPortable').mask('00.00.00.00.00', { placeholder: '__.__.__.__.__'});
+
+            //Affiche ou masque la box des infos du conjoint en fonction de la situation familiale
             $('select#situationFamiliale').on('change', function (e) {
                 e.preventDefault();
 
