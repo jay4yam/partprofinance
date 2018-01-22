@@ -34,7 +34,7 @@ class Dossier extends Model
      */
     public function scopeDossierOfTheMonth($query)
     {
-        return $query->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Dossier extends Model
      */
     public function scopeDossierRefusedOfTheMonth($query)
     {
-        return $query->whereMonth('created_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Refusé');
     }
 
@@ -55,7 +55,7 @@ class Dossier extends Model
      */
     public function scopeDossierAcceptedOfTheMonth($query)
     {
-        return $query->whereMonth('updated_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Accepté');
     }
 
@@ -66,7 +66,7 @@ class Dossier extends Model
      */
     public function scopeDossierPayeeOfTheMonth($query)
     {
-        return $query->whereMonth('updated_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
 

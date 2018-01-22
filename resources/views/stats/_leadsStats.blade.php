@@ -1,12 +1,14 @@
 
-<div class="chart tab-pane" id="sales-chart" style="position: relative; height: 105px;"></div>
+<div class="chart tab-pane" id="leads-chart" style="position: relative; height: 105px;"></div>
 
 @section('js2')
     <script>
-        // Donut Chart
+        //Récupère le tableau au format json contenant la source des leads et le nombre
         var leadsArray = <?php echo $leadStat; ?>;
+
+        // Donut Chart
         var donut = new Morris.Donut({
-            element  : 'sales-chart',
+            element  : 'leads-chart',
             resize   : true,
             colors   : ['#DC1480', '#439ACE', '#F19B2C'],
             data     : leadsArray,

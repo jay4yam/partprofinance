@@ -171,7 +171,7 @@
             <!-- ./ Col. droite -->
 
             <div class="col-md-12 text-center">
-                {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning pull-right']) }}
+                {{ Form::submit('Mettre à Jour', ['class' => 'btn btn-lg btn-warning']) }}
             </div>
             {{ Form::close() }}
         </div>

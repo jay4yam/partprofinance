@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
     public function scopeCountUserOfTheMonth($query)
     {
-        return $query->guest()->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->guest()->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'));
     }
 
     /**

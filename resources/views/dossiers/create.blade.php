@@ -166,7 +166,9 @@
                 <!-- /.Etat du  Dossier -->
 
                 <!-- Bouton Enregistré -->
+                <div class="text-center">
                 {{ Form::submit('Enregistrer', ['class' => 'btn btn-lg btn-success col-md-12']) }}
+                </div>
             </div>
             <!-- ./ Col. droite -->
 

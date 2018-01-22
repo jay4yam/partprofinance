@@ -189,6 +189,7 @@
             <!-- ./stats lead gen  -->
         </div>
         <!-- /.row -->
+
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
