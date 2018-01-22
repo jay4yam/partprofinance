@@ -56,8 +56,19 @@ var editProspect = {
             var array = pathName.split('/');
             var prospectId = array[array.length-1];
 
+            //2. c'est la row à updater en bdd
             var id = 'notes';
-            var value = $('#notes').val();
+
+            //3. Option de la date et heure
+            var options = {year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric",
+                hour12: false};
+
+            //4. Récupère la date et l'heure
+            var date = Intl.DateTimeFormat('fr-FR', options).format( new Date() );
+
+            //5. Gère la valeur à renvoyer en base
+            var value = date+' \n '+$('#notes').val()+' \n \n'+$('#oldnotes').val();
 
             $.ajax({
                 method: "PUT",
@@ -74,7 +85,7 @@ var editProspect = {
                 //3. si message = success
                 if(message.success){
                     //On modifie le contenu
-                    $('#notes').val(value);
+                    $('#oldnotes').val(value);
                 }
             });
         });

@@ -379,7 +379,8 @@
                                 <input type="hidden" name="id" value="notes">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                    <textarea title="notes" name="value" id="notes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                    <textarea title="oldnotes" name="value" id="oldnotes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                    <textarea title="notes" name="value" id="notes" class="form-control"></textarea>
                                 </div>
                                 <button type="submit" id="ajaxnotesupdate" class="btn btn-success updateNotesbutton">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
