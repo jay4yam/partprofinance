@@ -54,6 +54,15 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Nom Jeune fille</td>
+                                    <td id="nomjeunefille" class="data">
+                                        <b class="value">{{ $user->prospect->nomjeunefille }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Prénom</td>
                                     <td id="prenom" class="data">
                                         <b class="value">{{ $user->prospect->prenom }}</b>

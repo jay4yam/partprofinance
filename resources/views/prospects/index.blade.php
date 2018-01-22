@@ -52,7 +52,7 @@
                     @foreach($prospects as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                            <td>{{ @$user->created_at->format('d M Y') }}</td>
                             <td>
                                 {{ $user->prospect->civilite }}
                                 {{ $user->prospect->nom }}

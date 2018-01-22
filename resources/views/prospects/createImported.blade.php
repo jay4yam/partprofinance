@@ -56,6 +56,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="nom">nom jeune fille</label></td>
+                                    <td class="data {{ $errors->has('nomjeunefille') ? ' has-error' : '' }}">
+                                        {{ Form::text('nomjeunefille', $tempProspect->nomjeunefille , ['class' => 'form-control', 'id' => 'nomjeunefille']) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><label for="prenom">prenom</label></td>
                                     <td class="data {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                         {{ Form::text('prenom', $tempProspect->prenom , ['class' => 'form-control', 'id' => 'prenom']) }}
@@ -334,7 +340,7 @@
                         <div class="box-body">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                <textarea title="notes" name="value" id="notes" class="form-control">{{ Carbon\Carbon::now()->format('d M Y à h:m') }} Création</textarea>
+                                <textarea title="notes" name="notes" id="notes" class="form-control">{{ Carbon\Carbon::now()->format('d M Y à h:m') }} Création</textarea>
                             </div>
                         </div>
                         <!-- /.box-body -->

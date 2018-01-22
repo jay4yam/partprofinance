@@ -17,6 +17,7 @@ class CreateProspectsTable extends Migration
             $table->increments('id');
             $table->enum('civilite', ['Monsieur', 'Madame']);
             $table->string('nom');
+            $table->string('nomjeunefille')->nullable();
             $table->string('prenom');
             $table->date('dateDeNaissance');
             $table->string('nomEpoux')->nullable();

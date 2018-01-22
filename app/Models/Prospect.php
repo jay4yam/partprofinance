@@ -19,6 +19,7 @@ class Prospect extends Model
     protected $fillable = [
         'civilite',
         'nom',
+        'nomjeunefille',
         'prenom',
         'dateDeNaissance',
         'nomEpoux',
