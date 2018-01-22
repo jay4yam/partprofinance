@@ -427,21 +427,23 @@
                                     </td>
                                 </tr>
                                 <?php $index = 0; ?>
-                                @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
-                                    <tr>
-                                        <td>{{ $credit }}</td>
-                                        <td id="credits" class="data">
-                                            <b class="value">{{ $montant }}</b><b> €</b>
-                                            <a href="#" id="{{ $index }}" class="deleteCredit pull-right btn-xs btn-danger">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php $index++; ?>
-                                @endforeach
+                                @if( $user->prospect->credits != '' || $user->prospect->credits  != null)
+                                    @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
+                                        <tr>
+                                            <td>{{ @$credit }}</td>
+                                            <td id="credits" class="data">
+                                                <b class="value">{{ @$montant }}</b><b> €</b>
+                                                <a href="#" id="{{ @$index }}" class="deleteCredit pull-right btn-xs btn-danger">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </a>
+                                                <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php $index++; ?>
+                                    @endforeach
+                                @endif
                             </table>
                             <div class="text-center" style="padding-top: 10px;">
                                 <button id="addCreditButton" class="btn btn-success btn-sm">
