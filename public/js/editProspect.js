@@ -96,6 +96,9 @@ var editProspect = {
         });
     },
 
+    /**
+     * Supprime un crédit
+     */
     deleteCredit: function () {
         $('.deleteCredit').on('click', function (e) {
             e.preventDefault();
@@ -111,6 +114,7 @@ var editProspect = {
             var array = pathName.split('/');
             var prospectId = array[array.length-1];
 
+            //4. Requête ajax vers l'url de suppression de prospect (voir route web.php)
             $.ajax({
                 method: "DELETE",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -168,6 +172,8 @@ var editProspect = {
           var array = pathName.split('/');
           var prospectId = array[array.length-1];
 
+          //Requête ajax d'ajout de credit (voir route web.php)
+          //envois des datas creditName et creditValue
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -179,6 +185,7 @@ var editProspect = {
         }).done(function (message) {
             //1. masque le spinner ajax
             $('.ajax-spinner').hide();
+            //Si la requête est OK, on réaffiche la ligne  du tableau contenant le nom du credit et le montant
             if(message.success)
             {
                 var tr = $('#chargesTable tr:last');
@@ -295,6 +302,42 @@ var editProspect = {
                 input += '</select>';
                 input += '<div class="input-group-btn">';
                 input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'dateDeNaissance':
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'professionDepuis':
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'professionDepuisConjoint':
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'habiteDepuis':
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
                 input += '</div>';
                 input += '</div>';
                 ObjetTd.html(input);

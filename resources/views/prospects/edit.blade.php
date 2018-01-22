@@ -112,7 +112,7 @@
                                 <tr>
                                     <td>Date de Naissance</td>
                                     <td id="dateDeNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->dateDeNaissance }}</b>
+                                        <b class="value">{{ $user->prospect->dateDeNaissance->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -205,7 +205,7 @@
                                 <tr>
                                     <td>Depuis</td>
                                     <td id="professionDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuis }}</b>
+                                        <b class="value">{{ $user->prospect->professionDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -262,7 +262,7 @@
                                 <tr>
                                     <td>Depuis conjoint</td>
                                     <td id="professionDepuisConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuisConjoint }}</b>
+                                        <b class="value">{{ $user->prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -310,7 +310,7 @@
                                 <tr>
                                     <td>Habite Depuis</td>
                                     <td id="habiteDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->habiteDepuis }}</b>
+                                        <b class="value">{{ $user->prospect->habiteDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -454,6 +454,44 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box charges -->
+
+                    <!-- box banque -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Banque</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="chargesTable" class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Banque</td>
+                                    <td id="NomBanque" class="data">
+                                        <b class="value">{{ $user->prospect->NomBanque }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Depuis le</td>
+                                    <td id="BanqueDepuis" class="data">
+                                        <b class="value">{{ $user->prospect->BanqueDepuis->format('d/m/Y') }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box banque -->
                 </div>
             </div>
             <div class="row">
@@ -473,6 +511,7 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script src="{{ asset('js/editProspect.js') }}"></script>
     <script>
         $(document).ready(function () {

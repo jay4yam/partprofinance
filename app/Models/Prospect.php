@@ -55,6 +55,14 @@ class Prospect extends Model
         'prospect_source'
     ];
 
+    protected $dates = [
+        'dateDeNaissance',
+        'habiteDepuis',
+        'professionDepuis',
+        'professionDepuisConjoint',
+        'BanqueDepuis'
+    ];
+
 
     /**
      * Relation 1/1 vers la table user
