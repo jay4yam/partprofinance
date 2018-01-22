@@ -182,7 +182,7 @@ class ProspectRepository
         $array['charges'] = 0;
 
         //Si le champs credit n'est pas vide
-        if($user->prospect->credits) {
+        if($user->prospect->credits != '' || $user->prospect->credits != null) {
             //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
             foreach (json_decode($user->prospect->credits) as $credit => $montant) {
                 $array['charges'] += $montant;
@@ -190,10 +190,10 @@ class ProspectRepository
         }
 
         //additionne le loyer
-        $array['charges'] += $user->prospect->loyer;
+        $array['charges'] += $user->prospect->loyer ? $user->prospect->loyer : 0;
 
         //additionne la pension alimentaire
-        $array['charges'] += $user->prospect->pensionAlimentaire;
+        $array['charges'] += $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ;
 
         return $array;
     }
