@@ -307,8 +307,10 @@ var editProspect = {
                 ObjetTd.html(input);
                 break;
             case 'dateDeNaissance':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
                 input = '<div class="input-group">';
-                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
                 input += '<div class="input-group-btn">';
                 input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
                 input += '</div>';
@@ -316,8 +318,10 @@ var editProspect = {
                 ObjetTd.html(input);
                 break;
             case 'professionDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
                 input = '<div class="input-group">';
-                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
                 input += '<div class="input-group-btn">';
                 input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
                 input += '</div>';
@@ -325,8 +329,10 @@ var editProspect = {
                 ObjetTd.html(input);
                 break;
             case 'professionDepuisConjoint':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
                 input = '<div class="input-group">';
-                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
                 input += '<div class="input-group-btn">';
                 input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
                 input += '</div>';
@@ -334,8 +340,21 @@ var editProspect = {
                 ObjetTd.html(input);
                 break;
             case 'habiteDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
                 input = '<div class="input-group">';
-                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'BanqueDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
                 input += '<div class="input-group-btn">';
                 input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
                 input += '</div>';
