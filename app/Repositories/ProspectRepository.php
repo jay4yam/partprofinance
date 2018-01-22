@@ -176,7 +176,7 @@ class ProspectRepository
         $array = [];
 
         //additionne les revenus prospect & conjoint
-        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuel;
+        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuelConjoint;
 
         //cree l'index charges du tableau pour y stocker les charges
         $array['charges'] = 0;
