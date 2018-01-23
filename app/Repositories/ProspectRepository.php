@@ -156,6 +156,7 @@ class ProspectRepository
     {
         try{
             $user = $this->user->findOrFail($id);
+            $user->dossier()->delete();
             $user->prospect()->delete();
             $user->delete();
         }catch (\Exception $exception){
