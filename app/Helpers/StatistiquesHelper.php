@@ -58,7 +58,11 @@ class StatistiquesHelper
         //Nombre de dossiers du mois
         $numOfDossier = $this->getDossierThisMonth();
 
-        $pourcentage = $numOfDossier / $numOfUsers * 100;
+        $pourcentage = 0;
+
+        if($numOfUsers > 0) {
+            $pourcentage = $numOfDossier / $numOfUsers * 100;
+        }
 
         return $pourcentage;
     }
