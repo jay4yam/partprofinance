@@ -90,6 +90,10 @@ class Dossier extends Model
     }
 
 
+    /**
+     * Relation entre les Prospects (qui sont des users) et les dossiers
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function prospect()
     {
         return $this->belongsTo(Prospect::class, 'user_id');

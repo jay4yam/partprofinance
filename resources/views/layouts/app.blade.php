@@ -656,7 +656,7 @@
 <script src="{{ asset('js/adminlte.js') }}"></script>
 
 <script>
-    $('div.message-front-admin').not('.alert-important').delay(3000).fadeOut(350);
+    $('div.message-front-admin').not('.alert-important').delay(13000).fadeOut(350);
 </script>
 <!-- JS PAGE -->
 @yield('js')

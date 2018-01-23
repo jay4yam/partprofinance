@@ -372,11 +372,11 @@
                                         {{ Form::text('pensionAlimentaire', null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="creditrow-0">
                                     <td>
-                                        <input type="text" class="form-control" id="credits" name="credits" placeholder="nom credit"></td>
+                                        <input type="text" class="form-control" id="credit-name-0" name="credit-name-0" placeholder="nom credit"></td>
                                     <td>
-                                        <input type="text" class="form-control" id="credits" name="credits" placeholder="montant credit">
+                                        <input type="text" class="form-control" id="credit-montant-0" name="credit-montant-0" placeholder="montant credit">
                                     </td>
                                 </tr>
                             </table>
@@ -438,6 +438,7 @@
 
 @section('js')
     <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
+    <script src="{{ asset('js/createProspect.js') }}" type="application/javascript"></script>
     <script>
         $(document).ready(function () {
             //Format Code Postal
@@ -447,7 +448,7 @@
 
             $('#numTelPortable').mask('00.00.00.00.00', { placeholder: '__.__.__.__.__'});
 
-            //Affiche et/ou Masque la
+            //Affiche et/ou Masque la box conjoint
             $('select#situationFamiliale').on('change', function (e) {
                e.preventDefault();
 
@@ -458,7 +459,10 @@
                if(val == 'Marié(e)'){
                    $('#box-conjoint').removeClass().addClass('box')
                }
-           })
+           });
+
+            //js ajout de nouvelle ligne de credit dans le tableau
+            createProspect.addCredit();
         });
     </script>
 @endsection

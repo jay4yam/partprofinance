@@ -49,7 +49,7 @@ class ProspectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProspectRequest $request)
+    public function store(Request $request)
     {
         try {
             $this->prospectRepository->store($request->all());

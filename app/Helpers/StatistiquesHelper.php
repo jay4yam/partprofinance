@@ -52,7 +52,7 @@ class StatistiquesHelper
      */
     public function countTransfoProspectToDossier()
     {
-        //Nombre d'utilisateur creé ce mois ci
+        //Nombre d'utilisateur creés ce mois ci
         $numOfUsers = $this->getProspectThisMonth();
 
         //Nombre de dossiers du mois
@@ -90,7 +90,9 @@ class StatistiquesHelper
     public function countRefusedDossier()
     {
         $value = Cache::remember('dossiersRefuses', 10, function () {
+
             $dossier = new Dossier();
+
             return $dossier->dossierRefusedOfTheMonth()->count();
         });
 
@@ -104,6 +106,7 @@ class StatistiquesHelper
     public function commissionOfTheMonth()
     {
         $value = Cache::remember('allCommissions', 10, function () {
+
             $dossier = new Dossier();
 
             $dossierOfTheMonth = $dossier->dossierOfTheMonth()->get();
