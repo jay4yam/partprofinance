@@ -5722,13 +5722,13 @@ a.updateData, a.deleteCredit{
 
 /*dossiers*/
 .refuse{  background-color: #d73925;  }
-.a-l-etude{  background-color: #FFF;  }
+.a-l-etude{  background-color: #FFF;  color:black;}
 .accepte{  background-color:#25ce81;  }
 .paye{background-color:#2092e2; color: #FFF; }
 .impaye{ background-color: #af1616; color: #FFF; }
 
 .box-refuse { border-top-color: #d73925;}
-.box-a-l-etude { border-top-color:#FFF; }
+.box-a-l-etude { border-top-color:#FFF; color:black;}
 .box-accepte { border-top-color:#25ce81; }
 .box-paye { border-top-color:#2092e2; }
 .box-impaye { border-top-color:#af1616; }
