@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth'], function(){
      */
     Route::resource('prospect', 'ProspectController');
     Route::post('/prospect/add-credit/{prospectId}', 'ProspectController@ajaxAddCredit');
+    Route::post('/prospect/credit/{prospectId}', 'ProspectController@ajaxUpdateCredit');
     Route::delete('/prospect/delete-credit/{prospectId}', 'ProspectController@ajaxDeleteCredit');
 
     /**

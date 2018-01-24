@@ -6,14 +6,17 @@ var editProspect = {
      * Affiche/Efface le bouton de MAJ
      */
     showEditButton:function () {
-        $('td.data').on('mouseover', function () {
-            $(this).children('.updateData').toggle();
-            $(this).children('.deleteCredit').toggle();
-        });
-        $('td.data').on('mouseout', function () {
-            $(this).children('.updateData').toggle();
-            $(this).children('.deleteCredit').toggle();
-        });
+        //gere le mousenter / mouseleave bind  sur les td class .data
+        $(document).on({
+            mouseenter: function () {
+                $(this).children('.updateData').toggle();
+                $(this).children('.deleteCredit').toggle();
+            },
+            mouseleave: function () {
+                $(this).children('.updateData').toggle();
+                $(this).children('.deleteCredit').toggle();
+            }
+        }, 'td.data');
     },
 
     /**
@@ -32,15 +35,30 @@ var editProspect = {
 
             //3. affiche l'input si test est vrai
             if(editProspect.test) {
-                //4. utilise la méthode showinput pour afficher les inputs qui vont bien (input, list, etc..)
-                editProspect._showInput($(this).parent(), dataKey, dataValue);
-
                 //test à false pour empêcher d'afficher un autre bouton .sauv
                 editProspect.test = false;
-            }
 
-            //4. utilisation de la methode privée sendUpdate
-            editProspect._sendUpdate(dataKey);
+                //4. ajoute la fonction contains au js de chrome
+                editProspect._containsString();
+
+                //gestion du cas particlier des inputs credits
+                if(dataKey.contains("credit-")){
+                    //5. on utilise la méthode showinputcredit pour afficher les inputs credits / montants
+                    editProspect._showInputCredit($(this).parent(), dataKey, dataValue);
+
+                    //6. methode privee ajaxCreditRow qui va gèrer l'envois des datas pour le traitement coté serveur.
+                    editProspect._ajaxUpdateCreditRow($(this).parent());
+
+                //siNON TOUS LES AUTRES INPUTS SONT FERES ICI
+                }else{
+                    //6. sinon on utilise la méthode showinput pour afficher les inputs qui vont bien (input, list, etc..)
+                    editProspect._showInput($(this).parent(), dataKey, dataValue);
+
+                    //4. utilisation de la methode privée sendUpdate
+                    editProspect._sendUpdate(dataKey);
+
+                }
+            }
         });
     },
 
@@ -200,11 +218,53 @@ var editProspect = {
             if(message.success)
             {
                 var tr = $('#chargesTable tr:last');
-                var td = '<td>'+creditName+'</td><td><b>'+creditValue+' €</b></td>';
+                var index = $('[id^=credit-]').length-1;
+                var td = '<td>'+creditName+'</td>';
+                    td += '<td id="credit-'+index+'" data-index="'+index+'" class="data">';
+                    td += '<b class="value">'+ creditValue +'</b><b> €</b>';
+                    td += '<a href="#" id="'+index+'" class="deleteCredit pull-right btn-xs btn-danger">';
+                    td += '<i class="fa fa-trash" aria-hidden="true"></i>';
+                    td += '</a>';
+                    td += '<a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">';
+                    td += '<i class="fa fa-pencil" aria-hidden="true"></i>';
+                    td += '</a>';
+                    td += '</td>';
                 tr.html(td);
             }
         });
       });
+    },
+
+    /**
+     * Affiche les inputs pour la mise à jour credit/montant
+     * @param ObjetTd
+     * @param dataKey
+     * @param dataValue
+     */
+    _showInputCredit:function (ObjetTd, dataKey, dataValue) {
+        //recupère la table row parente pour insèrer nos deux inputs credit-name et credit-montant
+        var tableRow = ObjetTd.parent();
+
+        //récupère l'index du tableau en splitant la chaine sur '-'
+        var array = dataKey.split('-');
+        var index = array[1];
+
+
+        //recupère le nom du credit
+        var creditName = tableRow.children().first().text();
+
+        //insère le code html a afficher dans la table row
+        input = '<td><input class="form-control" data-index="'+index+'" id="creditNameRow" value="'+creditName+'"></td>';
+        input += '<td id="credit-'+index+'"> <div class="input-group">';
+        input += '<input class="form-control" data-index="'+index+'" id="creditMontantRow" value="'+ dataValue +'">';
+        input += '<div class="input-group-btn">';
+        input += '<button type="button" id="updateCreditRow" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+        input += '</div>';
+        input += '</div>';
+        input += '</td>';
+
+        //modifie la table row en affichant les deux inputs
+        tableRow.html(input);
     },
 
     /**
@@ -372,6 +432,12 @@ var editProspect = {
                 input += '</div>';
                 ObjetTd.html(input);
                 break;
+            case dataKey.includes("credit-"):
+                input = '<tr>';
+                input += '<td><input class="form-control" id="'+dataKey+'" name="'+dataKey+'"></td>';
+                input += '<td><input class="form-control" id="'+dataKey+'" name="'+dataKey+'"></td>';
+                input += '</tr>';
+                break;
             default:
                 input = '<div class="input-group">';
                 input += '<input class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
@@ -420,7 +486,7 @@ var editProspect = {
      * @param id = colonne de la base à updater
      * @param value = nouvelle valeur à mettre à jour
      */
-    _ajaxUpdate:function (htmlObject,id, value) {
+    _ajaxUpdate:function (htmlObject, id, value) {
 
         //1. récupère l'id du prospect à updater
         var pathName = location.pathname;
@@ -453,6 +519,52 @@ var editProspect = {
     },
 
     /**
+     * Gère l'envois et la reception des datas lors de la mise à jour d'une row
+     * @private
+     */
+    _ajaxUpdateCreditRow:function (htmlObject) {
+        $('#updateCreditRow').on('click', function (e) {
+            e.preventDefault();
+
+            //1. récupère l'id du prospect à updater
+            var pathName = location.pathname;
+            var array = pathName.split('/');
+            var prospectId = array[array.length-1];
+
+            //init toutes les valeurs à passer au ctrller qui gérera la reception des datas
+            var nomCredit = $('#creditNameRow').val();
+            var montantCredit = $('#creditMontantRow').val();
+            var index = $('#creditNameRow').attr('data-index');
+
+            //2. Requête ajax jquery
+            $.ajax({
+                method: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: 'http://'+location.host+'/prospect/credit/'+prospectId,
+                data: {nomCredit:nomCredit, montantCredit:montantCredit, index:index},
+                beforeSend:function () {
+                    $('.ajax-spinner').show();
+                }
+            }).done(function (message) {
+                //1. masque le spinner ajax
+                $('.ajax-spinner').hide();
+
+                //2. si message = fail
+                if(message.fail){
+                    $(htmlObject.parent()).css('border', 'solid 1px red');
+                }
+                //3. si message = success
+                if(message.success){
+                    //Utilisation methode _reDrawTd privée qui réaffiche le td
+                    editProspect._reDrawTableRow(nomCredit, montantCredit, index );
+                    editProspect.test = true;
+                }
+            });
+
+        });
+    },
+
+    /**
      * Redéfini le contenu de la balise td originale
      * @param objectInput
      * @param newValue
@@ -473,6 +585,42 @@ var editProspect = {
 
         //remet la variable test à true
         editProspect.test = true;
+    },
+
+    /**
+     * Redessine la tableau row une fois la mise à jour faite
+     * @param objectinput
+     * @param creditNom
+     * @param creditMontant
+     * @private
+     */
+    _reDrawTableRow: function (creditNom, creditMontant, index) {
+        var tableRow =  $('#creditNameRow').parents().closest('tr');
+
+        $input = '<td>'+creditNom+'</td>';
+        $input += '<td id="credit-'+index+'" data-index="'+index+'" class="data">';
+        $input += '<b class="value">'+ creditMontant +'</b><b> €</b>';
+        $input += '<a href="#" id="'+index+'" class="deleteCredit pull-right btn-xs btn-danger">';
+        $input += '<i class="fa fa-trash" aria-hidden="true"></i>';
+        $input += '</a>';
+        $input += '<a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">';
+        $input += '<i class="fa fa-pencil" aria-hidden="true"></i>';
+        $input += '</a>';
+        $input += '</td>';
+
+        tableRow.html($input);
+    },
+
+    /**
+     * AJoute la fonction contains au js
+     * @private
+     */
+    _containsString:function(){
+            if (!('contains' in String.prototype)){
+                String.prototype.contains = function (str, startIndex) {
+                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            };
+        }
     }
 };
 

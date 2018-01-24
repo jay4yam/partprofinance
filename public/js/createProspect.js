@@ -18,6 +18,7 @@ var createProspect = {
            //Init l'id qui sera passé pour récupérer l'id du dernier index du tableau
            var id = Number( getId[1] );
 
+           //Dessine le nouvel table row avec les deux nouveaux inputs
            var newTr = '<tr id="creditrow-'+ (id+1) +'">';
                newTr += '<td><input id="credit-name-'+ (id+1) +'" name="credit-name-'+ (id+1) +'" class="form-control" type="text" placeholder="nom credit"></td>';
                newTr += '<td><input id="credit-montant-'+ (id+1) +'" name="credit-montant-'+ (id+1) +'" class="form-control" type="text" placeholder="montant credit"></td>';

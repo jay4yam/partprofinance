@@ -441,7 +441,7 @@
                                     @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
                                         <tr>
                                             <td>{{ @$credit }}</td>
-                                            <td id="credits" class="data">
+                                            <td id="credit-{{ $index }}" data-index="{{ $index }}" class="data">
                                                 <b class="value">{{ @$montant }}</b><b> €</b>
                                                 <a href="#" id="{{ @$index }}" class="deleteCredit pull-right btn-xs btn-danger">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>

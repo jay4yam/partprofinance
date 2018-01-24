@@ -198,4 +198,42 @@ class ProspectRepository
 
         return $array;
     }
+
+    /**
+     * Met à jour une row du tableau credits stocké en base
+     * @param array $inputs
+     * @param $id
+     */
+    public function updateCreditRow(array $inputs, $id)
+    {
+        try {
+            //recupere le user/prospect à mettre à jour
+            $user = $this->getById($id);
+
+            //recupere le tableau  stocké en base
+            $credits = (array)json_decode($user->prospect->credits, true);
+
+            //init la nouvelle clé
+            $newKey = $inputs['nomCredit'];
+            //init le nouveau montant
+            $newValue = $inputs['montantCredit'];
+            //init l'index du tableau stocké qu'il faut updater
+            $indexToUpdate = (int)$inputs['index'];
+            //init un nouveau tableau avec les clés mais cette fois ci sous forme d'index
+            $newArray = array_keys($credits);
+            //Init la veille clé à updater
+            $oldKey = $newArray[$indexToUpdate];
+            //Insère la nouvelle clé à la place de l'ancienne
+            $credits[$newKey] = $credits[$oldKey];
+            //supprime l'ancienne clé
+            unset($credits[$oldKey]);
+
+            $credits[$newKey] = $newValue;
+
+            $user->prospect()->update(['credits' => json_encode($credits)]);
+        }catch (\Exception $exception){
+            return ['fail' => $exception->getMessage()];
+        }
+        return ['success' => 'MAJ OK'];
+    }
 }

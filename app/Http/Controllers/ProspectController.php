@@ -101,6 +101,19 @@ class ProspectController extends Controller
     }
 
     /**
+     * Gère la réception des data passées en param par la requête ajax
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxUpdateCredit(Request $request, $id)
+    {
+        $message = $this->prospectRepository->updateCreditRow($request->all(), $id);
+
+        return response($message);
+    }
+
+    /**
      * Gère la requête Ajax DeleteCredit
      * @param Request $request
      * @param $id
