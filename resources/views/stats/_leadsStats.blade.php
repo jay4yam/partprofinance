@@ -1,5 +1,5 @@
 
-<div class="chart tab-pane" id="leads-chart" style="position: relative; height: 105px;"></div>
+<div class="chart tab-pane" id="leads-chart" style="position: relative; height: 300px;"></div>
 
 @section('js2')
     <script>

@@ -100,7 +100,7 @@
         <!-- 2eme ligne de stats -->
         <div class="row">
             <!-- commsission du mois -->
-            <div class="col-lg-2 col-xs-6">
+            <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -116,7 +116,7 @@
             </div>
 
             <!-- montant commission dossier acceptés %-->
-            <div class="col-lg-2 col-xs-6">
+            <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-teal">
                     <div class="inner">
@@ -179,17 +179,6 @@
                 </div>
             </div>
             <!-- ./col -->
-
-            <!-- stats lead gen -->
-            <div class="col-lg-2 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-white">
-                    <div class="inner">
-                        @include('stats._leadsStats')
-                    </div>
-                </div>
-            </div>
-            <!-- ./stats lead gen  -->
         </div>
         <!-- /.row -->
 
@@ -350,6 +339,33 @@
             <!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
             <section class="col-lg-5 connectedSortable">
+
+                <!-- Calendar -->
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <i class="fa fa-calendar"></i>
+
+                        <h3 class="box-title">Statistique Lead</h3>
+                        <!-- tools box -->
+                        <div class="pull-right box-tools">
+                            <!-- button with a dropdown -->
+                            <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <!-- /. tools -->
+                    </div>
+                    <!-- /.box-stats -->
+                    <div class="box-body no-padding">
+                        <!--The stats -->
+                        @include('stats._leadsStats')
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                    </div>
+                </div>
+                <!-- /.box -->
 
                 <!-- Calendar -->
                 <div class="box box-solid bg-green-gradient">
