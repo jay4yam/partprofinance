@@ -101,7 +101,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{ $commissionPartPro }} €</h3>
+                        <h3>{{ round($commissionPartPro, 1) }} €</h3>
 
                         <p>Total com du mois</p>
                     </div>
@@ -117,7 +117,7 @@
                 <!-- small box -->
                 <div class="small-box bg-teal">
                     <div class="inner">
-                        <h3>{{ $commissionDossierAccepted + $commissionPaye }} €</h3>
+                        <h3>{{ round($commissionDossierAccepted + $commissionPaye, 1) }} €</h3>
 
                         <p>Acceptes + Payés</p>
                     </div>
@@ -133,7 +133,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>{{ ($commissionDossierAccepted + $commissionPaye) * 0.05 }} €</h3>
+                        <h3>{{ round( ($commissionDossierAccepted + $commissionPaye) * 0.05, 1) }} €</h3>
 
                         <p>Prime possible</p>
                     </div>
@@ -149,7 +149,7 @@
                 <!-- small box -->
                 <div class="small-box bg-blue-gradient">
                     <div class="inner">
-                        <h3>{{ $commissionPaye }} €</h3>
+                        <h3>{{ round($commissionPaye, 1) }} €</h3>
 
                         <p>Com' payées</p>
                     </div>
@@ -165,7 +165,7 @@
                 <!-- small box -->
                 <div class="small-box bg-black">
                     <div class="inner">
-                        <h3>{{ $commissionPaye * 0.05 }} €</h3>
+                        <h3>{{ round($commissionPaye * 0.05, 1) }} €</h3>
 
                         <p>Prime réelle</p>
                     </div>
