@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TempProspectEvents;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -74,6 +75,10 @@ class Prospect extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Relation &:n vers la table dossiers
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function dossier()
     {
         return $this->hasMany(Dossier::class, 'user_id');

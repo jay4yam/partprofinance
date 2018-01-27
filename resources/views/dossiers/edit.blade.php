@@ -90,7 +90,7 @@
                                     $com = $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro : $comPartPro;
                                 ?>
                                 {{ Form::label('montant_commission_partpro', 'Montant Com PartPro : ') }}
-                                {{ Form::text('montant_commission_partpro', $com, ['class' => 'form-control success', 'style' => 'color:#FFF;background-color:#00a65a', 'disable']) }}
+                                {{ Form::text('montant_commission_partpro', $com, ['class' => 'form-control success', 'style' => 'color:#FFF;background-color:#00a65a']) }}
                             </div>
                         </div>
                         <!-- ./Montant & commission -->

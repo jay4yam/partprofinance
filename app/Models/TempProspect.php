@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TempProspectEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class TempProspect extends Model
@@ -21,31 +22,61 @@ class TempProspect extends Model
      */
     protected $fillable = [
         'prospect_source',
+        'total_credit',
+        'total_credit_mensualite',
+        'civilite',
         'nom',
-        'email',
         'prenom',
         'date_de_naissance',
         'adresse',
         'adresse_2',
         'code_postal',
         'ville',
-        'tel_professionnel',
+        'tel_fixe',
+        'tel_portable',
+        'tel_pro',
+        'email',
         'situation_familiale',
         'nombre_denfants_a_charge',
         'votre_profession',
         'type_de_votre_contrat',
         'depuis_contrat_mois',
+        'depuis_contrat_annee',
         'votre_salaire',
+        'periodicite_salaire',
+        'habitation',
         'lgmt_depuis_mois',
+        'lgmt_depuis_annee',
         'montant_de_votre_loyer',
         'valeur_de_votre_bien_immobilier',
-        'rd_immo',
+        'mensualite_immo',
         'restant_du_ce_jour',
+        'treso_demande',
+        'autre_revenu',
+        'autre_charge',
+        'civ_du_conjoint',
         'nom_du_conjoint',
+        'prenom_du_conjoint',
         'date_de_naissance_du_conjoint',
         'profession_du_conjoint',
         'contrat_du_conjoint',
         'contrat_conjoint_depuis_mois',
-        'salaire_conjoint'
+        'contrat_conjoint_depuis_annee',
+        'salaire_conjoint',
+        'periodicite_salaire_conjoint',
+        'nombre_de_credits_en_cours'
     ];
+
+    protected $events = [
+        'created' => TempProspectEvents::class,
+    ];
+
+    /**
+     * Relation vers la table
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function processProspect()
+    {
+        return $this->hasOne(ProcessProspect::class, 'temp_prospects_id');
+    }
 }

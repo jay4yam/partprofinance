@@ -12,7 +12,6 @@ use Illuminate\Foundation\Application;
 use Maatwebsite\Excel\Collections\RowCollection;
 use Maatwebsite\Excel\Excel;
 use \Maatwebsite\Excel\Files\ExcelFile;
-use App\Interfaces\Iimporter;
 
 class ImportCSV extends ExcelFile
 {
@@ -60,31 +59,49 @@ class ImportCSV extends ExcelFile
 
                     //Peuple le model
                     $tempData->prospect_source = $prospectSource;
-                    $tempData->nom = $items->nom;
-                    $tempData->email = $items->e_mail;
-                    $tempData->date_de_naissance = $items->date_de_naissance;
-                    $tempData->adresse = $items->adresse;
-                    $tempData->adresse_2 = $items->adresse_2;
-                    $tempData->code_postal = $items->code_postal;
-                    $tempData->ville = $items->ville;
-                    $tempData->tel_professionnel = $items->tel_professionnel;
-                    $tempData->situation_familiale =  $items->situation_familiale;
-                    $tempData->nombre_denfants_a_charge = $items->nombre_denfants_a_charge;
-                    $tempData->votre_profession = $items->votre_profession;
-                    $tempData->type_de_votre_contrat = $items->type_de_votre_contrat;
-                    $tempData->depuis_contrat_mois = $items->depuis_contrat_mois;
-                    $tempData->votre_salaire = $items->votre_salaire;
-                    $tempData->lgmt_depuis_mois = $items->lgmt_depuis_mois;
-                    $tempData->montant_de_votre_loyer = $items->montant_de_votre_loyer;
-                    $tempData->valeur_de_votre_bien_immobilier = $items->valeur_de_votre_bien_immobilier;
-                    $tempData->rd_immo = $items->rd_immo;
-                    $tempData->restant_du_ce_jour = $items->restant_du_ce_jour;
-                    $tempData->nom_du_conjoint = $items->nom_du_conjoint;
-                    $tempData->date_de_naissance_du_conjoint = $items->date_de_naissance_du_conjoint;
-                    $tempData->profession_du_conjoint = $items->profession_du_conjoint;
-                    $tempData->contrat_du_conjoint = $items->contrat_du_conjoint;
-                    $tempData->contrat_conjoint_depuis_mois = $items->contrat_conjoint_depuis_mois;
-                    $tempData->salaire_conjoint = $items->salaire_conjoint;
+                    $tempData->total_credit = $items[0];
+                    $tempData->total_credit_mensualite = $items[1];
+                    $tempData->civilite = $items[2];
+                    $tempData->nom = $items[3];
+                    $tempData->prenom = $items[4];
+                    $tempData->date_de_naissance = $items[5];
+                    $tempData->adresse = $items[6];
+                    $tempData->adresse_2 = $items[7];
+                    $tempData->code_postal = $items[8];
+                    $tempData->ville = $items[9];
+                    $tempData->tel_fixe = $items[10];
+                    $tempData->tel_portable = $items[11];
+                    $tempData->tel_pro = $items[12];
+                    $tempData->email = $items[13];
+                    $tempData->situation_familiale = $items[14];
+                    $tempData->nombre_denfants_a_charge = $items[15];
+                    $tempData->votre_profession = $items[16];
+                    $tempData->type_de_votre_contrat = $items[17];
+                    $tempData->depuis_contrat_mois = $items[18];
+                    $tempData->depuis_contrat_annee = $items[19];
+                    $tempData->votre_salaire = $items[20];
+                    $tempData->periodicite_salaire = $items[21];
+                    $tempData->habitation = $items[22];
+                    $tempData->lgmt_depuis_mois = $items[23];
+                    $tempData->lgmt_depuis_annee = $items[24];
+                    $tempData->montant_de_votre_loyer = $items[25];
+                    $tempData->valeur_de_votre_bien_immobilier = $items[26];
+                    $tempData->mensualite_immo = $items[27];
+                    $tempData->restant_du_ce_jour = $items[28];
+                    $tempData->treso_demande = $items[31];
+                    $tempData->autre_revenu = $items[32];
+                    $tempData->autre_charge = $items[33];
+                    $tempData->civ_du_conjoint = $items[50];
+                    $tempData->nom_du_conjoint = $items[51];
+                    $tempData->prenom_du_conjoint = $items[52];
+                    $tempData->date_de_naissance_du_conjoint = $items[53];
+                    $tempData->profession_du_conjoint = $items[54];
+                    $tempData->contrat_du_conjoint = $items[55];
+                    $tempData->contrat_conjoint_depuis_mois = $items[56];
+                    $tempData->contrat_conjoint_depuis_annee = $items[57];
+                    $tempData->salaire_conjoint = $items[58];
+                    $tempData->periodicite_salaire_conjoint = $items[59];
+                    $tempData->nombre_de_credits_en_cours = $items[60];
 
                     //Sauv. le model
                     $tempData->save();
@@ -98,15 +115,14 @@ class ImportCSV extends ExcelFile
 
                     //Peuple le model
                     $tempData->prospect_source = $prospectSource;
-                    $tempData->nom = $items->nom;
-                    $tempData->email = $items->email;
-                    $tempData->prenom = $items->prenom;
+                    $tempData->nom = $items[2];
+                    $tempData->prenom = $items[3];
+                    $tempData->email = $items[4];
 
                     //Sauv. le model
                     $tempData->save();
                 }
                 break;
         }
-
     }
 }

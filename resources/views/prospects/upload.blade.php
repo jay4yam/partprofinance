@@ -59,6 +59,7 @@
                     </div>
                     <!-- /.box informations -->
                 </div>
+
                 <!-- Affiche les fichiers uploader dans le dossier import-->
                 <div class="col-md-6 col-xs-12">
                     <!-- box fichier à traiter -->
@@ -109,6 +110,7 @@
                     </div>
                     <!-- /.box box fichier à traiter -->
                 </div>
+
                 <!-- Affiche les prospects contenu dans l'un des fichiers .csv-->
                 <div class="col-md-12">
                     <!-- box tableau des prospect présent dans un fichier -->
@@ -158,6 +160,7 @@
                                     </tr>
                                 @endforeach
                             </table>
+                            {{ $prospectsTemp->links() }}
                         </div>
                         <!-- /.box-body -->
                     </div>
