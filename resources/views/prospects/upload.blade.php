@@ -16,7 +16,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <!-- Upload de fichier -->
                 <div class="col-md-6 col-xs-12">
@@ -149,7 +149,7 @@
                                         <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
                                         <td>
-                                            {{ Form::open(['route' =>'update.process.status', 'method' => 'POST', 'class' => 'form-inline']) }}
+                                            {{ Form::open(['route' =>'process.update.status', 'method' => 'POST', 'class' => 'form-inline']) }}
                                             {{ Form::hidden('temp_prospect_id', $prospect->id) }}
                                             {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], $prospect->processProspect->status , ['class'=> 'form-control']) }}
                                             <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
