@@ -134,7 +134,9 @@
                                     <th>Ajouté le</th>
                                     <th>Source</th>
                                     <th>Nom</th>
+                                    <th>Tel</th>
                                     <th>Email</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -144,7 +146,15 @@
                                         <td>{{ $prospect->created_at->format('d M Y') }}</td>
                                         <td>{{ $prospect->prospect_source }}</td>
                                         <td>{{ $prospect->nom }}</td>
+                                        <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
+                                        <td>
+                                            {{ Form::open(['route' =>'update.process.status', 'method' => 'POST', 'class' => 'form-inline']) }}
+                                            {{ Form::hidden('temp_prospect_id', $prospect->id) }}
+                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], $prospect->processProspect->status , ['class'=> 'form-control']) }}
+                                            <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                            {{ Form::close() }}
+                                        </td>
                                         <td>
                                             {{ Form::open(['route' => ['save.temp.prospect', $prospect], 'method' => 'POST', 'style' => 'float:left']) }}
                                             <button class="btn btn-success">

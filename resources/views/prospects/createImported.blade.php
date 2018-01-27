@@ -76,13 +76,13 @@
                                 <tr>
                                     <td><label for="numTelFixe">Téléphone Fixe</label></td>
                                     <td class="data">
-                                        {{ Form::text('numTelFixe', $tempProspect->tel_professionnel , ['class' => 'form-control', 'id' => 'numTelFixe']) }}
+                                        {{ Form::text('numTelFixe', $tempProspect->tel_fixe , ['class' => 'form-control', 'id' => 'numTelFixe']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelPortable">Téléphone Portable</label></td>
                                     <td class="data {{ $errors->has('numTelPortable') ? ' has-error' : '' }}">
-                                        {{ Form::text('numTelPortable', $tempProspect->tel_professionnel , ['class' => 'form-control', 'id' => 'numTelPortable']) }}
+                                        {{ Form::text('numTelPortable', $tempProspect->tel_portable , ['class' => 'form-control', 'id' => 'numTelPortable']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -109,7 +109,8 @@
                                 <tr>
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
-                                        {{ Form::date('dateDeNaissance', Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->date_de_naissance)  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        <?php if( $tempProspect->date_de_naissance == null ){ $dateN = '1900-01-01';}else{ $dateN =  @Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->date_de_naissance);} ?>
+                                        {{ Form::date('dateDeNaissance', $dateN  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -191,7 +192,8 @@
                                 <tr>
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuis', Carbon\Carbon::now()->subMonth($tempProspect->depuis_contrat_mois), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
+                                        <?php $date = Carbon\Carbon::createFromDate($tempProspect->depuis_contrat_annee, $tempProspect->depuis_contrat_mois, 01) ? Carbon\Carbon::createFromDate($tempProspect->depuis_contrat_annee, $tempProspect->depuis_contrat_mois, 01) : '01/01/1900' ; ?>
+                                        {{ Form::date('professionDepuis', $date, ['class' => 'form-control', 'id' => 'professionDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -243,7 +245,8 @@
                                 <tr>
                                     <td><label for="professionDepuisConjoint">profession Depuis Conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuisConjoint', Carbon\Carbon::now()->subMonth($tempProspect->contrat_conjoint_depuis_mois), ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
+                                        <?php $date2 = Carbon\Carbon::createFromDate($tempProspect->contrat_conjoint_depuis_annee, $tempProspect->contrat_conjoint_depuis_mois, 01) ? Carbon\Carbon::createFromDate($tempProspect->contrat_conjoint_depuis_annee, $tempProspect->contrat_conjoint_depuis_mois, 01) : '01/01/1900'?>
+                                        {{ Form::date('professionDepuisConjoint', $date2, ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -289,7 +292,8 @@
                                 <tr>
                                     <td><label for="habiteDepuis">habiteDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('habiteDepuis', Carbon\Carbon::now()->subMonth($tempProspect->lgmt_depuis_mois), ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
+                                        <?php $date = Carbon\Carbon::createFromDate($tempProspect->lgmt_depuis_annee, $tempProspect->lgmt_depuis_mois, 01) ? Carbon\Carbon::createFromDate($tempProspect->lgmt_depuis_annee, $tempProspect->lgmt_depuis_mois, 01) : '01/01/1900'; ?>
+                                        {{ Form::date('habiteDepuis', $date, ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
