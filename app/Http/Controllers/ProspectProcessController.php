@@ -23,6 +23,7 @@ class ProspectProcessController extends Controller
     }
 
     /**
+     * Met à jour le status de la piste
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -125,15 +126,19 @@ class ProspectProcessController extends Controller
      */
     public function sendRelanceUne(Request $request)
     {
-        //Recupère le prospect qui est en train d'être traité
-        $prospect = TempProspect::findOrFail($request->temp_prospect_id);
+        try {
+            //Recupère le prospect qui est en train d'être traité
+            $prospect = TempProspect::findOrFail($request->temp_prospect_id);
 
-        //Gère l'envois des messages Mail et SMS
-        $this->processProspectRepository->sendRelanceUne($request->all(), $prospect);
+            //Gère l'envois des messages Mail et SMS
+            $this->processProspectRepository->sendRelanceUne($request->all(), $prospect);
 
-        //Va mettre à jour les dates des relance J+1 et J+4
-        $this->processProspectRepository->updateRelancesDate($prospect);
+            //Va mettre à jour les dates des relance J+1 et J+4
+            $this->processProspectRepository->updateRelancesDate($prospect);
+        }catch (\Exception $exception){
+            return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
+        }
 
-        return redirect()->route('prospect.import');
+        return redirect()->route('prospect.import')->with(['message' => 'relance 1...Envoyée']);
     }
 }
