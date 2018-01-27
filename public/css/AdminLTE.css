@@ -5734,4 +5734,17 @@ a.updateData, a.deleteCredit{
 .box-impaye { border-top-color:#af1616; }
 /*fin-dossiers*/
 
+/*UPLOAD USER // IMPORT*/
+.relance_1{
+   background-color: black;
+   color: #FFF;
+ }
+.relance_2{
+  background-color: darkorange;
+  color: #FFF;
+}
+.relance_3{
+  background-color: red;
+  color: #FFF;
+}
 /* FIN CSS PERSO JAY*/

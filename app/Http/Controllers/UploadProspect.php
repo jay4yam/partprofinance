@@ -24,7 +24,7 @@ class UploadProspect extends Controller
     public function index()
     {
         //Récupère la liste des prospects de la table tempProspects
-        $prospectsTemp = TempProspect::orderBy('id', 'desc')->paginate('10');
+        $prospectsTemp = TempProspect::with('processProspect')->orderBy('id', 'desc')->paginate('10');
 
         return view('prospects.upload', compact('prospectsTemp'));
     }

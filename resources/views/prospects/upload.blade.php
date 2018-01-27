@@ -137,6 +137,7 @@
                                     <th>Tel</th>
                                     <th>Email</th>
                                     <th>Status</th>
+                                    <th>Relance</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -156,11 +157,9 @@
                                             {{ Form::close() }}
                                         </td>
                                         <td>
-                                            {{ Form::open(['route' => ['save.temp.prospect', $prospect], 'method' => 'POST', 'style' => 'float:left']) }}
-                                            <button class="btn btn-success">
-                                                <i class="fa fa-database" aria-hidden="true"></i> Enregistrer
-                                            </button>
-                                            {{ Form::close() }}
+                                            <small class="label {{ $prospect->processProspect->relance_status  }}">{{ $prospect->processProspect->relance_status  }}</small>
+                                        </td>
+                                        <td>
                                             {{ Form::open(['route' => ['delete.temp.prospect', $prospect], 'method' => 'DELETE']) }}
                                             <button class="btn btn-danger pull-right">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
