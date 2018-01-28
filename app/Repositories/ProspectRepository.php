@@ -60,6 +60,8 @@ class ProspectRepository
     private function save(Prospect $prospect, array $inputs)
     {
         \DB::transaction(function () use($prospect, $inputs) {
+
+            //1. Crée l'utilisateur sur la table user
                 $user = User::create([
                     'name' => $inputs['nom'],
                     'email' => $inputs['email'],
@@ -67,8 +69,58 @@ class ProspectRepository
                     'role' => 'guest',
                     'avatar' => 'avatar.png'
                 ]);
+
+            //2. vérifier si inputs contients // credit-name & credit montant
+            $inputs = $this->checkInputCredit($inputs);
+
+            //3. enregistre le model
             $user->prospect()->create($inputs);
         });
+    }
+
+    private function checkInputCredit(array $inputs)
+    {
+        $arrayNom = [];
+        $arrayMontant = [];
+        $credits = [];
+        $newInputs = $inputs;
+
+        //Fonction native laravel, itère sur toutes les row du tableau newinputs
+        $creditName = array_where($newInputs, function ($value, $key) use (&$newInputs, &$arrayNom, &$arrayMontant){
+
+            //test si il y a une clé qui s'appelle credit-name
+            if (strpos($key, 'credit-name-') !== false) {
+
+                //alors on ajoute cette clé à un tableau de nom de credit
+                $arrayNom [] = $value;
+
+                //on supprime la clé 'credit-name-' du tableau
+                unset($newInputs[$key]);
+            }
+
+            //test si il y a une clé qui s'appelle credit-montant
+            if (strpos($key, 'credit-montant-') !== false) {
+
+                //alors on ajoute le montant à un tableau de montant
+                $arrayMontant [] = $value;
+
+                //on supprime la clé 'credit-montant-' du tableau
+                unset($newInputs[$key]);
+            }
+        });
+
+        //Itère sur les tableaux $arrayNom && $arrayMontant
+        for($i=0; $i < count($arrayMontant); $i++)
+        {
+            //enregistre les nouvels valeurs dans un nouveau tableau de credit
+            $credits [$arrayNom[$i]] =  $arrayMontant[$i] ;
+        }
+
+        //ajoute le nouveau tableau de credit encodé en json pour enregistrement en base
+        $newInputs['credits'] = json_encode($credits);
+
+        //On retourne les nouveaux tableau newInputs avec toutes les valeurs compatibles avec la sauv. pour ce model
+        return $newInputs;
     }
 
     /**
