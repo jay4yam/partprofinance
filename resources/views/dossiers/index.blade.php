@@ -62,7 +62,7 @@
                             <td>{{ $dossier->montant_final }} €</td>
                             <td>{{ $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro :  $dossier->montant_final * $dossier->taux_commission /100}} €</td>
                             <td>
-                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-success pull-left">
+                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-info pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
                                 <form class='delete' action="{{ route('dossiers.destroy', ['dossier' => $dossier->id]) }}" method="post">

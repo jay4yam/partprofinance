@@ -71,8 +71,8 @@
                                 @endforeach
                             </td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}">
-                                    Edit
+                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-info">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
                             </td>
                         </tr>

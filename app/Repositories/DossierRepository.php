@@ -98,6 +98,7 @@ class DossierRepository
         $dossier->montant_commission_partpro = $inputs['montant_commission_partpro'];
         $dossier->apporteur = $inputs['apporteur'];
         $dossier->taux_commission = $inputs['taux_commission'];
+        $dossier->num_dossier_banque = $inputs['num_dossier_banque'];
         $dossier->status = $inputs['status'];
         $dossier->banque_id = $inputs['banque_id'];
         $dossier->iban = $inputs['iban'];
