@@ -55,20 +55,21 @@ class CalendarController extends Controller
      */
     public function getMonthDossier()
     {
-        $dossiers = $this->dossier->with('prospect')->dossierOfTheMonth()->get();
-
         $array = [];
+        try {
+            $dossiers = $this->dossier->with('prospect')->dossierOfTheMonth()->get();
 
-        foreach($dossiers as $dossier)
-        {
-            $array[] = [
-                'title' => @$dossier->prospect->nom.' : '.@$dossier->montant_final.' €' ,
-                'start' => @$dossier->created_at->format('Y-m-d'),
-                'backgroundColor' => '#00c0ef',
-                'borderColor' => '#00c0ef'
-            ];
+            foreach ($dossiers as $dossier) {
+                $array[] = [
+                    'title' => $dossier->prospect->nom . ' : ' . $dossier->montant_final . ' €',
+                    'start' => $dossier->created_at->format('Y-m-d'),
+                    'backgroundColor' => '#00c0ef',
+                    'borderColor' => '#00c0ef'
+                ];
+            }
+        }catch (\Exception $exception){
+            throw $exception;
         }
-
         return json_encode($array);
     }
 }
