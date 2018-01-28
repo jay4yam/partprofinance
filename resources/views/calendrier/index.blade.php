@@ -142,20 +142,10 @@
                     day  : 'jour'
                 },
                 //Random default events
-                events    : [
-                                @foreach($events as $event)
-                                    {
-                                    title: 'Relance J+1 :{{ $event->tempProspect->nom }}',
-                                    start: '{{ $event->relance_j1 }}',
-                                    backgroundColor: '#000000'
-                                    },
-                                    {
-                                        title: 'Relance J+4 {{ $event->tempProspect->nom }}',
-                                        start: '{{ $event->relance_j4 }}',
-                                        backgroundColor: '#000000'
-                                    },
-                                @endforeach
-                            ],
+                eventSources: [
+                    '{{ action('CalendarController@getMonthRelance') }}',
+                    '{{ action('CalendarController@getMonthDossier') }}'
+                ],
                 editable  : true,
                 droppable : true, // this allows things to be dropped onto the calendar !!!
                 drop      : function (date, allDay) { // this function is called when something is dropped

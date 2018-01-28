@@ -30,9 +30,6 @@ class AppServiceProvider extends ServiceProvider
 
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('stats._leadsStats', LeadStatComposer::class);
-
-        // renvois les elements à la vue
-        View::composer('calendrier.index', CalendarComposer::class);
     }
 
     /**

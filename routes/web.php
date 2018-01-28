@@ -73,5 +73,16 @@ Route::group(['middleware' => 'auth'], function(){
      */
     Route::resource('dossiers', 'DossierController');
     Route::get('dossier/prospect/autocomplete/name', 'DossierController@autoCompleteNom');
+
+
+    /**
+     * GESTION DU CALENDRIER
+     */
+
+    //Récupère la liste des relance JP+1 et JP4 du processProspect
+    Route::get('/process/prospect/get/relance', 'CalendarController@getMonthRelance')->name('get.relance');
+
+    //Récupère la liste des relance JP+1 et JP4 du processProspect
+    Route::get('/dossier/prospect/create', 'CalendarController@getMonthDossier')->name('get.dossier');
 });
 
