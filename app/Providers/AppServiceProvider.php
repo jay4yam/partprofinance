@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\CalendarComposer;
 use App\Http\ViewComposers\EndettementComposer;
 use App\Http\ViewComposers\LeadStatComposer;
 use App\Http\ViewComposers\StatistiquesComposer;
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('stats._leadsStats', LeadStatComposer::class);
+
+        // renvois les elements à la vue
+        View::composer('calendrier.index', CalendarComposer::class);
     }
 
     /**

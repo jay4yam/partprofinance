@@ -69,9 +69,10 @@ class UploadProspect extends Controller
         try {
 
             //1. recupere l'enregistrement à effacer
-            $temp = TempProspect::findOrFail($id);
+            $temp = TempProspect::with('processProspect')->findOrFail($id);
 
             //2. Efface l'enregistrement
+            $temp->processProspect()->delete();
             $temp->delete();
 
         }catch (\Exception $exception){

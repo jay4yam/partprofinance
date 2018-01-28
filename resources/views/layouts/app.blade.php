@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('/css/skins/skin-blue.css') }}">
 
     @yield('css')
+    @yield('css2')
+    @yield('css3')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -661,5 +663,6 @@
 <!-- JS PAGE -->
 @yield('js')
 @yield('js2')
+@yield('js3')
 </body>
 </html>
