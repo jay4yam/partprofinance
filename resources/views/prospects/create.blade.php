@@ -124,6 +124,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
+                                    <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
+                                        {{ Form::text('nbEnfantACharge', null, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><label for="nationalite">nationalite</label></td>
                                     <td class="data {{ $errors->has('nationalite') ? ' has-error' : '' }}">
                                         {{ Form::text('nationalite', null, ['class' => 'form-control']) }}

@@ -137,6 +137,15 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Nb Enfants à charge</td>
+                                    <td id="nbEnfantACharge" class="data">
+                                        <b class="value">{{ $user->prospect->nbEnfantACharge }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Nationalite</td>
                                     <td id="nationalite" class="data">
                                         <b class="value">{{ $user->prospect->nationalite }}</b>

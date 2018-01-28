@@ -69,7 +69,6 @@ class ProspectRepository
                 ]);
             $user->prospect()->create($inputs);
         });
-
     }
 
     /**
