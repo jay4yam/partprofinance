@@ -62,8 +62,8 @@ class CalendarController extends Controller
         foreach($dossiers as $dossier)
         {
             $array[] = [
-                'title' => $dossier->prospect->nom.' : '.$dossier->montant_final.' €' ,
-                'start' => $dossier->created_at->format('Y-m-d'),
+                'title' => @$dossier->prospect->nom.' : '.@$dossier->montant_final.' €' ,
+                'start' => @$dossier->created_at->format('Y-m-d'),
                 'backgroundColor' => '#00c0ef',
                 'borderColor' => '#00c0ef'
             ];
