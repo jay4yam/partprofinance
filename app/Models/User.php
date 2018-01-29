@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserCreateEvent;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,6 +35,14 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * Event listener sur la création de model User
+     * @var array
+     */
+    protected $events=[
+        'created' => UserCreateEvent::class
     ];
 
     /**

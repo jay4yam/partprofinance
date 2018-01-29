@@ -70,7 +70,7 @@
                                 <tr>
                                     <td><label for="email">email</label></td>
                                     <td class="data {{ $errors->has('email') ? ' has-error' : '' }}">
-                                        {{ Form::email('email', $tempProspect->e_mail , ['class' => 'form-control', 'id' => 'email']) }}
+                                        {{ Form::email('email', $tempProspect->email , ['class' => 'form-control', 'id' => 'email']) }}
                                     </td>
                                 </tr>
                                 <tr>

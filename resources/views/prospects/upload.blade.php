@@ -134,7 +134,8 @@
                                     <th>Ajouté le</th>
                                     <th>Source</th>
                                     <th>Nom</th>
-                                    <th>Tel</th>
+                                    <th>Tel Fixe</th>
+                                    <th>Tel Port</th>
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Relance</th>
@@ -147,6 +148,7 @@
                                         <td>{{ $prospect->created_at->format('d M Y') }}</td>
                                         <td>{{ $prospect->prospect_source }}</td>
                                         <td>{{ $prospect->nom }}</td>
+                                        <td>{{ $prospect->tel_fixe }}</td>
                                         <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
                                         <td>

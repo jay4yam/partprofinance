@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\TempProspectEvents;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -64,6 +64,7 @@ class Prospect extends Model
         'professionDepuisConjoint',
         'BanqueDepuis'
     ];
+
 
 
     /**
