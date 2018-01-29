@@ -128,7 +128,7 @@
                                 <tr>
                                     <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
                                     <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
-                                        {{ Form::text('nbEnfantACharge', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('nbEnfantACharge', 0, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
