@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Prospect;
+use App\Models\TempProspect;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,19 @@ class ProspectRepository
 
             //3. enregistre le model
             $user->prospect()->create($inputs);
+
+            //4. Si il s'agit d'un import de prospect
+            if(isset($inputs['tempProspectId']))
+            {
+                //recupère le prospect temporaire
+                $tempProspect = TempProspect::FindOrfail($inputs['tempProspectId']);
+
+                //Supprime l'entrée dans la table processProspect
+                $tempProspect->processProspect()->delete();
+
+                //Supprime le prospect temporaire
+                $tempProspect->delete();
+            }
         });
     }
 

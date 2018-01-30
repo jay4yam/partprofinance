@@ -38,14 +38,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Event listener sur la création de model User
-     * @var array
-     */
-    protected $events=[
-        'created' => UserCreateEvent::class
-    ];
-
-    /**
      * scopeMethode Pour n'afficher que les utilisateurs qui ne sont ni admin, ni staff
      * @param $query
      * @return mixed

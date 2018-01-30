@@ -45,6 +45,7 @@
                         <th>Téléphone / Email</th>
                         <th>Iban</th>
                         <th>Dossier</th>
+                        <th>Rappel</th>
                         <th>Edition</th>
                     </tr>
                     </thead>
@@ -70,6 +71,7 @@
                                     <small class="label {{ str_slug($dossier->status) }}">{{ $dossier->montant_demande }}</small>
                                 @endforeach
                             </td>
+                            <td>Rappel</td>
                             <td>
                                 <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-info">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
@@ -86,6 +88,7 @@
                         <th>Téléphone / Email</th>
                         <th>Iban</th>
                         <th>Dossier</th>
+                        <th>Rappel</th>
                         <th>Edition</th>
                     </tr>
                     </tfoot>

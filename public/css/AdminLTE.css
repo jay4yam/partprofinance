@@ -5695,9 +5695,9 @@ table.text-center th {
   z-index: 9999;
   width: 100px;
   height: 100px;
-  position: absolute;
+  position: fixed;
   left: 45%;
-  top: 45vh;
+  top: 45%;
   display: none;
 }
 /*PAGE EDIT PROSPECT*/
@@ -5746,5 +5746,9 @@ a.updateData, a.deleteCredit{
 .relance_3{
   background-color: red;
   color: #FFF;
+}
+
+#taskcontent{
+  height: 34px;
 }
 /* FIN CSS PERSO JAY*/

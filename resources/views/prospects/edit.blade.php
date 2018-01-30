@@ -18,6 +18,42 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <!-- Tasks -->
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Tâches & Rendez-vous</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            {{ Form::open() }}
+                                <div class="col-xs-4">
+                                    {{ Form::label('datetask', 'Date de la tache ou du rdv:') }}
+                                    {{ Form::date('datetask', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'datetask']) }}
+                                </div>
+                                <div class="col-xs-4">
+                                    {{ Form::label('taskcontent', 'Description:') }}
+                                    {{ Form::textarea('taskcontent', null, ['class' => 'form-control', 'id' => 'taskcontent']) }}
+                                </div>
+                                <div class="col-xs-2">
+                                    {{ Form::label('level', 'Importance:') }}
+                                    {{ Form::select('level', array('very-high', 'high','normal','low'), null,['class' => 'form-control', 'id' => 'level']) }}
+                                </div>
+                                <div class="col-xs-2">
+                                    {{ Form::submit('Enregister', ['class' => 'btn btn-success', 'id' => 'taskcontent']) }}
+                                </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
                     <!-- box informations -->
@@ -262,7 +298,7 @@
                                 <tr>
                                     <td>Secteur d'activité conjoint</td>
                                     <td id="secteurActiviteConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->secteurActiviteConjoint }}</b>
+                                        <b class="value">{{ @$user->prospect->secteurActiviteConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -271,7 +307,7 @@
                                 <tr>
                                     <td>Profession conjoint</td>
                                     <td id="professionConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->professionConjoint }}</b>
+                                        <b class="value">{{ @$user->prospect->professionConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -280,7 +316,7 @@
                                 <tr>
                                     <td>Depuis conjoint</td>
                                     <td id="professionDepuisConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$user->prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -289,7 +325,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel conjoint</td>
                                     <td id="revenusNetMensuelConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
+                                        <b class="value">{{ @$user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>

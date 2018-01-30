@@ -18,6 +18,7 @@
     <section class="content">
         <div class="container-fluid">
             {{ Form::open(['route' =>'prospect.store', 'method' => 'POST']) }}
+            {{ Form::hidden('tempProspectId', $tempProspect->id, ['class' => 'form-control']) }}
             <div class="row">
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
@@ -39,8 +40,7 @@
                                 <tr>
                                     <td><label for="civilite">Source </label></td>
                                     <td class="data">
-                                        {{ $tempProspect->prospect_source }}
-                                        {{ Form::hidden('prospect_source', $tempProspect->prospect_source) }}
+                                        {{ Form::text('prospect_source', $tempProspect->prospect_source) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -383,11 +383,11 @@
                                         {{ Form::text('pensionAlimentaire', null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="creditrow-0">
                                     <td>
-                                        <input type="text" class="form-control" id="credits" name="credits" placeholder="nom credit"></td>
+                                        <input type="text" class="form-control" id="credit-name-0" name="credit-name-0" placeholder="nom credit"></td>
                                     <td>
-                                        <input type="text" class="form-control" id="credits" name="credits" placeholder="montant credit">
+                                        <input type="text" class="form-control" id="credit-montant-0" name="credit-montant-0" placeholder="montant credit">
                                     </td>
                                 </tr>
                             </table>
@@ -449,6 +449,7 @@
 
 @section('js')
     <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
+    <script src="{{ asset('js/createProspect.js') }}" type="application/javascript"></script>
     <script>
         $(document).ready(function () {
             //Format Code Postal
@@ -471,7 +472,10 @@
                 if(val == 'Marié(e)'){
                     $('#box-conjoint').removeClass().addClass('box')
                 }
-            })
+            });
+
+            //js ajout de nouvelle ligne de credit dans le tableau
+            createProspect.addCredit();
         });
     </script>
 @endsection
