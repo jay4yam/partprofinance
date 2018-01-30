@@ -47,6 +47,7 @@
                         <th>montant demande</th>
                         <th>montant final</th>
                         <th>commission</th>
+                        <th>Iban</th>
                         <th style="width: 15%">Edition</th>
                     </tr>
                     </thead>
@@ -62,7 +63,10 @@
                             <td>{{ $dossier->montant_final }} €</td>
                             <td>{{ $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro :  $dossier->montant_final * $dossier->taux_commission /100}} €</td>
                             <td>
-                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-info pull-left">
+                                {!! $dossier->user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                            </td>
+                            <td>
+                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
                                 <form class='delete' action="{{ route('dossiers.destroy', ['dossier' => $dossier->id]) }}" method="post">
@@ -87,6 +91,7 @@
                         <th>montant demande</th>
                         <th>montant final</th>
                         <th>commission</th>
+                        <th>Iban</th>
                         <th style="width: 15%">Edition</th>
                     </tr>
                     </tr>

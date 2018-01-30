@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->date('taskdate');
             $table->text('taskcontent');
             $table->enum('level', ['very high', 'high', 'normal', 'low']);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
 

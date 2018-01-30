@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Http\ViewComposers\CalendarComposer;
 use App\Http\ViewComposers\EndettementComposer;
 use App\Http\ViewComposers\LeadStatComposer;
 use App\Http\ViewComposers\StatistiquesComposer;
+use App\Http\ViewComposers\TaskComposer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('stats._leadsStats', LeadStatComposer::class);
+
+        // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
+        View::composer('task._taskHome', TaskComposer::class);
     }
 
     /**

@@ -45,7 +45,7 @@
                         <th>Téléphone / Email</th>
                         <th>Iban</th>
                         <th>Dossier</th>
-                        <th>Rappel</th>
+                        <th style="width: 8%">Rappel</th>
                         <th>Edition</th>
                     </tr>
                     </thead>
@@ -71,10 +71,18 @@
                                     <small class="label {{ str_slug($dossier->status) }}">{{ $dossier->montant_demande }}</small>
                                 @endforeach
                             </td>
-                            <td>Rappel</td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-info">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i> Editer
+                                @if($user->tasks)
+                                    @foreach($user->tasks as $task)
+                                        <small class="label level-{{ str_slug($task->level) }}" data-toggle="tooltip" data-placement="top" title="{{ $task->taskcontent }}">
+                                            <i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M y') }}
+                                        </small>
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-default">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                 </a>
                             </td>
                         </tr>
@@ -122,6 +130,10 @@
                 'info'        : true,
                 'autoWidth'   : true
             });
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
 @endsection

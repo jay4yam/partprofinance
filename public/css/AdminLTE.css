@@ -5751,4 +5751,21 @@ a.updateData, a.deleteCredit{
 #taskcontent{
   height: 34px;
 }
+
+.level-very-high{
+  background-color: red;
+}
+.level-high{
+  background-color: darkorange;
+}
+.level-normal{
+  background-color: grey;
+}
+.level-low{
+  background-color: cornflowerblue;
+}
+
+.pagination {
+  margin: 0px !important;
+}
 /* FIN CSS PERSO JAY*/

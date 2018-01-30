@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- Tasks -->
-                <div class="col-xs-12">
+                <div class="col-xs-8">
                     <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title">Tâches & Rendez-vous</h3>
@@ -34,21 +34,22 @@
                         </div>
                         <div class="box-body">
                             {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST', 'class' => 'form-group']) }}
-                                {{ Form::hidden('user_id', Auth::user()->id) }}
+                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
+                                {{ Form::hidden('user_id', $user->id) }}
                                 <div class="col-xs-3">
-                                    {{ Form::label('taskdate', 'Date de la tache ou du rdv:') }}
+                                    {{ Form::label('taskdate', 'Programmez une date.') }}
                                     {{ Form::date('taskdate', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'taskdate']) }}
                                 </div>
                                 <div class="col-xs-5">
-                                    {{ Form::label('taskcontent', 'Description:') }}
+                                    {{ Form::label('taskcontent', 'Description.') }}
                                     {{ Form::textarea('taskcontent', null, ['class' => 'form-control', 'id' => 'taskcontent']) }}
                                 </div>
                                 <div class="col-xs-2">
-                                    {{ Form::label('level', 'Importance:') }}
+                                    {{ Form::label('level', 'Importance.') }}
                                     {{ Form::select('level', array('very-high', 'high','normal','low'), null,['class' => 'form-control', 'id' => 'level']) }}
                                 </div>
                                 <div class="col-xs-2">
-                                    {{ Form::label('tasksubmit', 'Sauvegarder la tache:') }}
+                                    {{ Form::label('tasksubmit', 'Sauv.') }}
                                     <button type="submit" class="btn btn-warning" id="tasksubmit">
                                         <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Save
                                     </button>
@@ -57,6 +58,34 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Mandat -->
+                <div class="col-xs-4">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Mandat</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                            <div class="box-body">
+                                {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST']) }}
+                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
+                                {{ Form::hidden('user_id', $user->id) }}
+                                    <label for="mandat_status">Etat du mandat:</label>
+                                    <span class="button-checkbox">
+                                        <button type="button" class="btn form-control" id="mandat_status" name="mandat_status" data-color="success">Mandat signé</button>
+                                        <input type="checkbox" class="form-control hidden" />
+                                    </span>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
 
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
@@ -564,7 +593,6 @@
                     </form>
                 </div>
             </div>
-        </div>
     </section>
     <!-- /.content -->
 @endsection
@@ -583,6 +611,73 @@
 
         $(".delete").on("submit", function(){
             return confirm("La suppression est definitive, êtes vous sure ?");
+        });
+
+        $(function () {
+            $('.button-checkbox').each(function () {
+
+                // Settings
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
+                        }
+                    };
+
+                // Event Handlers
+                $button.on('click', function () {
+                    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                    $checkbox.triggerHandler('change');
+                    updateDisplay();
+                });
+                $checkbox.on('change', function () {
+                    updateDisplay();
+                });
+
+                // Actions
+                function updateDisplay() {
+                    var isChecked = $checkbox.is(':checked');
+
+                    console.log($button.children());
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-default')
+                            .addClass('btn-' + color + ' active');
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-default');
+                    }
+                }
+
+                // Initialization
+                function init() {
+
+                    updateDisplay();
+
+                    // Inject the icon if applicable
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                    }
+                }
+                init();
+            });
         });
     </script>
 @endsection

@@ -52,7 +52,7 @@
                             <td>{{ $banque->nom }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $banque->logo}}" height="50"></td>
                             <td>
-                                <a href="{{ url()->route('banques.edit', ['banque' => $banque]) }}" class="btn btn-info pull-left">
+                                <a href="{{ url()->route('banques.edit', ['banque' => $banque]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
                                 <form class='delete' action="{{ route('banques.destroy', ['banque' => $banque->id]) }}" method="post">
