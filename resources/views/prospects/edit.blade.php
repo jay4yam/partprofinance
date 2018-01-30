@@ -20,7 +20,7 @@
             <div class="row">
                 <!-- Tasks -->
                 <div class="col-xs-12">
-                    <div class="box">
+                    <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title">Tâches & Rendez-vous</h3>
 
@@ -33,12 +33,13 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            {{ Form::open() }}
-                                <div class="col-xs-4">
-                                    {{ Form::label('datetask', 'Date de la tache ou du rdv:') }}
-                                    {{ Form::date('datetask', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'datetask']) }}
+                            {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST', 'class' => 'form-group']) }}
+                                {{ Form::hidden('user_id', Auth::user()->id) }}
+                                <div class="col-xs-3">
+                                    {{ Form::label('taskdate', 'Date de la tache ou du rdv:') }}
+                                    {{ Form::date('taskdate', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'taskdate']) }}
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-5">
                                     {{ Form::label('taskcontent', 'Description:') }}
                                     {{ Form::textarea('taskcontent', null, ['class' => 'form-control', 'id' => 'taskcontent']) }}
                                 </div>
@@ -47,7 +48,10 @@
                                     {{ Form::select('level', array('very-high', 'high','normal','low'), null,['class' => 'form-control', 'id' => 'level']) }}
                                 </div>
                                 <div class="col-xs-2">
-                                    {{ Form::submit('Enregister', ['class' => 'btn btn-success', 'id' => 'taskcontent']) }}
+                                    {{ Form::label('tasksubmit', 'Sauvegarder la tache:') }}
+                                    <button type="submit" class="btn btn-warning" id="tasksubmit">
+                                        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Save
+                                    </button>
                                 </div>
                             {{ Form::close() }}
                         </div>

@@ -133,8 +133,12 @@ class ProspectController extends Controller
      */
     public function destroy($id)
     {
-        $message = $this->prospectRepository->delete($id);
+        try{
+            $this->prospectRepository->delete($id);
+        }catch (\Exception $exception){
+            return redirect()->route('prospect.index')->with('message', $exception->getMessage());
+        }
 
-        return redirect()->route('prospect.index')->with('message', $message);
+        return redirect()->route('prospect.index')->with('message', 'Prospect Supprimé');
     }
 }

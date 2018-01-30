@@ -74,4 +74,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Dossier::class, 'user_id');
     }
+
+    /**
+     * Relation 1:n vers la table task
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'user_id');
+    }
 }

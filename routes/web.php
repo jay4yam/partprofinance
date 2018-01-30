@@ -84,5 +84,12 @@ Route::group(['middleware' => 'auth'], function(){
 
     //Récupère la liste des relance JP+1 et JP4 du processProspect
     Route::get('/dossier/prospect/create', 'CalendarController@getMonthDossier')->name('get.dossier');
+
+    /**
+     * GESTION DES TASKS
+     */
+
+    //Route resource contenant index, show, edit, save... pour le model Task
+    Route::resource('task', 'TaskController');
 });
 

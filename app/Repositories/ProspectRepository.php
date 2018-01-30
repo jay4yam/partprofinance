@@ -219,16 +219,10 @@ class ProspectRepository
      */
     public function delete($id)
     {
-        try{
             $user = $this->user->findOrFail($id);
             $user->dossier()->delete();
             $user->prospect()->delete();
             $user->delete();
-        }catch (\Exception $exception){
-            return back()->with(['message', $exception->getMessage()]);
-        }
-
-        return 'prospect supprimé';
     }
 
     /**

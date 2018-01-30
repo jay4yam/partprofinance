@@ -1,5 +1,5 @@
 <!-- box Endettement -->
-<div class="box">
+<div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
 
