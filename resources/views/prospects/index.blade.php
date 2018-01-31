@@ -46,6 +46,7 @@
                         <th>Iban</th>
                         <th>Dossier</th>
                         <th style="width: 8%">Rappel</th>
+                        <th style="width: 8%">Mandat</th>
                         <th>Edition</th>
                     </tr>
                     </thead>
@@ -81,6 +82,9 @@
                                 @endif
                             </td>
                             <td>
+                                {!! $user->prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                            </td>
+                            <td>
                                 <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-default">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                 </a>
@@ -97,6 +101,7 @@
                         <th>Iban</th>
                         <th>Dossier</th>
                         <th>Rappel</th>
+                        <th>Mandat</th>
                         <th>Edition</th>
                     </tr>
                     </tfoot>

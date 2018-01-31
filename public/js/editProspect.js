@@ -109,6 +109,108 @@ var editProspect = {
         });
     },
 
+
+    /**
+     * Met à jour le status du mandat
+     */
+    ajaxUpdateMandatStatus:function () {
+        //1. récupère l'id du prospect à updater
+        var pathName = location.pathname;
+        var array = pathName.split('/');
+        var prospectId = array[array.length-1];
+
+        //2. c'est la row à updater en bdd
+        var id = 'mandat_status';
+
+        //3. gère l'interupteur du bouton (vert / gris) qui est aussi l'etat du mandat_status
+        $('.button-checkbox').each(function () {
+
+                // Settings de l'interrupteur
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
+                        }
+                    };
+
+                // Event Handlers
+                $button.on('click', function () {
+                    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                    $checkbox.triggerHandler('change');
+                    updateDisplay();
+                });
+                $checkbox.on('change', function () {
+                    updateDisplay();
+                });
+
+                // Actions
+                function updateDisplay() {
+                    var isChecked = $checkbox.is(':checked');
+
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-default')
+                            .addClass('btn-' + color + ' active');
+                        //c'est quand le bouton change qu'on envois la requête ajax
+                        $.ajax({
+                            method: "PUT",
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: 'http://'+location.host+'/prospect/'+prospectId,
+                            data: {id:id, value:1},
+                            beforeSend:function () {
+                                $('.ajax-spinner').show();
+                            },
+                            success: function () {
+                                $('.ajax-spinner').hide();
+                            }
+                        });
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-default');
+                        //c'est quand le bouton change qu'on envois la requête ajax
+                        $.ajax({
+                            method: "PUT",
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: 'http://' + location.host + '/prospect/' + prospectId,
+                            data: {id: id, value: 0},
+                            beforeSend: function () {
+                                $('.ajax-spinner').show();
+                            },
+                            success: function () {
+                                $('.ajax-spinner').hide();
+                            }
+                        });
+                    }
+                }
+
+                // Initialization
+                function init() {
+                    // Inject the icon if applicable
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                    }
+                }
+                init();
+            });
+    },
+
     /**
      * Ajoute un nouveau credit
      */
