@@ -1,5 +1,27 @@
+<div class="box box-solid">
+    <div class="box-header">
+        <i class="fa fa-calendar"></i>
 
-<div class="chart tab-pane" id="leads-chart" style="position: relative; height: 300px;"></div>
+        <h3 class="box-title">Statistique Lead</h3>
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+            <!-- button with a dropdown -->
+            <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+            </button>
+        </div>
+        <!-- /. tools -->
+    </div>
+    <!-- /.box-stats -->
+    <div class="box-body no-padding">
+        <!--The stats -->
+        <div class="chart tab-pane" id="leads-chart" style="position: relative; height: 300px;"></div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+    </div>
+</div>
 
 @section('js2')
     <script>
