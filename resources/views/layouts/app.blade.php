@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('/css/skins/skin-blue.css') }}">
 
     @yield('css')
+    @yield('css2')
+    @yield('css3')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -36,6 +38,8 @@
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <link rel="icon" type="image/jpg" href="{{ asset('img/tetemort.jpg') }}" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -656,9 +660,11 @@
 <script src="{{ asset('js/adminlte.js') }}"></script>
 
 <script>
-    $('div.message-front-admin').not('.alert-important').delay(3000).fadeOut(350);
+    $('div.message-front-admin').not('.alert-important').delay(13000).fadeOut(350);
 </script>
 <!-- JS PAGE -->
 @yield('js')
+@yield('js2')
+@yield('js3')
 </body>
 </html>

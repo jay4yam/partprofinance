@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DossierRequest;
 use App\Repositories\DossierRepository;
 use Illuminate\Http\Request;
 
@@ -49,9 +50,15 @@ class DossierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DossierRequest $request)
     {
+        try {
+            $dossier = $this->dossierRepository->store($request->all());
+        }catch (\Exception $exception){
+            return back()->with( ['message' => $exception->getMessage()] );
+        }
 
+        return redirect()->route('dossiers.edit', ['dossier' => $dossier])->with(['message' => 'Création du dossier OK !']);
     }
 
     /**
@@ -87,7 +94,14 @@ class DossierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->dossierRepository->update($request->all(), $id);
+        try {
+
+            $this->dossierRepository->update($request->all(), $id);
+
+        }catch (\Exception $exception){
+
+            return back()->with( ['message' => $exception->getMessage()] );
+        }
 
         return back()->with(['message' => 'Dossier mise  jour OK!']);
     }

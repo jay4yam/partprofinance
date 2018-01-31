@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -13,8 +14,11 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testApplication()
     {
-        $this->assertTrue(true);
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->get('/');
     }
 }

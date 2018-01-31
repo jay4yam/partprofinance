@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Prospect;
+use App\Models\TempProspect;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class ProspectRepository
 {
@@ -36,7 +39,102 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->user->guest()->orderBy('id', 'desc')->with('prospect')->paginate(10);
+        return $this->user->guest()->orderBy('id', 'desc')->with('prospect', 'dossier', 'tasks')->paginate(10);
+    }
+
+    /**
+     * Gère l'ajout d'un model prospect
+     * @param Request $request
+     */
+    public function store(array $request)
+    {
+        $prospect = new Prospect();
+
+        $this->save($prospect, $request);
+    }
+
+    /**
+     * Gère la sauv d'un nouveau model prospect
+     * @param Prospect $prospect
+     * @param array $inputs
+     */
+    private function save(Prospect $prospect, array $inputs)
+    {
+        \DB::transaction(function () use($prospect, $inputs) {
+
+            //1. Crée l'utilisateur sur la table user
+                $user = User::create([
+                    'name' => $inputs['nom'],
+                    'email' => $inputs['email'],
+                    'password' => bcrypt('partpro'),
+                    'role' => 'guest',
+                    'avatar' => 'avatar.png'
+                ]);
+
+            //2. vérifier si inputs contients // credit-name & credit montant
+            $inputs = $this->checkInputCredit($inputs);
+
+            //3. enregistre le model
+            $user->prospect()->create($inputs);
+
+            //4. Si il s'agit d'un import de prospect
+            if(isset($inputs['tempProspectId']))
+            {
+                //recupère le prospect temporaire
+                $tempProspect = TempProspect::FindOrfail($inputs['tempProspectId']);
+
+                //Supprime l'entrée dans la table processProspect
+                $tempProspect->processProspect()->delete();
+
+                //Supprime le prospect temporaire
+                $tempProspect->delete();
+            }
+        });
+    }
+
+    private function checkInputCredit(array $inputs)
+    {
+        $arrayNom = [];
+        $arrayMontant = [];
+        $credits = [];
+        $newInputs = $inputs;
+
+        //Fonction native laravel, itère sur toutes les row du tableau newinputs
+        $creditName = array_where($newInputs, function ($value, $key) use (&$newInputs, &$arrayNom, &$arrayMontant){
+
+            //test si il y a une clé qui s'appelle credit-name
+            if (strpos($key, 'credit-name-') !== false) {
+
+                //alors on ajoute cette clé à un tableau de nom de credit
+                $arrayNom [] = $value;
+
+                //on supprime la clé 'credit-name-' du tableau
+                unset($newInputs[$key]);
+            }
+
+            //test si il y a une clé qui s'appelle credit-montant
+            if (strpos($key, 'credit-montant-') !== false) {
+
+                //alors on ajoute le montant à un tableau de montant
+                $arrayMontant [] = $value;
+
+                //on supprime la clé 'credit-montant-' du tableau
+                unset($newInputs[$key]);
+            }
+        });
+
+        //Itère sur les tableaux $arrayNom && $arrayMontant
+        for($i=0; $i < count($arrayMontant); $i++)
+        {
+            //enregistre les nouvels valeurs dans un nouveau tableau de credit
+            $credits [$arrayNom[$i]] =  $arrayMontant[$i] ;
+        }
+
+        //ajoute le nouveau tableau de credit encodé en json pour enregistrement en base
+        $newInputs['credits'] = json_encode($credits);
+
+        //On retourne les nouveaux tableau newInputs avec toutes les valeurs compatibles avec la sauv. pour ce model
+        return $newInputs;
     }
 
     /**
@@ -121,14 +219,80 @@ class ProspectRepository
      */
     public function delete($id)
     {
-        try{
             $user = $this->user->findOrFail($id);
+            $user->dossier()->delete();
             $user->prospect()->delete();
             $user->delete();
-        }catch (\Exception $exception){
-            return back()->with(['message', $exception->getMessage()]);
+    }
+
+    /**
+     * Retourne un tableau contenant "la somme revenus" et "la sommes des charges"
+     * @param User $user
+     * @return array
+     */
+    public function revenusAndChargesToArray(User $user)
+    {
+        //init un tableau vide
+        $array = [];
+
+        //additionne les revenus prospect & conjoint
+        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuelConjoint;
+
+        //cree l'index charges du tableau pour y stocker les charges
+        $array['charges'] = 0;
+
+        //Si le champs credit n'est pas vide
+        if($user->prospect->credits != '' || $user->prospect->credits != null) {
+            //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
+            foreach (json_decode($user->prospect->credits) as $credit => $montant) {
+                $array['charges'] += $montant;
+            }
         }
 
-        return 'prospect supprimé';
+        //additionne le loyer
+        $array['charges'] += $user->prospect->loyer ? $user->prospect->loyer : 0;
+
+        //additionne la pension alimentaire
+        $array['charges'] += $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ;
+
+        return $array;
+    }
+
+    /**
+     * Met à jour une row du tableau credits stocké en base
+     * @param array $inputs
+     * @param $id
+     */
+    public function updateCreditRow(array $inputs, $id)
+    {
+        try {
+            //recupere le user/prospect à mettre à jour
+            $user = $this->getById($id);
+
+            //recupere le tableau  stocké en base
+            $credits = (array)json_decode($user->prospect->credits, true);
+
+            //init la nouvelle clé
+            $newKey = $inputs['nomCredit'];
+            //init le nouveau montant
+            $newValue = $inputs['montantCredit'];
+            //init l'index du tableau stocké qu'il faut updater
+            $indexToUpdate = (int)$inputs['index'];
+            //init un nouveau tableau avec les clés mais cette fois ci sous forme d'index
+            $newArray = array_keys($credits);
+            //Init la veille clé à updater
+            $oldKey = $newArray[$indexToUpdate];
+            //Insère la nouvelle clé à la place de l'ancienne
+            $credits[$newKey] = $credits[$oldKey];
+            //supprime l'ancienne clé
+            unset($credits[$oldKey]);
+
+            $credits[$newKey] = $newValue;
+
+            $user->prospect()->update(['credits' => json_encode($credits)]);
+        }catch (\Exception $exception){
+            return ['fail' => $exception->getMessage()];
+        }
+        return ['success' => 'MAJ OK'];
     }
 }

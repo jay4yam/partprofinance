@@ -17,12 +17,14 @@ class CreateDossiersTable extends Migration
             $table->increments('id');
             $table->enum('signature', ['Electronique', 'Physique']);
             $table->enum('objet_du_pret', ['Voitures', 'Moto' , 'Caravane', 'Camping-car', 'Bateaux', 'Travaux']);
+            $table->enum('duree_du_pret', [12,24,36,48,60,72,84,96])->default(84);
             $table->decimal('montant_demande');
             $table->decimal('montant_final');
             $table->decimal('taux_commission')->default(12);
             $table->decimal('montant_commission_partpro')->nullable();
             $table->string('apporteur')->nullable();
             $table->enum('status', ['Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé'])->default('A l étude');
+            $table->string('num_dossier_banque')->nullable();
             $table->timestamps();
         });
 

@@ -20,7 +20,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
-        'role' => mt_rand(0,1) ? 'admin' : 'guest',
+        'role' => 'guest',
         'avatar' => mt_rand(0,1) ? 'avatar.png' : 'avatar2.png',
     ];
 });
@@ -70,7 +70,6 @@ $factory->define(App\Models\Prospect::class, function ( Faker\Generator $faker){
 /**
  * Défini un dossier
  */
-
 $factory->define(App\Models\Dossier::class, function ( Faker\Generator $faker){
     $objet = array('Voitures','Moto','Caravane','Camping-car','Bateaux','Travaux');
     $status = array('Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé');
@@ -80,8 +79,9 @@ $factory->define(App\Models\Dossier::class, function ( Faker\Generator $faker){
     return[
         'signature' => mt_rand(0,1) ? 'Electronique' : 'Physique',
         'objet_du_pret' => $objet[$randObjet_keys],
-        'montant_demande' => mt_rand('10000.00', '20000.00'),
-        'montant_final' => mt_rand('10000.00', '20000.00'),
+        'montant_demande' => 10000.00,
+        'montant_final' => 11200.00,
+        'montant_commission_partpro' => 1200.00,
         'status' => $status[$randStatus_key],
         'banque_id' => mt_rand(1,3),
         'user_id' => mt_rand(2,20)

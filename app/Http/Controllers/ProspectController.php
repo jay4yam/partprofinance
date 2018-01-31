@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProspectRequest;
 use App\Repositories\ProspectRepository;
 use Illuminate\Http\Request;
 
@@ -44,13 +45,18 @@ class ProspectController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProspectRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(ProspectRequest $request)
     {
-        dd($request);
+        try {
+            $this->prospectRepository->store($request->all());
+        }catch (\Exception $exception) {
+            return redirect()->route('prospect.index')->with(['message' => $exception->getMessage()]);
+        }
+
+        return redirect()->route('prospect.index')->with(['message' => 'Insertion Prospect OK']);
     }
 
     /**
@@ -94,6 +100,19 @@ class ProspectController extends Controller
     }
 
     /**
+     * Gère la réception des data passées en param par la requête ajax
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxUpdateCredit(Request $request, $id)
+    {
+        $message = $this->prospectRepository->updateCreditRow($request->all(), $id);
+
+        return response($message);
+    }
+
+    /**
      * Gère la requête Ajax DeleteCredit
      * @param Request $request
      * @param $id
@@ -114,8 +133,12 @@ class ProspectController extends Controller
      */
     public function destroy($id)
     {
-        $message = $this->prospectRepository->delete($id);
+        try{
+            $this->prospectRepository->delete($id);
+        }catch (\Exception $exception){
+            return redirect()->route('prospect.index')->with('message', $exception->getMessage());
+        }
 
-        return redirect()->route('prospect.index')->with('message', $message);
+        return redirect()->route('prospect.index')->with('message', 'Prospect Supprimé');
     }
 }

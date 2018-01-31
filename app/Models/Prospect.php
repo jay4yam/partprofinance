@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +20,7 @@ class Prospect extends Model
     protected $fillable = [
         'civilite',
         'nom',
+        'nomjeunefille',
         'prenom',
         'dateDeNaissance',
         'nomEpoux',
@@ -51,8 +53,18 @@ class Prospect extends Model
         'BanqueDepuis',
         'iban',
         'notes',
-        'user_id'
+        'user_id',
+        'prospect_source'
     ];
+
+    protected $dates = [
+        'dateDeNaissance',
+        'habiteDepuis',
+        'professionDepuis',
+        'professionDepuisConjoint',
+        'BanqueDepuis'
+    ];
+
 
 
     /**
@@ -62,5 +74,14 @@ class Prospect extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relation &:n vers la table dossiers
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function dossier()
+    {
+        return $this->hasMany(Dossier::class, 'user_id');
     }
 }

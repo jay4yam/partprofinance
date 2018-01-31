@@ -11,6 +11,7 @@ namespace App\Repositories;
 
 use App\Models\Dossier;
 use App\Models\Prospect;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class DossierRepository
@@ -35,7 +36,7 @@ class DossierRepository
      */
     public function getAll()
     {
-        return $this->dossier->with('user', 'banque')->paginate(10);
+        return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque')->paginate(10);
     }
 
     /**
@@ -49,18 +50,72 @@ class DossierRepository
     }
 
     /**
-     * Met à jour un dossier
      * @param array $inputs
      * @param $id
+     * @param Prospect $prospect
      */
     public function update(array $inputs, $id)
     {
-        try {
+        DB::transaction(function () use ($id, $inputs){
             $dossier = $this->getById($id);
 
             $dossier->update($inputs);
+            $dossier->save();
 
-        }catch (\Exception $exception){ session()->flash( $exception->getMessage() ); }
+            $user = User::findOrFail( $inputs['user_id']);
+
+            $user->prospect()->update(['iban' => $inputs['iban']]);
+        });
+    }
+
+    /**
+     * Enregistre un nouveau dossier
+     * @param array $inputs
+     */
+    public function store(array $inputs)
+    {
+        $dossier = new Dossier();
+
+        //utilise methode privee save()
+        $this->save($dossier, $inputs);
+
+        return $dossier;
+    }
+
+    /**
+     * Methode privee qui gére la sauv du Dossier
+     * @param Dossier $dossier
+     * @param array $inputs
+     */
+    private function save(Dossier $dossier, array $inputs)
+    {
+        $dossier->signature = $inputs['signature'];
+        $dossier->objet_du_pret = $inputs['objet_du_pret'];
+        $dossier->duree_du_pret = $inputs['duree_du_pret'];
+        $dossier->montant_demande = $inputs['montant_demande'];
+        $dossier->montant_final = $inputs['montant_final'];
+        $dossier->taux_commission = $inputs['taux_commission'];
+        $dossier->montant_commission_partpro = $inputs['montant_commission_partpro'];
+        $dossier->apporteur = $inputs['apporteur'];
+        $dossier->taux_commission = $inputs['taux_commission'];
+        $dossier->num_dossier_banque = $inputs['num_dossier_banque'];
+        $dossier->status = $inputs['status'];
+        $dossier->banque_id = $inputs['banque_id'];
+        $dossier->iban = $inputs['iban'];
+        $dossier->user_id = $inputs['user_id'];
+
+        DB::transaction(function () use ($dossier) {
+
+            $dossier->save();
+
+            $user = User::findOrFail( $dossier->user_id );
+
+            if($dossier->iban){
+                $user->prospect()->update(['iban' => $dossier->iban]);
+            }
+        });
+
+
     }
 
     /**
@@ -74,7 +129,7 @@ class DossierRepository
         $results = DB::table('prospects')
             ->join('users', 'users.id', '=', 'prospects.user_id')
             ->where('nom', 'LIKE', '%'.$request->term.'%')
-            ->select('users.email', 'prospects.nom', 'prospects.prenom', 'prospects.user_id')
+            ->select('users.email', 'prospects.nom', 'prospects.prenom', 'prospects.user_id', 'prospects.iban')
             ->get();
 
         //init un tableau vide
@@ -83,7 +138,7 @@ class DossierRepository
         //itère sur la collection pour peupler lz tableau array
         foreach ($results as $valeur)
         {
-            $array[] = ['value' => $valeur->nom.'-'.$valeur->prenom.'-'.$valeur->email, 'id' => $valeur->user_id,];
+            $array[] = ['value' => $valeur->nom.' / '.$valeur->prenom.' / '.$valeur->email.' / '.$valeur->iban, 'id' => $valeur->user_id,];
         }
 
         //test si le tableau est rempli

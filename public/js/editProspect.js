@@ -6,14 +6,17 @@ var editProspect = {
      * Affiche/Efface le bouton de MAJ
      */
     showEditButton:function () {
-        $('td.data').on('mouseover', function () {
-            $(this).children('.updateData').toggle();
-            $(this).children('.deleteCredit').toggle();
-        });
-        $('td.data').on('mouseout', function () {
-            $(this).children('.updateData').toggle();
-            $(this).children('.deleteCredit').toggle();
-        });
+        //gere le mousenter / mouseleave bind  sur les td class .data
+        $(document).on({
+            mouseenter: function () {
+                $(this).children('.updateData').toggle();
+                $(this).children('.deleteCredit').toggle();
+            },
+            mouseleave: function () {
+                $(this).children('.updateData').toggle();
+                $(this).children('.deleteCredit').toggle();
+            }
+        }, 'td.data');
     },
 
     /**
@@ -32,15 +35,30 @@ var editProspect = {
 
             //3. affiche l'input si test est vrai
             if(editProspect.test) {
-                //4. utilise la méthode showinput pour afficher les inputs qui vont bien (input, list, etc..)
-                editProspect._showInput($(this).parent(), dataKey, dataValue);
-
                 //test à false pour empêcher d'afficher un autre bouton .sauv
                 editProspect.test = false;
-            }
 
-            //4. utilisation de la methode privée sendUpdate
-            editProspect._sendUpdate(dataKey);
+                //4. ajoute la fonction contains au js de chrome
+                editProspect._containsString();
+
+                //gestion du cas particlier des inputs credits
+                if(dataKey.contains("credit-")){
+                    //5. on utilise la méthode showinputcredit pour afficher les inputs credits / montants
+                    editProspect._showInputCredit($(this).parent(), dataKey, dataValue);
+
+                    //6. methode privee ajaxCreditRow qui va gèrer l'envois des datas pour le traitement coté serveur.
+                    editProspect._ajaxUpdateCreditRow($(this).parent());
+
+                //siNON TOUS LES AUTRES INPUTS SONT FERES ICI
+                }else{
+                    //6. sinon on utilise la méthode showinput pour afficher les inputs qui vont bien (input, list, etc..)
+                    editProspect._showInput($(this).parent(), dataKey, dataValue);
+
+                    //4. utilisation de la methode privée sendUpdate
+                    editProspect._sendUpdate(dataKey);
+
+                }
+            }
         });
     },
 
@@ -56,8 +74,19 @@ var editProspect = {
             var array = pathName.split('/');
             var prospectId = array[array.length-1];
 
+            //2. c'est la row à updater en bdd
             var id = 'notes';
-            var value = $('#notes').val();
+
+            //3. Option de la date et heure
+            var options = {year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric",
+                hour12: false};
+
+            //4. Récupère la date et l'heure
+            var date = Intl.DateTimeFormat('fr-FR', options).format( new Date() );
+
+            //5. Gère la valeur à renvoyer en base
+            var value = date+' \n '+$('#notes').val()+' \n \n'+$('#oldnotes').val();
 
             $.ajax({
                 method: "PUT",
@@ -74,7 +103,7 @@ var editProspect = {
                 //3. si message = success
                 if(message.success){
                     //On modifie le contenu
-                    $('#notes').val(value);
+                    $('#oldnotes').val(value);
                 }
             });
         });
@@ -96,6 +125,9 @@ var editProspect = {
         });
     },
 
+    /**
+     * Supprime un crédit
+     */
     deleteCredit: function () {
         $('.deleteCredit').on('click', function (e) {
             e.preventDefault();
@@ -111,6 +143,7 @@ var editProspect = {
             var array = pathName.split('/');
             var prospectId = array[array.length-1];
 
+            //4. Requête ajax vers l'url de suppression de prospect (voir route web.php)
             $.ajax({
                 method: "DELETE",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -168,6 +201,8 @@ var editProspect = {
           var array = pathName.split('/');
           var prospectId = array[array.length-1];
 
+          //Requête ajax d'ajout de credit (voir route web.php)
+          //envois des datas creditName et creditValue
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -179,14 +214,57 @@ var editProspect = {
         }).done(function (message) {
             //1. masque le spinner ajax
             $('.ajax-spinner').hide();
+            //Si la requête est OK, on réaffiche la ligne  du tableau contenant le nom du credit et le montant
             if(message.success)
             {
                 var tr = $('#chargesTable tr:last');
-                var td = '<td>'+creditName+'</td><td><b>'+creditValue+' €</b></td>';
+                var index = $('[id^=credit-]').length-1;
+                var td = '<td>'+creditName+'</td>';
+                    td += '<td id="credit-'+index+'" data-index="'+index+'" class="data">';
+                    td += '<b class="value">'+ creditValue +'</b><b> €</b>';
+                    td += '<a href="#" id="'+index+'" class="deleteCredit pull-right btn-xs btn-danger">';
+                    td += '<i class="fa fa-trash" aria-hidden="true"></i>';
+                    td += '</a>';
+                    td += '<a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">';
+                    td += '<i class="fa fa-pencil" aria-hidden="true"></i>';
+                    td += '</a>';
+                    td += '</td>';
                 tr.html(td);
             }
         });
       });
+    },
+
+    /**
+     * Affiche les inputs pour la mise à jour credit/montant
+     * @param ObjetTd
+     * @param dataKey
+     * @param dataValue
+     */
+    _showInputCredit:function (ObjetTd, dataKey, dataValue) {
+        //recupère la table row parente pour insèrer nos deux inputs credit-name et credit-montant
+        var tableRow = ObjetTd.parent();
+
+        //récupère l'index du tableau en splitant la chaine sur '-'
+        var array = dataKey.split('-');
+        var index = array[1];
+
+
+        //recupère le nom du credit
+        var creditName = tableRow.children().first().text();
+
+        //insère le code html a afficher dans la table row
+        input = '<td><input class="form-control" data-index="'+index+'" id="creditNameRow" value="'+creditName+'"></td>';
+        input += '<td id="credit-'+index+'"> <div class="input-group">';
+        input += '<input class="form-control" data-index="'+index+'" id="creditMontantRow" value="'+ dataValue +'">';
+        input += '<div class="input-group-btn">';
+        input += '<button type="button" id="updateCreditRow" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Sauv.</button>';
+        input += '</div>';
+        input += '</div>';
+        input += '</td>';
+
+        //modifie la table row en affichant les deux inputs
+        tableRow.html(input);
     },
 
     /**
@@ -299,6 +377,67 @@ var editProspect = {
                 input += '</div>';
                 ObjetTd.html(input);
                 break;
+            case 'dateDeNaissance':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'professionDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'professionDepuisConjoint':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'habiteDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case 'BanqueDepuis':
+                var array = dataValue.split('/');
+                var date = array[2]+'-'+array[1]+'-'+array[0];
+                input = '<div class="input-group">';
+                input += '<input type="date" class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+date+'">';
+                input += '<div class="input-group-btn">';
+                input += '<button type="button" id="updateSend" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Sauv.</button>';
+                input += '</div>';
+                input += '</div>';
+                ObjetTd.html(input);
+                break;
+            case dataKey.includes("credit-"):
+                input = '<tr>';
+                input += '<td><input class="form-control" id="'+dataKey+'" name="'+dataKey+'"></td>';
+                input += '<td><input class="form-control" id="'+dataKey+'" name="'+dataKey+'"></td>';
+                input += '</tr>';
+                break;
             default:
                 input = '<div class="input-group">';
                 input += '<input class="form-control" id="'+dataKey+'" name="'+dataKey+'" value="'+dataValue+'">';
@@ -347,7 +486,7 @@ var editProspect = {
      * @param id = colonne de la base à updater
      * @param value = nouvelle valeur à mettre à jour
      */
-    _ajaxUpdate:function (htmlObject,id, value) {
+    _ajaxUpdate:function (htmlObject, id, value) {
 
         //1. récupère l'id du prospect à updater
         var pathName = location.pathname;
@@ -380,6 +519,52 @@ var editProspect = {
     },
 
     /**
+     * Gère l'envois et la reception des datas lors de la mise à jour d'une row
+     * @private
+     */
+    _ajaxUpdateCreditRow:function (htmlObject) {
+        $('#updateCreditRow').on('click', function (e) {
+            e.preventDefault();
+
+            //1. récupère l'id du prospect à updater
+            var pathName = location.pathname;
+            var array = pathName.split('/');
+            var prospectId = array[array.length-1];
+
+            //init toutes les valeurs à passer au ctrller qui gérera la reception des datas
+            var nomCredit = $('#creditNameRow').val();
+            var montantCredit = $('#creditMontantRow').val();
+            var index = $('#creditNameRow').attr('data-index');
+
+            //2. Requête ajax jquery
+            $.ajax({
+                method: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: 'http://'+location.host+'/prospect/credit/'+prospectId,
+                data: {nomCredit:nomCredit, montantCredit:montantCredit, index:index},
+                beforeSend:function () {
+                    $('.ajax-spinner').show();
+                }
+            }).done(function (message) {
+                //1. masque le spinner ajax
+                $('.ajax-spinner').hide();
+
+                //2. si message = fail
+                if(message.fail){
+                    $(htmlObject.parent()).css('border', 'solid 1px red');
+                }
+                //3. si message = success
+                if(message.success){
+                    //Utilisation methode _reDrawTd privée qui réaffiche le td
+                    editProspect._reDrawTableRow(nomCredit, montantCredit, index );
+                    editProspect.test = true;
+                }
+            });
+
+        });
+    },
+
+    /**
      * Redéfini le contenu de la balise td originale
      * @param objectInput
      * @param newValue
@@ -403,61 +588,39 @@ var editProspect = {
     },
 
     /**
-     * Affiche le graphique donut
-     * @param charges
-     * @param revenus
+     * Redessine la tableau row une fois la mise à jour faite
+     * @param objectinput
+     * @param creditNom
+     * @param creditMontant
+     * @private
      */
-    graphEndettement:function (charges, revenus) {
-        //-------------
-        //- PIE CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
-        var pieChart       = new Chart(pieChartCanvas);
+    _reDrawTableRow: function (creditNom, creditMontant, index) {
+        var tableRow =  $('#creditNameRow').parents().closest('tr');
 
+        $input = '<td>'+creditNom+'</td>';
+        $input += '<td id="credit-'+index+'" data-index="'+index+'" class="data">';
+        $input += '<b class="value">'+ creditMontant +'</b><b> €</b>';
+        $input += '<a href="#" id="'+index+'" class="deleteCredit pull-right btn-xs btn-danger">';
+        $input += '<i class="fa fa-trash" aria-hidden="true"></i>';
+        $input += '</a>';
+        $input += '<a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">';
+        $input += '<i class="fa fa-pencil" aria-hidden="true"></i>';
+        $input += '</a>';
+        $input += '</td>';
 
-        var PieData        = [
-            {
-                value    : revenus,
-                color    : '#00c0ef',
-                highlight: '#00c0ef',
-                label    : 'Revenus'
-            },
-            {
-                value    : charges,
-                color    : '#f39c12',
-                highlight: '#f39c12',
-                label    : 'Charges'
-            }
-        ];
-        var pieOptions     = {
-            //Boolean - Whether we should show a stroke on each segment
-            segmentShowStroke    : true,
-            //String - The colour of each segment stroke
-            segmentStrokeColor   : '#fff',
-            //Number - The width of each segment stroke
-            segmentStrokeWidth   : 2,
-            //Number - The percentage of the chart that we cut out of the middle
-            percentageInnerCutout: 50, // This is 0 for Pie charts
-            //Number - Amount of animation steps
-            animationSteps       : 100,
-            //String - Animation easing effect
-            animationEasing      : 'easeOutBounce',
-            //Boolean - Whether we animate the rotation of the Doughnut
-            animateRotate        : true,
-            //Boolean - Whether we animate scaling the Doughnut from the centre
-            animateScale         : false,
-            //Boolean - whether to make the chart responsive to window resizing
-            responsive           : true,
-            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-            maintainAspectRatio  : true,
-            //String - A legend template
-            legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-        };
-        //Create pie or douhnut chart
-        // You can switch between pie and Doughnut using the method below.
-        pieChart.Pie(PieData, pieOptions);
+        tableRow.html($input);
+    },
 
+    /**
+     * AJoute la fonction contains au js
+     * @private
+     */
+    _containsString:function(){
+            if (!('contains' in String.prototype)){
+                String.prototype.contains = function (str, startIndex) {
+                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            };
+        }
     }
 };
 

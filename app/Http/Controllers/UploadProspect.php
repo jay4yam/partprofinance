@@ -24,7 +24,7 @@ class UploadProspect extends Controller
     public function index()
     {
         //Récupère la liste des prospects de la table tempProspects
-        $prospectsTemp = TempProspect::orderBy('created_at', 'DESC')->get(['id', 'prospect_source', 'nom', 'email', 'created_at']);
+        $prospectsTemp = TempProspect::with('processProspect')->orderBy('id', 'desc')->paginate('10');
 
         return view('prospects.upload', compact('prospectsTemp'));
     }
@@ -39,17 +39,8 @@ class UploadProspect extends Controller
         //1. récupère le prospect temporaire
         $prospect = TempProspect::findOrFail($id);
 
-        //2. crée un model user
-        $user = User::create([
-                        'name' => $prospect->nom,
-                        'email' => $prospect->email,
-                        'password' => bcrypt('password'),
-                        'role' => 'admin',
-                        'avatar' => 'avatar.png'
-                    ]);
-
         //3. redirige vers la page de création 'prospect' liée à la table l'utilisateur
-        return redirect()->route('create.imported.prospect', [ 'userId' => $user->id, 'prospectId' => $prospect->id]);
+        return redirect()->route('create.imported.prospect', [ 'prospectId' => $prospect->id ]);
     }
 
     /**
@@ -58,11 +49,8 @@ class UploadProspect extends Controller
      * @param $prospectId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function createImportedProspect($userId, $prospectId)
+    public function createImportedProspect($prospectId)
     {
-        //Récupère le nouvel utilisateur
-        $user = User::findOrFail($userId);
-
         //Récupère les infos stockées dans la table tempProspect
         $tempProspect = TempProspect::findOrFail($prospectId);
 
@@ -81,9 +69,10 @@ class UploadProspect extends Controller
         try {
 
             //1. recupere l'enregistrement à effacer
-            $temp = TempProspect::findOrFail($id);
+            $temp = TempProspect::with('processProspect')->findOrFail($id);
 
             //2. Efface l'enregistrement
+            $temp->processProspect()->delete();
             $temp->delete();
 
         }catch (\Exception $exception){

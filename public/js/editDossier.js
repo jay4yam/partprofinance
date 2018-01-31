@@ -10,6 +10,8 @@ var dossierJS = {
     changeMontantDemande : function () {
         //Fonction qui change les montants en recalculant les champs
         // montant_demande , montant_final, ou commission
+
+        //lors du changement du montant demandé, affiche le montant commission et le montant final demandé
         $('#montant_demande').on('change', function (e) {
             e.preventDefault();
 
@@ -30,6 +32,39 @@ var dossierJS = {
 
             //affiche le nouveau montant final
             $('#montant_final').val(new_montant_final);
+        });
+
+        //lors du changement de commission part pro, la fonction recalcule le nouveau taux de commission
+        $('#montant_commission_partpro').on('change', function (e) {
+            e.preventDefault();
+            //recupere le nouveau montant demande
+            var new_montant_commission_partpro = $(this).val();
+
+            //recupere le montant final
+            var montant_final = $('#montant_final').val();
+
+            //calcul la nouvelle commission et l(arrondie sur 2 chiffres
+            var new_taux_commission = Math.round( (new_montant_commission_partpro / montant_final * 100) * 100) / 100 ;
+
+            //Affiche le nouveau taux de commission dans l'input
+            $('#taux_commission').val(new_taux_commission);
+        });
+
+        //lors du changement de commission recacule la com partpro et le montant final emprunté
+        $('#taux_commission').on('change', function (e) {
+            e.preventDefault();
+
+           var new_taux_commission = $(this).val();
+
+           var montant_demande = $('#montant_demande').val();
+
+           var new_montant_com_partpro = montant_demande * new_taux_commission / 100;
+
+           $('#montant_commission_partpro').val(new_montant_com_partpro);
+
+           var montant_final = parseFloat(montant_demande) + parseFloat(new_montant_com_partpro);
+
+           $('#montant_final').val(montant_final);
         });
     },
 
@@ -75,15 +110,17 @@ var dossierJS = {
                 var items = ui.item.value;
 
                 //split la chaine avec le séparateur '-'
-                var array = items.split('-');
+                var array = items.split(' / ');
 
                 //init. les valeurs
                 var nom = array[0];
                 var prenom = array[1];
                 var email = array[2];
+                var iban = array[3];
 
                 $('#prenom').val(prenom);
                 $('#email').val(email);
+                $('#iban').val(iban);
 
                 //reinitialise le ui.item.value avec seulement le nom
                 //sinon ca affiche nom-prenom-email (et ce n'est pas la résultat attendu

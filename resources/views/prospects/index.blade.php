@@ -45,6 +45,7 @@
                         <th>Téléphone / Email</th>
                         <th>Iban</th>
                         <th>Dossier</th>
+                        <th style="width: 8%">Rappel</th>
                         <th>Edition</th>
                     </tr>
                     </thead>
@@ -52,7 +53,7 @@
                     @foreach($prospects as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                            <td>{{ @$user->created_at->format('d M Y') }}</td>
                             <td>
                                 {{ $user->prospect->civilite }}
                                 {{ $user->prospect->nom }}
@@ -65,10 +66,23 @@
                             <td style="text-align: center">
                                 {!! $user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
-                            <td>Dossier</td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}">
-                                    Edit
+                                @foreach($user->dossier as $dossier)
+                                    <small class="label {{ str_slug($dossier->status) }}">{{ $dossier->montant_demande }}</small>
+                                @endforeach
+                            </td>
+                            <td>
+                                @if($user->tasks)
+                                    @foreach($user->tasks as $task)
+                                        <small class="label level-{{ str_slug($task->level) }}" data-toggle="tooltip" data-placement="top" title="{{ $task->taskcontent }}">
+                                            <i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M y') }}
+                                        </small>
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-default">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                 </a>
                             </td>
                         </tr>
@@ -82,6 +96,7 @@
                         <th>Téléphone / Email</th>
                         <th>Iban</th>
                         <th>Dossier</th>
+                        <th>Rappel</th>
                         <th>Edition</th>
                     </tr>
                     </tfoot>
@@ -115,6 +130,10 @@
                 'info'        : true,
                 'autoWidth'   : true
             });
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
 @endsection

@@ -18,6 +18,75 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <!-- Tasks -->
+                <div class="col-xs-8">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Tâches & Rendez-vous</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST', 'class' => 'form-group']) }}
+                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
+                                {{ Form::hidden('user_id', $user->id) }}
+                                <div class="col-xs-3">
+                                    {{ Form::label('taskdate', 'Programmez une date.') }}
+                                    {{ Form::date('taskdate', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'taskdate']) }}
+                                </div>
+                                <div class="col-xs-5">
+                                    {{ Form::label('taskcontent', 'Description.') }}
+                                    {{ Form::textarea('taskcontent', null, ['class' => 'form-control', 'id' => 'taskcontent']) }}
+                                </div>
+                                <div class="col-xs-2">
+                                    {{ Form::label('level', 'Importance.') }}
+                                    {{ Form::select('level', array('very-high', 'high','normal','low'), null,['class' => 'form-control', 'id' => 'level']) }}
+                                </div>
+                                <div class="col-xs-2">
+                                    {{ Form::label('tasksubmit', 'Sauv.') }}
+                                    <button type="submit" class="btn btn-warning" id="tasksubmit">
+                                        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Save
+                                    </button>
+                                </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mandat -->
+                <div class="col-xs-4">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Mandat</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                            <div class="box-body">
+                                {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST']) }}
+                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
+                                {{ Form::hidden('user_id', $user->id) }}
+                                    <label for="mandat_status">Etat du mandat:</label>
+                                    <span class="button-checkbox">
+                                        <button type="button" class="btn form-control" id="mandat_status" name="mandat_status" data-color="success">Mandat signé</button>
+                                        <input type="checkbox" class="form-control hidden" />
+                                    </span>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
                     <!-- box informations -->
@@ -48,6 +117,15 @@
                                     <td>Nom</td>
                                     <td id="nom" class="data">
                                         <b class="value">{{ $user->prospect->nom }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nom Jeune fille</td>
+                                    <td id="nomjeunefille" class="data">
+                                        <b class="value">{{ $user->prospect->nomjeunefille }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -112,7 +190,7 @@
                                 <tr>
                                     <td>Date de Naissance</td>
                                     <td id="dateDeNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->dateDeNaissance }}</b>
+                                        <b class="value">{{ $user->prospect->dateDeNaissance->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -122,6 +200,15 @@
                                     <td>Situation Familiale</td>
                                     <td id="situationFamiliale" class="data">
                                         <b class="value">{{ $user->prospect->situationFamiliale }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nb Enfants à charge</td>
+                                    <td id="nbEnfantACharge" class="data">
+                                        <b class="value">{{ $user->prospect->nbEnfantACharge }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -205,7 +292,7 @@
                                 <tr>
                                     <td>Depuis</td>
                                     <td id="professionDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuis }}</b>
+                                        <b class="value">{{ $user->prospect->professionDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -244,7 +331,7 @@
                                 <tr>
                                     <td>Secteur d'activité conjoint</td>
                                     <td id="secteurActiviteConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->secteurActiviteConjoint }}</b>
+                                        <b class="value">{{ @$user->prospect->secteurActiviteConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -253,7 +340,7 @@
                                 <tr>
                                     <td>Profession conjoint</td>
                                     <td id="professionConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->professionConjoint }}</b>
+                                        <b class="value">{{ @$user->prospect->professionConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -262,7 +349,7 @@
                                 <tr>
                                     <td>Depuis conjoint</td>
                                     <td id="professionDepuisConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuisConjoint }}</b>
+                                        <b class="value">{{ @$user->prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -271,7 +358,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel conjoint</td>
                                     <td id="revenusNetMensuelConjoint" class="data">
-                                        <b class="value">{{ $user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
+                                        <b class="value">{{ @$user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -310,7 +397,7 @@
                                 <tr>
                                     <td>Habite Depuis</td>
                                     <td id="habiteDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->habiteDepuis }}</b>
+                                        <b class="value">{{ $user->prospect->habiteDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -379,7 +466,8 @@
                                 <input type="hidden" name="id" value="notes">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                    <textarea title="notes" name="value" id="notes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                    <textarea title="oldnotes" name="value" id="oldnotes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                    <textarea title="notes" name="value" id="notes" class="form-control"></textarea>
                                 </div>
                                 <button type="submit" id="ajaxnotesupdate" class="btn btn-success updateNotesbutton">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -391,23 +479,7 @@
                     <!-- /.box notes -->
 
                     <!-- box Endettement -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Endettement : <span id="txEndettement"></span></h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                    <i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <canvas id="pieChart" style="height: 138px; width: 340px;"></canvas>
-                            <div id="legendDiv"></div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
+                    @include('endettement._prospectgraph')
                     <!-- /.box Endettement -->
 
                     <!-- box charges -->
@@ -443,21 +515,23 @@
                                     </td>
                                 </tr>
                                 <?php $index = 0; ?>
-                                @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
-                                    <tr>
-                                        <td>{{ $credit }}</td>
-                                        <td id="credits" class="data">
-                                            <b class="value">{{ $montant }}</b><b> €</b>
-                                            <a href="#" id="{{ $index }}" class="deleteCredit pull-right btn-xs btn-danger">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php $index++; ?>
-                                @endforeach
+                                @if( $user->prospect->credits != '' || $user->prospect->credits  != null)
+                                    @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
+                                        <tr>
+                                            <td>{{ @$credit }}</td>
+                                            <td id="credit-{{ $index }}" data-index="{{ $index }}" class="data">
+                                                <b class="value">{{ @$montant }}</b><b> €</b>
+                                                <a href="#" id="{{ @$index }}" class="deleteCredit pull-right btn-xs btn-danger">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </a>
+                                                <a href="#" class="updateData pull-right btn-xs btn-success" style="margin-right: 10px;">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php $index++; ?>
+                                    @endforeach
+                                @endif
                             </table>
                             <div class="text-center" style="padding-top: 10px;">
                                 <button id="addCreditButton" class="btn btn-success btn-sm">
@@ -468,6 +542,44 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box charges -->
+
+                    <!-- box banque -->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Banque</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="chargesTable" class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Banque</td>
+                                    <td id="NomBanque" class="data">
+                                        <b class="value">{{ $user->prospect->NomBanque }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Depuis le</td>
+                                    <td id="BanqueDepuis" class="data">
+                                        <b class="value">{{ $user->prospect->BanqueDepuis->format('d/m/Y') }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box banque -->
                 </div>
             </div>
             <div class="row">
@@ -481,38 +593,18 @@
                     </form>
                 </div>
             </div>
-        </div>
     </section>
     <!-- /.content -->
 @endsection
 
 @section('js')
+    <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script src="{{ asset('js/editProspect.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <script>
         $(document).ready(function () {
-            //récupération de la sommes des charges
-            var charges = <?php echo $user->prospect->loyer; ?>;
-                charges += <?php $valeur2=0; foreach(json_decode($user->prospect->credits, true) as $valeur){ $valeur2+= $valeur;} echo $valeur2 ?>;
-                charges += <?php echo $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ; ?>;
-
-            //récupération de la sommes des revenus
-            var revenus = <?php echo $user->prospect->revenusNetMensuel; ?>;
-                revenus += <?php echo $user->prospect->revenusNetMensuelConjoint ? $user->prospect->revenusNetMensuelConjoint:0 ; ?>;
-
-            //Fonction arrondir le taux d'endettement
-            function precisionRound(number, precision) {
-                var factor = Math.pow(10, precision);
-                return Math.round(number * factor) / factor;
-            }
-            //Affiche le taux d'endettement
-            $('#txEndettement').html('<b>'+ precisionRound( (charges / revenus)*100, 2)+'</b> %');
-
             editProspect.showEditButton();
             editProspect.clickOnEditButton();
             editProspect.ajaxUpdateNotes();
-            editProspect.graphEndettement(charges, revenus);
             editProspect.addCredit();
             editProspect.deleteCredit();
         });
@@ -520,6 +612,72 @@
         $(".delete").on("submit", function(){
             return confirm("La suppression est definitive, êtes vous sure ?");
         });
-    </script>
 
+        $(function () {
+            $('.button-checkbox').each(function () {
+
+                // Settings
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
+                        }
+                    };
+
+                // Event Handlers
+                $button.on('click', function () {
+                    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                    $checkbox.triggerHandler('change');
+                    updateDisplay();
+                });
+                $checkbox.on('change', function () {
+                    updateDisplay();
+                });
+
+                // Actions
+                function updateDisplay() {
+                    var isChecked = $checkbox.is(':checked');
+
+                    console.log($button.children());
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-default')
+                            .addClass('btn-' + color + ' active');
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-default');
+                    }
+                }
+
+                // Initialization
+                function init() {
+
+                    updateDisplay();
+
+                    // Inject the icon if applicable
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                    }
+                }
+                init();
+            });
+        });
+    </script>
 @endsection

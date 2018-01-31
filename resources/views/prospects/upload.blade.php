@@ -16,7 +16,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <!-- Upload de fichier -->
                 <div class="col-md-6 col-xs-12">
@@ -59,6 +59,7 @@
                     </div>
                     <!-- /.box informations -->
                 </div>
+
                 <!-- Affiche les fichiers uploader dans le dossier import-->
                 <div class="col-md-6 col-xs-12">
                     <!-- box fichier à traiter -->
@@ -109,6 +110,7 @@
                     </div>
                     <!-- /.box box fichier à traiter -->
                 </div>
+
                 <!-- Affiche les prospects contenu dans l'un des fichiers .csv-->
                 <div class="col-md-12">
                     <!-- box tableau des prospect présent dans un fichier -->
@@ -132,7 +134,11 @@
                                     <th>Ajouté le</th>
                                     <th>Source</th>
                                     <th>Nom</th>
+                                    <th>Tel Fixe</th>
+                                    <th>Tel Port</th>
                                     <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Relance</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -142,13 +148,20 @@
                                         <td>{{ $prospect->created_at->format('d M Y') }}</td>
                                         <td>{{ $prospect->prospect_source }}</td>
                                         <td>{{ $prospect->nom }}</td>
+                                        <td>{{ $prospect->tel_fixe }}</td>
+                                        <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
                                         <td>
-                                            {{ Form::open(['route' => ['save.temp.prospect', $prospect], 'method' => 'POST', 'style' => 'float:left']) }}
-                                            <button class="btn btn-success">
-                                                <i class="fa fa-database" aria-hidden="true"></i> Enregistrer
-                                            </button>
+                                            {{ Form::open(['route' =>'process.update.status', 'method' => 'POST', 'class' => 'form-inline']) }}
+                                            {{ Form::hidden('temp_prospect_id', $prospect->id) }}
+                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], $prospect->processProspect->status , ['class'=> 'form-control']) }}
+                                            <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                                             {{ Form::close() }}
+                                        </td>
+                                        <td>
+                                            <small class="label {{ $prospect->processProspect->relance_status  }}">{{ $prospect->processProspect->relance_status  }}</small>
+                                        </td>
+                                        <td>
                                             {{ Form::open(['route' => ['delete.temp.prospect', $prospect], 'method' => 'DELETE']) }}
                                             <button class="btn btn-danger pull-right">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -158,6 +171,7 @@
                                     </tr>
                                 @endforeach
                             </table>
+                            {{ $prospectsTemp->links() }}
                         </div>
                         <!-- /.box-body -->
                     </div>

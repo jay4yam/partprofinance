@@ -41,11 +41,13 @@
                     <tr>
                         <th>id</th>
                         <th>date</th>
-                        <th>Clients</th>
+                        <th>clients</th>
                         <th>status</th>
                         <th>banque</th>
+                        <th>montant demande</th>
                         <th>montant final</th>
                         <th>commission</th>
+                        <th>Iban</th>
                         <th style="width: 15%">Edition</th>
                     </tr>
                     </thead>
@@ -57,10 +59,14 @@
                             <td>{{ $dossier->user->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $dossier->banque->logo}}" height="30"></td>
+                            <td>{{ $dossier->montant_demande }} €</td>
                             <td>{{ $dossier->montant_final }} €</td>
                             <td>{{ $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro :  $dossier->montant_final * $dossier->taux_commission /100}} €</td>
                             <td>
-                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-success pull-left">
+                                {!! $dossier->user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                            </td>
+                            <td>
+                                <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
                                 <form class='delete' action="{{ route('dossiers.destroy', ['dossier' => $dossier->id]) }}" method="post">
@@ -76,12 +82,18 @@
                     </tbody>
                     <tfoot>
                     <tr>
+                    <tr>
                         <th>id</th>
+                        <th>date</th>
+                        <th>clients</th>
                         <th>status</th>
                         <th>banque</th>
+                        <th>montant demande</th>
                         <th>montant final</th>
-                        <th>Clients</th>
+                        <th>commission</th>
+                        <th>Iban</th>
                         <th style="width: 15%">Edition</th>
+                    </tr>
                     </tr>
                     </tfoot>
                 </table>
