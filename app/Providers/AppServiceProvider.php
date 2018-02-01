@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('task._taskHome', TaskComposer::class);
 
         //renvois les mois et années de creation des prospects en base
-        View::composer('filters._prospect', ProspectCalendarComposer::class);
+        //View::composer('filters._prospect', ProspectCalendarComposer::class);
     }
 
     /**
