@@ -5719,6 +5719,10 @@ a.updateData, a.deleteCredit{
   display: none;
 }
 
+.sep{
+  padding: 10px 20px;
+}
+
 
 /*dossiers*/
 .refuse{  background-color: #d73925;  }

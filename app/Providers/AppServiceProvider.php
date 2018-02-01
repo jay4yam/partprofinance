@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\ViewComposers\EndettementComposer;
 use App\Http\ViewComposers\LeadStatComposer;
+use App\Http\ViewComposers\prospectCalendarComposer;
 use App\Http\ViewComposers\StatistiquesComposer;
 use App\Http\ViewComposers\TaskComposer;
 use Illuminate\Support\Facades\Schema;
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('task._taskHome', TaskComposer::class);
+
+        //renvois les mois et années de creation des prospects en base
+        View::composer('filters._prospect', ProspectCalendarComposer::class);
     }
 
     /**

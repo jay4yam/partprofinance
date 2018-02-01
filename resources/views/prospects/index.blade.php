@@ -22,7 +22,11 @@
     <!-- Main content -->
     <section class="content">
 
-        <!-- Default box -->
+        <!-- menu box -->
+        @include('filters._prospect')
+        <!-- /. menu box -->
+
+        <!-- Table prospect box -->
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Liste des prospect</h3>
@@ -113,7 +117,7 @@
             </div>
             <!-- /.box-footer-->
         </div>
-        <!-- /.box -->
+        <!-- /.Table prospect box -->
 
     </section>
     <!-- /.content -->

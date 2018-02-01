@@ -33,7 +33,9 @@ class TaskComposer
      */
     public function compose(View $view)
     {
-        $tasks = $this->taskRepository->getAll();
+        $tasks = \Cache::remember('tsasks', 10, function (){
+            return $this->taskRepository->getAll();
+        });
 
         $view->with(['tasks' => $tasks]);
     }
