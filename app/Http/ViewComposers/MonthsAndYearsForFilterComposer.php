@@ -3,18 +3,18 @@
  * Created by PhpStorm.
  * User: jayben
  * Date: 01/02/2018
- * Time: 08:22
+ * Time: 21:12
  */
 
 namespace App\Http\ViewComposers;
 
 
 use App\Models\User;
-use App\Repositories\ProspectRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
-class ProspectCalendarComposer
+class MonthsAndYearsForFilterComposer
 {
     /**
      * @var ProspectRepository
@@ -37,7 +37,7 @@ class ProspectCalendarComposer
      */
     public function getYears()
     {
-        $value = \Cache::remember('getYears', 3600, function (){
+        $value = Cache::remember('getYears', 3600, function (){
 
             //itère sur toutes les entrées user en base pour toper les années
             $users = $this->user->all(['created_at'])->groupBy(function ($item){ return Carbon::parse($item->created_at)->format('Y'); });
@@ -69,7 +69,7 @@ class ProspectCalendarComposer
      */
     public function getMonths()
     {
-        $value = \Cache::remember('getMonths', 3600, function (){
+        $value = Cache::remember('getMonths', 3600, function (){
 
             //itère sur toutes les entrées user en base pour toper les années
             $users = $this->user->all(['created_at'])->groupBy(function ($item){ return Carbon::parse($item->created_at)->format('M'); });

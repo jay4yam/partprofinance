@@ -22,8 +22,7 @@
     },
     "autoload": {
         "classmap": [
-            "database",
-            "App\Http\ViewComposers\prospectCalendarComposer"
+            "database"
         ],
         "psr-4": {
             "App\\": "app/"

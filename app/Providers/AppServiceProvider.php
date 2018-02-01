@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Http\ViewComposers\EndettementComposer;
 use App\Http\ViewComposers\LeadStatComposer;
-use App\Http\ViewComposers\prospectCalendarComposer;
+use App\Http\ViewComposers\MonthsAndYearsForFilterComposer;
 use App\Http\ViewComposers\StatistiquesComposer;
 use App\Http\ViewComposers\TaskComposer;
 use Illuminate\Support\Facades\Schema;
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('task._taskHome', TaskComposer::class);
 
         //renvois les mois et années de creation des prospects en base
-        View::composer('filters._prospect', ProspectCalendarComposer::class);
+        View::composer('filters._prospect', MonthsAndYearsForFilterComposer::class);
     }
 
     /**
