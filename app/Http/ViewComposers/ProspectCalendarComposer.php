@@ -102,6 +102,7 @@ class ProspectCalendarComposer
     public function compose(View $view)
     {
         $years = $this->getYears();
+
         $months = $this->getMonths();
 
         $view->with(['years' => $years, 'months' => $months]);

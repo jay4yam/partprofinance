@@ -23,7 +23,7 @@
     <section class="content">
 
         <!-- menu box -->
-        @include('filters._prospect')
+            @include('filters._prospect')
         <!-- /. menu box -->
 
         <!-- Table prospect box -->
@@ -55,6 +55,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {{ dd($prospects) }}
                     @foreach($prospects as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
