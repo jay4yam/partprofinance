@@ -55,7 +55,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{ dd($prospects) }}
                     @foreach($prospects as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
