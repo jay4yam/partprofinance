@@ -2,7 +2,7 @@
     {{ Form::open([ 'route' => 'prospect.index', 'method' => 'GET', 'class' => 'form-inline']) }}
     <div class="form-group sep">
         {{ Form::label('annee', 'Année') }}
-        {{ Form::select('annee', $years, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
+        {{ Form::select('annee', $years, '', ['class' => 'form-control']) }}
     </div>
     <div class="form-group sep">
         {{ Form::label('mois', 'Mois') }}

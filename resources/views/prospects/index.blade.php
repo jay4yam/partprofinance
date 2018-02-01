@@ -86,7 +86,7 @@
                                 @endif
                             </td>
                             <td>
-                                {!! $user->prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                                {!! @$user->prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
                                 <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-default">

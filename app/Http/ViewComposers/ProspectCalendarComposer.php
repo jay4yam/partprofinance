@@ -22,8 +22,8 @@ class ProspectCalendarComposer
     protected $user;
 
     /**
-     * prospectCalendarComposer constructor.
-     * @param ProspectRepository $prospectRepository
+     * ProspectCalendarComposer constructor.
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -101,8 +101,10 @@ class ProspectCalendarComposer
      */
     public function compose(View $view)
     {
+        //utilsiation methode getyears
         $years = $this->getYears();
 
+        //utilisation methode getmonth
         $months = $this->getMonths();
 
         $view->with(['years' => $years, 'months' => $months]);
