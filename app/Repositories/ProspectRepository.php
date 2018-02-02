@@ -111,6 +111,21 @@ class ProspectRepository
             return $paginate;
         }
 
+        //recherche par rappel
+        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
+
+            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $users = $allUsers->filter(function ($user){
+                if(count($user->tasks)){ return $user;}
+            });
+            //Get current page form url e.g. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $users->slice(($currentPage - 1) * 10, 10);
+            $paginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $paginate->setPath($_SERVER['REQUEST_URI']);
+            return $paginate;
+        }
+
         return $users;
     }
 
