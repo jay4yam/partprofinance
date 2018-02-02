@@ -31,7 +31,7 @@ class ProspectController extends Controller
 
         if( $request->has('annee') || $request->has('mois') || $request->has('search')
             || $request->has('iban') || $request->has('dossier') || $request->has('rappel')
-            || $request->has('mandat')
+            || $request->has('mandat') || $request->has('rappel')
             ) {
             $prospects = $this->prospectRepository->getFilter($request->all());
         }else{

@@ -5,8 +5,7 @@ namespace App\Repositories;
 use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProspectRepository
@@ -101,8 +100,33 @@ class ProspectRepository
         if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
 
             $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
-            $users = $allUsers->each(function ($user){ if($user->prospect->iban != '') return new Collection(array($user)); });
+            $users = $allUsers->filter(function ($user){
+               if($user->prospect->iban != ''){ return $user;}
+            });
+            //Get current page form url e.g. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $users->slice(($currentPage - 1) * 10, 10);
+            $paginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $paginate->setPath($_SERVER['REQUEST_URI']);
+            return $paginate;
         }
+
+        //recherche par rappel
+        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
+
+            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $users = $allUsers->filter(function ($user){
+                if(count($user->tasks)){ return $user;}
+            });
+            //Get current page form url e.g. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $users->slice(($currentPage - 1) * 10, 10);
+            $paginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $paginate->setPath($_SERVER['REQUEST_URI']);
+            return $paginate;
+        }
+
+
         return $users;
     }
 
