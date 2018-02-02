@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProspectRepository
 {
@@ -31,6 +33,77 @@ class ProspectRepository
     public function getById($id)
     {
         return $this->user->with('prospect')->findOrFail($id);
+    }
+
+    public function getFilter(array $inputs)
+    {
+        $users ='';
+
+        //recherche par annee
+        if(isset($inputs['annee']) && $inputs['annee'] != '') {
+
+            $users = $this->user->guest()
+                ->whereYear('created_at', $inputs['annee'])
+                ->with('prospect', 'dossier', 'tasks')
+                ->paginate(10);
+        }
+
+        //recherche par mois
+        if(isset($inputs['mois']) && $inputs['mois'] != '') {
+
+            $users = $this->user->guest()
+                ->whereMonth('created_at', $inputs['mois'])
+                ->with('prospect', 'dossier', 'tasks')
+                ->paginate(10);
+        }
+
+        //recherche par mois + année
+        if(isset($inputs['annee']) && $inputs['annee'] != '' && isset($inputs['mois']) && $inputs['mois'] != '') {
+
+            $users = $this->user->guest()
+                        ->whereYear('created_at', $inputs['annee'])
+                        ->whereMonth('created_at', $inputs['mois'])
+                        ->with('prospect', 'dossier', 'tasks')
+                        ->paginate(10);
+        }
+
+        //recherche par nom
+        if(isset($inputs['search']))
+        {
+            $users = $this->user->guest()
+                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
+                ->with('prospect', 'dossier', 'tasks')
+                ->paginate(10);
+        }
+
+        //recheche par nom + mois
+        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' )
+        {
+            $users = $this->user->guest()
+                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
+                ->whereMonth('created_at', $inputs['mois'])
+                ->with('prospect', 'dossier', 'tasks')
+                ->paginate(10);
+        }
+
+        //recheche par nom + mois + année
+        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != '')
+        {
+            $users = $this->user->guest()
+                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
+                ->whereYear('created_at', $inputs['annee'])
+                ->whereMonth('created_at', $inputs['mois'])
+                ->with('prospect', 'dossier', 'tasks')
+                ->paginate(10);
+        }
+
+        //recheche par iban
+        if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
+
+            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $users = $allUsers->each(function ($user){ if($user->prospect->iban != '') return new Collection(array($user)); });
+        }
+        return $users;
     }
 
     /**

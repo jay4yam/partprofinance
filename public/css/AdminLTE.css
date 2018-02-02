@@ -5758,15 +5758,23 @@ a.updateData, a.deleteCredit{
 
 .level-very-high{
   background-color: red;
+  font-size: 13px!important;
 }
 .level-high{
   background-color: darkorange;
+  font-size: 13px!important;
 }
 .level-normal{
   background-color: grey;
+  font-size: 13px!important;
 }
 .level-low{
   background-color: cornflowerblue;
+  font-size: 13px!important;
+}
+.level-default{
+  background-color: #b1b7ba;
+  font-size: 13px!important;
 }
 
 .pagination {

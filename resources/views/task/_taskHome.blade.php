@@ -27,7 +27,7 @@
                 <!-- todo text -->
                 <span class="text">{{ $task->taskcontent }} | {{ $task->user->prospect->nom }}</span>
                 <!-- Emphasis label -->
-                <small class="label level-{{ str_slug($task->level) }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
+                <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
                 <!-- General tools such as edit or delete-->
                 <div class="tools">
                     <i class="fa fa-edit"></i>

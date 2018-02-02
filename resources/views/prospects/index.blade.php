@@ -79,7 +79,7 @@
                             <td>
                                 @if($user->tasks)
                                     @foreach($user->tasks as $task)
-                                        <small class="label level-{{ str_slug($task->level) }}" data-toggle="tooltip" data-placement="top" title="{{ $task->taskcontent }}">
+                                        <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }}" data-toggle="tooltip" data-placement="top" title="{{ $task->taskcontent }}">
                                             <i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M y') }}
                                         </small>
                                     @endforeach
@@ -113,7 +113,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer text-center">
-                {{ $prospects->links() }}
+                {{ @$prospects->links() }}
             </div>
             <!-- /.box-footer-->
         </div>

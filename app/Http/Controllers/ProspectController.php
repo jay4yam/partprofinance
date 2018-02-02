@@ -26,9 +26,16 @@ class ProspectController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $prospects = $this->prospectRepository->getAll();
+        if( $request->has('annee') || $request->has('mois') || $request->has('search')
+            || $request->has('iban') || $request->has('dossier') || $request->has('rappel')
+            || $request->has('mandat')
+            ) {
+            $prospects = $this->prospectRepository->getFilter($request->all());
+        }else{
+            $prospects = $this->prospectRepository->getAll();
+        }
 
         return view('prospects.index', compact('prospects'));
     }

@@ -62,39 +62,6 @@ class MonthsAndYearsForFilterComposer
         return $value;
     }
 
-
-    /**
-     * Retourne les années du created_at de chaque utilisateur présents en base
-     * @return array
-     */
-    public function getMonths()
-    {
-        $value = Cache::remember('getMonths', 3600, function (){
-
-            //itère sur toutes les entrées user en base pour toper les années
-            $users = $this->user->all(['created_at'])->groupBy(function ($item){ return Carbon::parse($item->created_at)->format('M'); });
-
-            //recupère le résultat en tant que clé du tableau
-            $months = array_keys($users->toArray());
-
-            //init un tab vide
-            $array = [];
-
-            //itère sur le tableau pour enregistrer les valeurs dans un tableau
-            foreach ($months as $cle => $value)
-            {
-                $array[$value] = $value;
-            }
-
-            //retour de la valeur en cache
-            return $array;
-        });
-
-        //retour de la fonction
-        return $value;
-    }
-
-
     /**
      * Gère l'envois de la data la vue : task.home
      * @param View $view
@@ -104,9 +71,6 @@ class MonthsAndYearsForFilterComposer
         //utilsiation methode getyears
         $years = $this->getYears();
 
-        //utilisation methode getmonth
-        $months = $this->getMonths();
-
-        $view->with(['years' => $years, 'months' => $months]);
+        $view->with(['years' => $years]);
     }
 }
