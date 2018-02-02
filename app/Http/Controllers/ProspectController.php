@@ -28,6 +28,7 @@ class ProspectController extends Controller
      */
     public function index(Request $request)
     {
+
         if( $request->has('annee') || $request->has('mois') || $request->has('search')
             || $request->has('iban') || $request->has('dossier') || $request->has('rappel')
             || $request->has('mandat')
