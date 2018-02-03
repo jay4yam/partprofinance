@@ -11,6 +11,7 @@ namespace App\Http\ViewComposers;
 use App\Models\Dossier;
 use App\Models\Prospect;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\View\View;
 
 class LeadStatComposer
@@ -18,7 +19,9 @@ class LeadStatComposer
     public function getLeadSourceCount()
     {
         //Recupere la liste des items présents dans la colonne 'prospect_source'
-        $listeSources = Prospect::groupBy('prospect_source')->get(['prospect_source']);
+        $listeSources = Prospect::with(['user' => function($query){
+            $query->whereMonth('created_at',Carbon::now()->format('m'))->whereYear('created_at', Carbon::now()->format('Y'));
+        }])->groupBy('prospect_source')->get(['prospect_source']);
 
         //init. un tableau
         $array = [];

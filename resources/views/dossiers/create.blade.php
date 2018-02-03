@@ -188,10 +188,6 @@
                 return confirm("La suppression est definitive, êtes vous sure ?");
             });
 
-            $('#iban').mask('SS00 0000 0000 0000 0000 0000 000', {
-                placeholder: '____ ____ ____ ____ ____ ____ ___'
-            });
-
             dossierJS.changeMontantDemande();
             dossierJS.autocompleteNom();
         });
