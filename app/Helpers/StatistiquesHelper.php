@@ -21,12 +21,17 @@ class StatistiquesHelper
      */
     public function getProspectThisMonth()
     {
-        $value = Cache::remember('currentMonthUser', 10, function () {
+        $tempProspectOftheMonth = Cache::remember('currentMonthTempProspect', 10, function () {
             $tempProspect = new TempProspect();
             return  $tempProspect->countUserOfTheMonth()->count();
         });
 
-        return $value;
+        $prospectOfTheMonth = Cache::remember('currentMonthUser', 10, function () {
+            $user = new User();
+            return  $user->guest()->countUserOfTheMonth()->count();
+        });
+
+        return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
 
     /**
