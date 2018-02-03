@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\DossierCreatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,10 @@ class Dossier extends Model
         'user_id',
         'banque_id',
         'num_dossier_banque'
+    ];
+
+    protected $events = [
+        'created' => DossierCreatedEvent::class
     ];
 
     /**
