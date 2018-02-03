@@ -28,15 +28,8 @@ class ProspectController extends Controller
      */
     public function index(Request $request)
     {
-
-        if( $request->has('annee') || $request->has('mois') || $request->has('search')
-            || $request->has('iban') || $request->has('dossier') || $request->has('rappel')
-            || $request->has('mandat') || $request->has('rappel')
-            ) {
-            $prospects = $this->prospectRepository->getFilter($request->all());
-        }else{
-            $prospects = $this->prospectRepository->getAll();
-        }
+        //retourne les liste des utilisateurs filtré ou non
+        $prospects = $this->prospectRepository->getFilter($request->all());
 
         return view('prospects.index', compact('prospects'));
     }
