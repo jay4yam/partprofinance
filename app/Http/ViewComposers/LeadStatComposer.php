@@ -12,6 +12,7 @@ use App\Models\Dossier;
 use App\Models\Prospect;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class LeadStatComposer
@@ -19,17 +20,26 @@ class LeadStatComposer
     public function getLeadSourceCount()
     {
         //Recupere la liste des items présents dans la colonne 'prospect_source'
-        $listeSources = Prospect::with(['user' => function($query){
-            $query->whereMonth('created_at',Carbon::now()->format('m'))->whereYear('created_at', Carbon::now()->format('Y'));
-        }])->groupBy('prospect_source')->get(['prospect_source']);
-
+        $listeSources = DB::table('prospects')
+            ->groupBy('prospect_source')
+            ->join('users', 'users.id', '=', 'prospects.user_id')
+            ->whereYear('users.created_at', Carbon::now()->format('Y'))
+            ->whereMonth('users.created_at', Carbon::now()->format('m'))
+            ->get(['prospect_source']);
         //init. un tableau
         $array = [];
 
         //itère la sur la liste
         foreach ($listeSources as $source)
         {
-            $array [] = ['label' => $source->prospect_source, 'value' => Prospect::with('dossier')->get(['prospect_source'])->where('prospect_source', '=', $source->prospect_source)->count()];
+            $value = DB::table('prospects')
+                ->where('prospect_source', '=', $source->prospect_source )
+                ->join('users', 'users.id', '=', 'prospects.user_id')
+                ->whereYear('users.created_at', Carbon::now()->format('Y'))
+                ->whereMonth('users.created_at', Carbon::now()->format('m'))
+                ->count();
+
+            $array [] = ['label' => $source->prospect_source, 'value' => $value];
         }
         return $array;
     }
