@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\TempProspectEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class TempProspect extends Model
@@ -70,6 +71,16 @@ class TempProspect extends Model
     protected $events = [
         'created' => TempProspectEvents::class,
     ];
+
+    /**
+     * Retourne la liste des utilisateurs du mois en cours
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCountUserOfTheMonth($query)
+    {
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'));
+    }
 
     /**
      * Relation vers la table

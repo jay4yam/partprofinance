@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Dossier;
+use App\Models\TempProspect;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
@@ -21,8 +22,8 @@ class StatistiquesHelper
     public function getProspectThisMonth()
     {
         $value = Cache::remember('currentMonthUser', 10, function () {
-            $user = new User();
-            return  $user->countUserOfTheMonth()->count();
+            $tempProspect = new TempProspect();
+            return  $tempProspect->countUserOfTheMonth()->count();
         });
 
         return $value;

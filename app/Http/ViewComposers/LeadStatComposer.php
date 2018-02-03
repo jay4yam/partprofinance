@@ -17,6 +17,10 @@ use Illuminate\View\View;
 
 class LeadStatComposer
 {
+    /**
+     * Renvois les stats des leads et de leurs sources pour le mois en cours
+     * @return array
+     */
     public function getLeadSourceCount()
     {
         //Recupere la liste des items présents dans la colonne 'prospect_source'
@@ -44,6 +48,9 @@ class LeadStatComposer
         return $array;
     }
 
+    /**
+     * @param View $view
+     */
     public function compose(View $view)
     {
         $array = $this->getLeadSourceCount();
