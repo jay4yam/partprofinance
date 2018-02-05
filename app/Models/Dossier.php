@@ -28,10 +28,6 @@ class Dossier extends Model
         'num_dossier_banque'
     ];
 
-    protected $events = [
-        'created' => DossierCreatedEvent::class
-    ];
-
     /**
      * Retourne les dossiers du mois
      * @param $query

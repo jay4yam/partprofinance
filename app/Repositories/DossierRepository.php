@@ -52,7 +52,6 @@ class DossierRepository
     /**
      * @param array $inputs
      * @param $id
-     * @param Prospect $prospect
      */
     public function update(array $inputs, $id)
     {
@@ -71,6 +70,7 @@ class DossierRepository
     /**
      * Enregistre un nouveau dossier
      * @param array $inputs
+     * @return Dossier
      */
     public function store(array $inputs)
     {
@@ -83,7 +83,7 @@ class DossierRepository
     }
 
     /**
-     * Methode privee qui gére la sauv du Dossier
+     * Méthode privée qui gère la sauv. du Dossier
      * @param Dossier $dossier
      * @param array $inputs
      */

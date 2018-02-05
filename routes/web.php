@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function(){
      */
     Route::resource('dossiers', 'DossierController');
     Route::get('dossier/prospect/autocomplete/name', 'DossierController@autoCompleteNom');
+    Route::get('dossier/sendmail/{dossier}', 'DossierController@sendMailShow')->name('send.mail.dossier');
+    Route::post('dossier/postmail/', 'DossierController@postMail')->name('post.mail');
 
 
     /**

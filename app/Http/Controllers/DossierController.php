@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DossierRequest;
+use App\Models\Dossier;
 use App\Repositories\DossierRepository;
 use Illuminate\Http\Request;
 
@@ -45,10 +46,8 @@ class DossierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param DossierRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(DossierRequest $request)
     {
@@ -58,7 +57,8 @@ class DossierController extends Controller
             return back()->with( ['message' => $exception->getMessage()] );
         }
 
-        return redirect()->route('dossiers.edit', ['dossier' => $dossier])->with(['message' => 'Création du dossier OK !']);
+        //si la sauv a bien eu lieu on renvois vers la page d'envois d'email
+        return redirect()->route('send.mail.dossier', ['dossier' => $dossier])->with(['message' => 'Création du dossier OK !']);
     }
 
     /**
@@ -127,5 +127,35 @@ class DossierController extends Controller
         $results = $this->dossierRepository->autoCompleteName($request);
 
         return response()->json($results);
+    }
+
+    /**
+     * Renvois la vue qui affiche le mail a envoyer a seb et portet
+     * @param Dossier $dossier
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function sendMailShow($id)
+    {
+        $dossier = $this->dossierRepository->getById($id);
+
+        return view('mails.senddossierbymail', compact('dossier'));
+    }
+
+    public function postMail(Request $request)
+    {
+        try {
+            $subject = $request->subject;
+            $content = $request->message;
+
+            \Mail::send('mails.dossiercreated', ['content' => $content], function ($message) use($subject){
+                $message->subject($subject);
+                $message->from('crm@partprofinance.ovh', 'PartPro Finance CRM');
+                $message->to('descolo.pp@gmail.com');
+                $message->cc('partprofinance@gmail.com');
+            });
+        }catch (\Exception $exception){
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+        return redirect()->route('dossiers.index')->with(['message' => 'email envoyé']);
     }
 }
