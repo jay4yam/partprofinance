@@ -114,7 +114,14 @@ class DossierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->dossierRepository->delete($id);
+        }catch (\Exception $exception) {
+
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+
+        return back()->with(['message' => 'dossier supprimé']);
     }
 
     /**

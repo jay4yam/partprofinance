@@ -119,6 +119,17 @@ class DossierRepository
     }
 
     /**
+     * Supprime un dossier
+     * @param $id
+     */
+    public function delete($id)
+    {
+        $dossier = $this->dossier->findOrFail($id);
+
+        $dossier->delete();
+    }
+
+    /**
      * Retourne la liste des noms pour la fonction autocomplete
      * @param $request
      * @return array
