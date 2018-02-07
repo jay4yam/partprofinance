@@ -105,6 +105,15 @@
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
                                 <tr>
+                                    <td>Source</td>
+                                    <td id="prospect_source" class="data">
+                                        <b class="value">{{ $user->prospect->prospect_source }}</b>
+                                        <a href="#" class="updateData pull-right btn-xs btn-success">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Civilite</td>
                                     <td id="civilite" class="data">
                                         <b class="value">{{ $user->prospect->civilite }}</b>
