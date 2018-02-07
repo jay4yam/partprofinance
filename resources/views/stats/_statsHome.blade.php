@@ -121,7 +121,7 @@
         <!-- small box -->
         <div class="small-box bg-blue-gradient">
             <div class="inner">
-                <h3>{{ round( (($commissionPaye * 0.2)-$commissionPaye), 2) }} €</h3>
+                <h3>{{ round( (($commissionPaye * 0.2)), 2) }} €</h3>
 
                 <p>Com' payées</p>
             </div>
