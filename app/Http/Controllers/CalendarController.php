@@ -85,23 +85,35 @@ class CalendarController extends Controller
         return $value;
     }
 
+    /**
+     * @param Task $task
+     * @return string
+     */
     public function getMonthTask(Task $task)
     {
-        $tasksofTheMonth = $task->whereYear('taskdate', Carbon::now()->format('Y'))
-                        ->whereMonth('taskdate', Carbon::now()->format('m'))->get();
+        $value = Cache::remember('getMonthTask', 10, function () use($task){
+            try {
+                $tasksofTheMonth = $task->with('user')->whereYear('taskdate', Carbon::now()->format('Y'))
+                    ->whereMonth('taskdate', Carbon::now()->format('m'))->get();
 
 
-        $array = [];
-        foreach ($tasksofTheMonth as $task)
-        {
-            $array[] = [
-                'title' => 'Tache: '.$task->taskcontent,
-                'start' => $task->taskdate,
-                'backgroundColor' => 'grey',
-                'borderColor' => 'black'
-            ];
-        }
+                $array = [];
+                foreach ($tasksofTheMonth as $task) {
+                    $array[] = [
+                        'title' => 'Tache: ' . $task->taskcontent . '|' . $task->user->prospect->nom,
+                        'start' => $task->taskdate->format(('Y m d')),
+                        'backgroundColor' => 'grey',
+                        'borderColor' => 'black'
+                    ];
+                }
 
-        return json_encode($array);
+            }catch (\Exception $exception){
+                return response()->json(['message' => 'erreur loading']);
+            }
+
+            return json_encode($array);
+        });
+
+        return $value;
     }
 }
