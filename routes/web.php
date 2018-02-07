@@ -80,12 +80,14 @@ Route::group(['middleware' => 'auth'], function(){
     /**
      * GESTION DU CALENDRIER
      */
-
     //Récupère la liste des relance JP+1 et JP4 du processProspect
-    Route::get('/process/prospect/get/relance', 'CalendarController@getMonthRelance')->name('get.relance');
+    Route::get('/get/prospect/relance', 'CalendarController@getMonthRelance')->name('get.relance');
 
-    //Récupère la liste des relance JP+1 et JP4 du processProspect
-    Route::get('/dossier/prospect/create', 'CalendarController@getMonthDossier')->name('get.dossier');
+    //Récupère la liste des dossiers du mois
+    Route::get('/get/month/dossier', 'CalendarController@getMonthDossier')->name('get.dossier');
+
+    //Récupère la liste des tasks du mois
+    Route::get('/get/task/calendar', 'CalendarController@getMonthTask')->name('get.task');
 
     /**
      * GESTION DES TASKS

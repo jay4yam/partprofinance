@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dossier;
 use App\Models\ProcessProspect;
+use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -82,5 +83,25 @@ class CalendarController extends Controller
         });
 
         return $value;
+    }
+
+    public function getMonthTask(Task $task)
+    {
+        $tasksofTheMonth = $task->whereYear('taskdate', Carbon::now()->format('Y'))
+                        ->whereMonth('taskdate', Carbon::now()->format('m'))->get();
+
+
+        $array = [];
+        foreach ($tasksofTheMonth as $task)
+        {
+            $array[] = [
+                'title' => 'Tache: '.$task->taskcontent,
+                'start' => $task->taskdate,
+                'backgroundColor' => 'grey',
+                'borderColor' => 'black'
+            ];
+        }
+
+        return json_encode($array);
     }
 }

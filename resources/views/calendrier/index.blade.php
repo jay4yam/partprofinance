@@ -58,7 +58,8 @@
                 //Random default events
                 eventSources: [
                     '{{ action('CalendarController@getMonthRelance') }}',
-                    '{{ action('CalendarController@getMonthDossier') }}'
+                    '{{ action('CalendarController@getMonthDossier') }}',
+                    '{{ action('CalendarController@getMonthTask') }}'
                 ],
                 editable  : true,
                 droppable : true, // this allows things to be dropped onto the calendar !!!
