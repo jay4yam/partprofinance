@@ -90,7 +90,7 @@
                                 <tr>
                                     <td>Date de Naissance : </td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->dateDeNaissance }}</b>
+                                        <b>{{ $dossier->user->prospect->dateDeNaissance->format('d M Y') }}</b>
                                     </td>
                                 </tr>
                                 <tr>
