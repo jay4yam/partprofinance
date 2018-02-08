@@ -137,7 +137,7 @@ class DossierController extends Controller
     }
 
     /**
-     * Renvois la vue qui affiche le mail a envoyer a seb et portet
+     * GET : Renvois la vue qui affiche le mail a envoyer a seb et portet
      * @param Dossier $dossier
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -149,7 +149,7 @@ class DossierController extends Controller
     }
 
     /**
-     * Gère l'envois du mail interne vers partprofinance et descolo
+     * POST : Gère l'envois du mail interne vers partprofinance et descolo
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -158,12 +158,14 @@ class DossierController extends Controller
         try {
             $subject = $request->subject;
             $content = $request->message;
+            $file = $request->file('file');
 
-            \Mail::send('mails.dossiercreated', ['content' => $content], function ($message) use($subject){
+            \Mail::send('mails.dossiercreated', ['content' => $content], function ($message) use($subject, $file){
                 $message->subject($subject);
                 $message->from('crm@partprofinance.ovh', 'PartPro Finance CRM');
                 $message->to('descolo.pp@gmail.com');
                 $message->cc('partprofinance@gmail.com');
+                if($file){ $message->attach($file); }
             });
         }catch (\Exception $exception){
             return back()->with(['message' => $exception->getMessage()]);
@@ -171,6 +173,11 @@ class DossierController extends Controller
         return redirect()->route('dossiers.index')->with(['message' => 'email envoyé']);
     }
 
+    /**
+     * Retourne un dossier en fonction de son id
+     * @param Request $request
+     * @return string
+     */
     public function getDossier(Request  $request)
     {
         $id = $request->dossierId;

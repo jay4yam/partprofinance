@@ -16,7 +16,7 @@
 
     <section class="content">
         <div class="row">
-        {{ Form::open(['route' => 'post.mail', 'method' => 'POST', 'class' => 'form'] ) }}
+        {{ Form::open(['route' => 'post.mail', 'method' => 'POST', 'class' => 'form', 'files' => 'true'] ) }}
         {{ Form::hidden('user_id', $dossier->user->id, ['id' => 'user_id']) }}
         <!-- Col. gauche -->
             <div class="col-md-12">
@@ -115,6 +115,11 @@
                             </textarea>
                         </div>
                         <!-- ./Infos prospect (non editable) -->
+
+                        <div class="form-group">
+                            {{ Form::label('file', 'Pièce Jointe :') }}
+                            {{ Form::file('file', ['class' => 'form-control']) }}
+                        </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer text-center">
