@@ -73,7 +73,11 @@
                             </td>
                             <td>
                                 @foreach($user->dossier as $dossier)
-                                    <small class="label {{ str_slug($dossier->status) }}">{{ $dossier->montant_demande }}</small>
+                                    <small class="label {{ str_slug($dossier->status) }}">
+                                        <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
+                                        {{ $dossier->montant_demande }}
+                                        </a>
+                                    </small>
                                 @endforeach
                             </td>
                             <td>
@@ -121,6 +125,28 @@
 
     </section>
     <!-- /.content -->
+
+    <!-- /.modal dossier -->
+    <div class="modal fade" id="modal-default" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 id="dossier-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="dossier-content"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default text-center" data-dismiss="modal">fermer</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal dossier -->
 @endsection
 
 @section('js')
@@ -143,6 +169,42 @@
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $(function () {
+            $('.showdossier').on('click', function (e) {
+                e.preventDefault();
+
+                var dossierId = $(this).data("dossierid");
+
+                $.ajax({
+                    method: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: 'http://' + location.host + '/get/dossier/info',
+                    data: {dossierId: dossierId},
+                    beforeSend: function () {
+                        $('.ajax-spinner').show();
+                    },
+                    success: function (allData) {
+                        $('.ajax-spinner').hide();
+                        var data = JSON.parse(allData);
+                        //console.log(data);
+                        var title = 'Dossier de '+data.user.name+'';
+                        $('#dossier-title').html(title);
+
+                        var table = '<table class="table table-bordered table-hover dataTable">';
+                            table += '<tr><td>Status Dossier</td><td>'+ data.status +'</td></tr>';
+                            table += '<tr><td>Signature</td><td>'+ data.signature +'</td></tr>';
+                            table += '<tr><td>Num Dossier</td><td>'+ data.num_dossier_banque +'</td></tr>';
+                            table += '<tr><td>Objet du prêt</td><td>'+ data.objet_du_pret +'</td></tr>';
+                            table += '<tr><td>Montant Demandé</td><td>'+ data.montant_demande +'</td></tr>';
+                            table += '<tr><td>Montant Final</td><td>'+ data.montant_final +'</td></tr>';
+                            table += '<tr><td>Montant Commission Partpro</td><td>'+ data.montant_commission_partpro +'</td></tr>';
+
+                        $('#dossier-content').html(table);
+                    }
+                });
+            });
+        });
     </script>
 @endsection

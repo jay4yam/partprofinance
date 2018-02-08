@@ -148,6 +148,11 @@ class DossierController extends Controller
         return view('mails.senddossierbymail', compact('dossier'));
     }
 
+    /**
+     * Gère l'envois du mail interne vers partprofinance et descolo
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postMail(Request $request)
     {
         try {
@@ -164,5 +169,14 @@ class DossierController extends Controller
             return back()->with(['message' => $exception->getMessage()]);
         }
         return redirect()->route('dossiers.index')->with(['message' => 'email envoyé']);
+    }
+
+    public function getDossier(Request  $request)
+    {
+        $id = $request->dossierId;
+
+        $dossier = $this->dossierRepository->getById($id);
+
+        return json_encode($dossier);
     }
 }

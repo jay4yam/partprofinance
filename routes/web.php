@@ -76,6 +76,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('dossier/sendmail/{dossier}', 'DossierController@sendMailShow')->name('send.mail.dossier');
     Route::post('dossier/postmail/', 'DossierController@postMail')->name('post.mail');
 
+    //requete ajax pour obtenir les infos d'un dossier
+    Route::post('/get/dossier/info', 'DossierController@getDossier');
+
 
     /**
      * GESTION DU CALENDRIER
