@@ -139,8 +139,8 @@
                     <p id="dossier-content"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default text-center" data-dismiss="modal">fermer</button>
-                    <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-right">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">fermer</button>
+                    <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-info pull-right">
                         <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                     </a>
                 </div>
