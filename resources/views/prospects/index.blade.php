@@ -75,7 +75,7 @@
                                 @foreach($user->dossier as $dossier)
                                     <small class="label {{ str_slug($dossier->status) }}">
                                         <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
-                                        {{ $dossier->montant_demande }}
+                                        {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
                                         </a>
                                     </small>
                                 @endforeach
@@ -140,6 +140,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default text-center" data-dismiss="modal">fermer</button>
+                    <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-right">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> Editer
+                    </a>
                 </div>
             </div>
             <!-- /.modal-content -->

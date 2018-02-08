@@ -59,9 +59,9 @@
                             <td>{{ $dossier->user->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $dossier->banque->logo}}" height="30"></td>
-                            <td>{{ $dossier->montant_demande }} €</td>
-                            <td>{{ $dossier->montant_final }} €</td>
-                            <td>{{ $dossier->montant_commission_partpro ? $dossier->montant_commission_partpro :  $dossier->montant_final * $dossier->taux_commission /100}} €</td>
+                            <td>{{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €</td>
+                            <td>{{ number_format($dossier->montant_final, 2, ',', ' ') }} €</td>
+                            <td>{{ $dossier->montant_commission_partpro ? number_format($dossier->montant_commission_partpro, 2, ',', ' ') :  number_format($dossier->montant_final * $dossier->taux_commission /100, 2, ',', ' ') }} €</td>
                             <td>
                                 {!! $dossier->user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
