@@ -174,7 +174,7 @@ class ProspectRepository
 
     /**
      * Gère l'ajout d'un model prospect
-     * @param Request $request
+     * @param array $request
      */
     public function store(array $request)
     {

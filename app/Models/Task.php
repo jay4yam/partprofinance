@@ -10,7 +10,7 @@ class Task extends Model
 
     protected $dates = ['created_at', 'taskdate', 'updated_at'];
 
-    protected $fillable = [ 'task_creator_user_id', 'taskdate', 'taskcontent', 'level', 'created_at', 'updated_at', 'user_id'];
+    protected $fillable = [ 'task_creator_user_id', 'taskdate', 'taskcontent', 'status', 'level', 'created_at', 'updated_at', 'user_id'];
 
     /**
      * Inverse de la relation 1:n vers la table user

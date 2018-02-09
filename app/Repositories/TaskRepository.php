@@ -28,6 +28,16 @@ class TaskRepository
     }
 
     /**
+     * Retourne une tache
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    public function getById($id)
+    {
+        return $this->task->findOrFail($id);
+    }
+
+    /**
      * retourne la listes des tasks paginées
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -63,5 +73,21 @@ class TaskRepository
         $task->user_id = $inputs['user_id'];
 
         $task->save();
+    }
+
+    /**
+     * met à jour une task
+     * @param $id
+     * @param array $inputs
+     */
+    public function update($id, array $inputs)
+    {
+        $task = $this->getById($id);
+
+        $task->update([ $inputs['type'] => $inputs['value'] ]);
+
+        $task->save();
+
+        \Cache::forget('tasks');
     }
 }

@@ -33,7 +33,7 @@ class TaskComposer
      */
     public function compose(View $view)
     {
-        $tasks = \Cache::remember('tsasks', 10, function (){
+        $tasks = \Cache::remember('tasks', 10, function (){
             return $this->taskRepository->getAll();
         });
 

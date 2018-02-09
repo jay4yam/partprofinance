@@ -30,11 +30,38 @@ $(function () {
   /* The todo list plugin */
   $('.todo-list').todoList({
     onCheck  : function () {
-      window.console.log($(this), 'The element has been checked');
+        //recupere la task id
+        var taskid = $(this).data('taskid');
+
+        $.ajax({
+            method: "PUT",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: 'http://'+location.host+'/task/'+taskid,
+            data: { type:'status', value:0 },
+            beforeSend:function () {
+                $('.ajax-spinner').show();
+            },
+            success:function () {
+                $('.ajax-spinner').hide();
+            }
+        });
     },
     onUnCheck: function () {
-      window.console.log($(this), 'The element has been unchecked');
+        //recupere la task id
+        var taskid = $(this).data('taskid');
+
+        $.ajax({
+            method: "PUT",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: 'http://'+location.host+'/task/'+taskid,
+            data: { type:'status', value:1 },
+            beforeSend:function () {
+                $('.ajax-spinner').show();
+            },
+            success:function () {
+                $('.ajax-spinner').hide();
+            }
+        });
     }
   });
-
 });

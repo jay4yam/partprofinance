@@ -31,4 +31,14 @@ class TaskController extends Controller
         }
         return back()->with('message', 'Nouvelle tache ajoutée');
     }
+
+    public function update(Request $request, $id)
+    {
+        try{
+            $this->taskRepository->update($id, $request->all());
+        }catch (\Exception $exception){
+            return response()->json(['message' => $exception->getMessage()]);
+        }
+        return response()->json(['message' => 'success']);
+    }
 }

@@ -16,14 +16,14 @@
         <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
         <ul class="todo-list">
             @foreach($tasks as $task)
-            <li>
+            <li class="{{ $task->status == 0 ? 'done' : '' }}">
                 <!-- drag handle -->
                 <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                 <!-- checkbox -->
-                <input type="checkbox" value="">
+                <input type="checkbox" value="{{ $task->status }}" class="taskdone" data-taskid="{{ $task->id }}" title="done" {{ $task->status == 0 ? 'checked' :'' }}>
                 <!-- todo text -->
                 <span class="text">{{ $task->taskcontent }} | {{ $task->user->prospect->nom }}</span>
                 <!-- Emphasis label -->
