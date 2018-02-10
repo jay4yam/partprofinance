@@ -32,6 +32,13 @@ class TaskController extends Controller
         return back()->with('message', 'Nouvelle tache ajoutée');
     }
 
+
+    /**
+     * Met à jour un item de la table task
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         try{

@@ -39,6 +39,33 @@ class ProcessProspectRepository
     }
 
     /**
+     * Gere la mise a jour d'un item de la table processprotpect
+     * @param $id
+     * @param array $inputs
+     */
+    public function update($id, array $inputs)
+    {
+        //recup le process a mettre à jour
+        $processProspect = $this->processProspect->findOrFail($id);
+
+        //test l'input type
+        switch ($inputs['type']){
+            //si
+            case 'relance_status':
+                //met à jour la date de la relance
+                $newRelance_j1 = $processProspect->relance_j1->addDay(1);
+
+                //met à jout le nom de l'item relance_status
+                $processProspect->update([
+                    $inputs['type'] => $inputs['value'],
+                    'relance_j1' => $newRelance_j1 ]);
+                //sauv. le process
+                $processProspect->save();
+                break;
+        }
+    }
+
+    /**
      * Gère le chamgement du status de la table 'process_prospects'
      * @param array $inputs
      */

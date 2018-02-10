@@ -17,6 +17,8 @@ class ProcessProspect extends Model
         'temp_prospects_id'
         ];
 
+    protected $dates = ['relance_j1', 'relance_j4'];
+
     /**
      * Relation vers la table tempProspect
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

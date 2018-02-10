@@ -36,7 +36,7 @@
                         <div class="box-body">
                                 {{ Form::open([ 'route' => 'prospect.upload', 'method' => 'POST', 'files' => true]) }}
                                 <div class="form-group">
-                                    <label for="csvfile">Import depuis</label>
+                                    <label for="fournisseur">Import depuis</label>
                                     <select id="fournisseur" name="fournisseur" class="form-control">
                                         <option value="devisprox">DevisProx</option>
                                         <option value="assuragency">AssurAgency</option>
@@ -159,7 +159,36 @@
                                             {{ Form::close() }}
                                         </td>
                                         <td>
-                                            <small class="label {{ $prospect->processProspect->relance_status  }}">{{ $prospect->processProspect->relance_status  }}</small>
+                                            @if($prospect->processProspect->relance_status)
+                                                <div class="progress progress-sm active">
+                                                    @php
+                                                        switch($prospect->processProspect->relance_status)
+                                                        {
+                                                            case 'relance_1':
+                                                                $value = 33;
+                                                                $class = 'progress-bar-success';
+                                                                break;
+                                                            case 'relance_2':
+                                                                $value= 66;
+                                                                $class = 'progress-bar-warning';
+                                                                break;
+                                                            case 'relance_3':
+                                                                $value=100;
+                                                                $class = 'progress-bar-danger';
+                                                                break;
+                                                        }
+                                                    @endphp
+                                                    <div id="progress-{{$prospect->processProspect->id}}" class="progress-bar {{ $class }} progress-bar-striped" role="progressbar" aria-valuenow="{{ $value }}" aria-valuemin="0" aria-valuemax="100" style="width: {{$value}}%">
+                                                        <span class="sr-only">20% Complete</span>
+                                                    </div>
+                                                </div>
+                                            <br>
+                                                <div class="form-group">
+                                                    {{ Form::select('status',
+                                                    ['relance_1' => 'relance_1', 'relance_2' => 'relance_2', 'relance_3' => 'relance_3'],
+                                                    $prospect->processProspect->relance_status, ['class' => 'form-control', 'data-processid' => $prospect->processProspect->id] ) }}
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>
                                             {{ Form::open(['route' => ['delete.temp.prospect', $prospect], 'method' => 'DELETE']) }}
@@ -181,4 +210,49 @@
         </div>
     </section>
 
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(function () {
+            $('select[name="status"]').on('change', function (e) {
+                e.preventDefault();
+
+                var processId = $(this).data('processid');
+                var selectValue = $(this).val();
+
+                $.ajax({
+                    method: "PUT",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: 'http://' + location.host + '/process/update/' + processId,
+                    data: {type: 'relance_status', value: selectValue},
+                    beforeSend: function () {
+                        $('.ajax-spinner').show();
+                    },
+                    success: function () {
+                        var value = '';
+                        var classs = '';
+                        $('.ajax-spinner').hide();
+                        switch (selectValue){
+                            case 'relance_1':
+                                value = 33;
+                                classs = 'progress-bar-success';
+                                break;
+                            case 'relance_2':
+                                value = 66;
+                                classs = 'progress-bar-warning';
+                                break;
+                            case 'relance_3':
+                                value = 100;
+                                classs = 'progress-bar-danger';
+                                break;
+                        }
+                        var progress = $('#progress-'+processId);
+                        progress.attr('aria-valuenow', value);
+                        progress.width(value+'%').addClass(classs);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

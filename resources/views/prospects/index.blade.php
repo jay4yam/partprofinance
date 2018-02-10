@@ -72,13 +72,15 @@
                                 {!! $user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                @foreach($user->dossier as $dossier)
-                                    <small class="label {{ str_slug($dossier->status) }}">
-                                        <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
-                                        {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
-                                        </a>
-                                    </small>
-                                @endforeach
+                                @if(count($user->dossier))
+                                    @foreach($user->dossier as $dossier)
+                                        <small class="label {{ str_slug($dossier->status) }}">
+                                            <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
+                                            {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
+                                            </a>
+                                        </small>
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
                                 @if($user->tasks)
@@ -175,11 +177,15 @@
         });
 
         $(function () {
+            //Gère le click sur le bouton showdossier
             $('.showdossier').on('click', function (e) {
+                //stop propagation
                 e.preventDefault();
 
+                //recupère l'id du dossier à présenter
                 var dossierId = $(this).data("dossierid");
 
+                //Requête Ajax pour récupèrer les datas du dossier en base
                 $.ajax({
                     method: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -188,13 +194,21 @@
                     beforeSend: function () {
                         $('.ajax-spinner').show();
                     },
+                    //Si la requête est un success
                     success: function (allData) {
+                        //cache le spinner
                         $('.ajax-spinner').hide();
+
+                        //parse les datas reçues en json
                         var data = JSON.parse(allData);
-                        //console.log(data);
+
+                        //init. le titre de la modal
                         var title = 'Dossier de '+data.user.name+'';
+
+                        //ajoute le titre dans la modal
                         $('#dossier-title').html(title);
 
+                        //créer un tableau avec les datas pour ajouter à la modal
                         var table = '<table class="table table-bordered table-hover dataTable">';
                             table += '<tr><td>Status Dossier</td><td>'+ data.status +'</td></tr>';
                             table += '<tr><td>Signature</td><td>'+ data.signature +'</td></tr>';
@@ -204,6 +218,7 @@
                             table += '<tr><td>Montant Final</td><td>'+ data.montant_final +'</td></tr>';
                             table += '<tr><td>Montant Commission Partpro</td><td>'+ data.montant_commission_partpro +'</td></tr>';
 
+                        //insère le tableau dans la modal
                         $('#dossier-content').html(table);
                     }
                 });

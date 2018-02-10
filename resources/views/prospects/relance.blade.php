@@ -18,7 +18,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- Upload de fichier -->
+                <!-- Formulaire de relance de prospect -->
                 <div class="col-md-12 col-xs-12">
                     <!-- box informations -->
                     <div class="box">

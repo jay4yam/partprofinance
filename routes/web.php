@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth'], function(){
     //Gère la réponse de la dropdownlist 'status' sur la vue Prospect.index
     Route::post('process/update/status', 'ProspectProcessController@updateStatus')->name('process.update.status');
 
+    //Gère la route pour la modification de l'item relance_status
+    Route::put('process/update/{id}', 'ProspectProcessController@update')->name('process.update');
+
     //Affiche la vue Prospect.relance avec le contenu des messages MAIL & SMS
     Route::get('process/prospect/relance/{id}', 'ProspectProcessController@relanceUne')->name('process.relanceUne');
 
@@ -95,7 +98,6 @@ Route::group(['middleware' => 'auth'], function(){
     /**
      * GESTION DES TASKS
      */
-
     //Route resource contenant index, show, edit, save... pour le model Task
     Route::resource('task', 'TaskController');
 });

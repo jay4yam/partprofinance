@@ -23,6 +23,21 @@ class ProspectProcessController extends Controller
     }
 
     /**
+     * Gère la mise à jour
+     * @param Request $request
+     * @param $id
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $this->processProspectRepository->update($id, $request->all());
+        }catch (\Exception $exception){
+            return response()->json([ 'message' => $exception->getMessage() ]);
+        }
+        return response()->json([ 'message' => 'maj_ok' ]);
+    }
+
+    /**
      * Met à jour le status de la piste
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -93,10 +108,9 @@ class ProspectProcessController extends Controller
         $message .= "Noms des organismes des crédits en cours\n\n";
         $message .= "Enfin, nous vous recommandons de ne pas multiplier les demandes sur Internet,";
         $message .= "cette démarche pourrait en effet nuire à de votre financement et aux conditions obtenues pour votre crédit.\n\n\n";
-        $message .= "DESCOLO  2721 Chemin de Saint Claude 06600 Antibes";
+        $message .= "DESCOLO  2721 Chemin de Saint Claude 06600 Antibes\n";
         $message .= "Je reste naturellement à votre disposition pour des informations complémentaires au 06.15.80.55.66 ou le 04.89.68.41.02\n";
-        $message .= "A votre service.\n";
-        $message .= "Cordialement,";
+        $message .= "Cordialement\n";
         $message .= "Mme Emilie Pohier , votre conseiller financier";
 
         return $message;

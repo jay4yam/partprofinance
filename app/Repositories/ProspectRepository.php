@@ -34,6 +34,12 @@ class ProspectRepository
         return $this->user->with('prospect')->findOrFail($id);
     }
 
+    /**
+     * Gère la réception des datas pour filtrer la vue prospect.index
+     * Retourne une collection de prospect
+     * @param array $inputs
+     * @return mixed
+     */
     public function getFilter(array $inputs)
     {
         $users = $this->getAll();
