@@ -249,7 +249,7 @@
                         }
                         var progress = $('#progress-'+processId);
                         progress.attr('aria-valuenow', value);
-                        progress.width(value+'%').addClass(classs);
+                        progress.width(value+'%').removeClass().addClass('progress-bar '+ classs +' progress-bar-striped');
                     }
                 });
             });
