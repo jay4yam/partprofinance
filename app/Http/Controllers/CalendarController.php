@@ -30,22 +30,16 @@ class CalendarController extends Controller
             try {
                 $events = $this->processProspect->with('tempProspect')->where('status', '=', 'nrp')
                     ->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'))
-                    ->get(['id', 'temp_prospects_id', 'status', 'relance_status', 'relance_j1', 'relance_j4']);
+                    ->get(['id', 'temp_prospects_id', 'status', 'relance_status', 'relance_j1', 'created_at']);
 
                 $array = [];
 
                 foreach ($events as $event) {
                     $array[] = [
-                        'title' => 'Relance J+1 :' . $event->tempProspect->nom,
-                        'start' => $event->relance_j1,
-                        'backgroundColor' => '#000000',
-                        'borderColor' => 'black'
-                    ];
-                    $array[] = [
-                        'title' => 'Relance J+4 :' . $event->tempProspect->nom,
-                        'start' => $event->relance_j4,
-                        'backgroundColor' => 'darkorange',
-                        'borderColor' => 'orange'
+                        'title' => $event->relance_status.': '. $event->tempProspect->nom,
+                        'start' => $event->relance_j1->format('Y-m-d'),
+                        'backgroundColor' => $this->getBgColor($event->relance_status),
+                        'borderColor' => $this->getBgColor($event->relance_status),
                     ];
                 }
             }catch (\Exception $exception){
@@ -115,5 +109,29 @@ class CalendarController extends Controller
         });
 
         return $value;
+    }
+
+    /**
+     * Retourne la bonne couleur en fonction de la valeur de relance_status (string)
+     * @param $string
+     * @return string
+     */
+    private function getBgColor($string)
+    {
+        $color = '';
+        switch ($string)
+        {
+            case 'relance_1':
+                $color = 'green';
+                break;
+            case 'relance_2':
+                $color = 'orange';
+                break;
+            case 'relance_3':
+                $color = 'red';
+                break;
+        }
+
+        return $color;
     }
 }

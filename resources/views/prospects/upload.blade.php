@@ -184,8 +184,8 @@
                                                 </div>
                                             <br>
                                                 <div class="form-group">
-                                                    {{ Form::select('status',
-                                                    ['relance_1' => 'relance_1', 'relance_2' => 'relance_2', 'relance_3' => 'relance_3'],
+                                                    {{ Form::select('relancestatus',
+                                                    ['relance_1' => 'relance 1', 'relance_2' => 'relance 2', 'relance_3' => 'relance 3'],
                                                     $prospect->processProspect->relance_status, ['class' => 'form-control', 'data-processid' => $prospect->processProspect->id] ) }}
                                                 </div>
                                             @endif
@@ -215,7 +215,7 @@
 @section('js')
     <script type="text/javascript">
         $(function () {
-            $('select[name="status"]').on('change', function (e) {
+            $('select[name="relancestatus"]').on('change', function (e) {
                 e.preventDefault();
 
                 var processId = $(this).data('processid');
