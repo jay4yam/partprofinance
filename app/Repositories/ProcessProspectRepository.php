@@ -13,7 +13,6 @@ use App\Models\ProcessProspect;
 use App\Models\TempProspect;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use Mockery\Exception;
 
 class ProcessProspectRepository
 {
@@ -39,7 +38,7 @@ class ProcessProspectRepository
     }
 
     /**
-     * Gere la mise a jour d'un item de la table processprotpect
+     * Gère la mise a jour d'un item de la table processprotpect
      * @param $id
      * @param array $inputs
      */
@@ -53,7 +52,7 @@ class ProcessProspectRepository
             //si
             case 'relance_status':
                 //met à jour la date de la relance
-                $newRelance_j1 = $processProspect->relance_j1->addDay(1);
+                $newRelance_j1 = Carbon::now()->addDay(1);
 
                 //met à jout le nom de l'item relance_status
                 $processProspect->update([
@@ -122,6 +121,7 @@ class ProcessProspectRepository
     /**
      * Gère la modification des dates de relance 1 et 4
      * @param TempProspect $prospect
+     * @throws \Exception
      */
     public function updateRelancesDate(TempProspect $prospect)
     {

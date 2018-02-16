@@ -57,7 +57,8 @@ class Dossier extends Model
     public function scopeDossierAcceptedOfTheMonth($query)
     {
         return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
-            ->where('status', '=', 'Accepté');
+            ->where('status', '=', 'Accepté')
+            ->where('status', '=', 'Payé');
     }
 
     /**

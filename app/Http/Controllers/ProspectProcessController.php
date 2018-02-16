@@ -26,6 +26,7 @@ class ProspectProcessController extends Controller
      * Gère la mise à jour
      * @param Request $request
      * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -44,23 +45,21 @@ class ProspectProcessController extends Controller
      */
     public function updateStatus(Request $request)
     {
+
+        //1. utilise le repo pour mettre a jour le status quoi q'il arrive
+        $this->processProspectRepository->updateStatus($request->all());
+
         //1.gère les différente action en fonction du status
         switch ($request['status'])
         {
             case 'nrp':
-                //1. utilise le repo pour mettre a jour le status quoi q'il arrive
-                $this->processProspectRepository->updateStatus($request->all());
                 //redirection vers la vue qui affiche le form Mail et SMS
                 return redirect()->route('process.relanceUne', ['id' => $request->temp_prospect_id]);
                 break;
             case 'intérêt':
-                //1. utilise le repo pour mettre a jour le status quoi q'il arrive
-                $this->processProspectRepository->updateStatus($request->all());
                 return redirect()->route('create.imported.prospect', ['prospectId' => $request->temp_prospect_id]);
                 break;
             default:
-                //1. utilise le repo pour mettre a jour le status quoi q'il arrive
-                $this->processProspectRepository->updateStatus($request->all());
                 break;
         }
 
