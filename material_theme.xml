@@ -4,5 +4,6 @@
     <option name="highlightColor" value="80cbc4" />
     <option name="isContrastMode" value="true" />
     <option name="accentColor" value="80cbc4" />
+    <option name="darkTitleBar" value="true" />
   </component>
 </application>
