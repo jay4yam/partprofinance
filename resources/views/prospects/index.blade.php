@@ -55,9 +55,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($prospects as $user)
+                    @foreach($prospects as $prospect)
                         <tr>
-                            <td>{{ $user->id }}</td>
+                            <td>{{ $prospect->id }}</td>
                             <td>{{ $user->created_at->format('d M Y') }}</td>
                             <td>
                                 {{ $user->prospect->civilite }}

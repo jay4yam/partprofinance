@@ -15,7 +15,7 @@ class Prospect extends Model
 {
     protected $table = 'prospects';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'civilite',
