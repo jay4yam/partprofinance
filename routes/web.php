@@ -29,16 +29,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/prospect/delete-credit/{prospectId}', 'ProspectController@ajaxDeleteCredit');
 
     /**
-     * IMPORT DE PROSPECT
+     * IMPORT DE PROSPECT & PROSPECT TEMPORAIRE
      */
-    //Affiche la vue prospect.index avec la liste des prospectTemps
+    //1. Affiche la vue prospect.index avec la liste des prospectTemps
     Route::get('import', 'UploadProspect@index')->name('prospect.import');
-    //Gère l'upload de fichier .csv
+    //2. Gère l'upload de fichier .csv
     Route::post('import/upload', 'UploadProspect@uploadFile')->name('prospect.upload');
-    //Suprrime l'un des fichiers .csv
+    //3. Suprrime l'un des fichiers .csv
     Route::delete('remove/file', 'UploadProspect@deleteFile')->name('remove.file');
 
-    //Gère le clic sur le bouton importer dans la vue Prospect.index
+    //4. Gère le clic sur le bouton importer dans la vue Prospect.index
     Route::post('import/csv/builder', 'UploadProspect@csvBuilder')->name('prospect.csv.import');
 
     //Gère la sauv. d'un prospect

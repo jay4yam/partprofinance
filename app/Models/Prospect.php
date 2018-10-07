@@ -20,6 +20,7 @@ class Prospect extends Model
     protected $fillable = [
         'civilite',
         'nom',
+        'email',
         'nomjeunefille',
         'prenom',
         'dateDeNaissance',
@@ -83,5 +84,14 @@ class Prospect extends Model
     public function dossier()
     {
         return $this->hasMany(Dossier::class, 'user_id');
+    }
+
+    /**
+     * Relation 1:n vers la table task
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'prospect_id');
     }
 }

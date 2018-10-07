@@ -167,6 +167,7 @@
                 'lengthChange': false,
                 'searching'   : false,
                 'ordering'    : true,
+                'order'       : [[0, 'desc']],
                 'info'        : true,
                 'autoWidth'   : true
             });

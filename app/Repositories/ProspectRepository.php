@@ -16,12 +16,18 @@ class ProspectRepository
     protected $user;
 
     /**
+     * @var Prospect
+     */
+    protected $prospect;
+
+    /**
      * ProspectRepository constructor.
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Prospect $prospect)
     {
         $this->user = $user;
+        $this->prospect = $prospect;
     }
 
     /**
@@ -42,12 +48,12 @@ class ProspectRepository
      */
     public function getFilter(array $inputs)
     {
-        $users = $this->getAll();
+        $prospects = $this->getAll();
 
         //recherche par annee
         if(isset($inputs['annee']) && $inputs['annee'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
                 ->with('prospect', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
@@ -56,7 +62,7 @@ class ProspectRepository
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                 ->whereMonth('created_at', $inputs['mois'])
                 ->with('prospect', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
@@ -65,7 +71,7 @@ class ProspectRepository
         //recherche par mois + année
         if(isset($inputs['annee']) && $inputs['annee'] != '' && isset($inputs['mois']) && $inputs['mois'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                         ->whereYear('created_at', $inputs['annee'])
                         ->whereMonth('created_at', $inputs['mois'])
                         ->with('prospect', 'dossier', 'tasks')
@@ -75,7 +81,7 @@ class ProspectRepository
         //recherche par nom
         if(isset($inputs['search']))
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->with('prospect', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
@@ -84,7 +90,7 @@ class ProspectRepository
         //recheche par nom + mois
         if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' )
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereMonth('created_at', $inputs['mois'])
                 ->with('prospect', 'dossier', 'tasks')
@@ -94,7 +100,7 @@ class ProspectRepository
         //recheche par nom + mois + année
         if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != '')
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
@@ -105,14 +111,14 @@ class ProspectRepository
         //recherche par iban
         if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
 
-            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
-            $users = $allUsers->filter(function ($user){
+            $allUsers = $this->prospect>with('user', 'dossier', 'tasks')->get();
+            $prospects = $allUsers->filter(function ($user){
                if($user->prospect->iban != ''){ return $user;}
             });
             //Get current page form url e.g. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $users->slice(($currentPage - 1) * 10, 10);
-            $paginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $currentPageItems = $prospects->slice(($currentPage - 1) * 10, 10);
+            $paginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
             $paginate->setPath($_SERVER['REQUEST_URI']);
             return $paginate;
         }
@@ -120,7 +126,7 @@ class ProspectRepository
         //recherche par rappel
         if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
 
-            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $allUsers = $this->prospect->guest()->with('prospect', 'dossier', 'tasks')->get();
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
             });
@@ -151,7 +157,7 @@ class ProspectRepository
         //recherche par rappel + mois + annee
         if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != ''){
 
-            $allUsers = $this->user->guest()
+            $allUsers = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
                 ->with('prospect', 'dossier', 'tasks')->get();
@@ -163,10 +169,10 @@ class ProspectRepository
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
             $usersPaginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            $prospects = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
         }
 
-        return $users;
+        return $prospects;
     }
 
     /**
@@ -175,7 +181,7 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->user->guest()->orderBy('id', 'desc')->with('prospect', 'dossier', 'tasks')->paginate(10);
+        return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
     }
 
     /**
@@ -199,19 +205,17 @@ class ProspectRepository
         \DB::transaction(function () use($prospect, $inputs) {
 
             //1. Crée l'utilisateur sur la table user
-                $user = User::create([
-                    'name' => $inputs['nom'],
-                    'email' => $inputs['email'],
-                    'password' => bcrypt('partpro'),
-                    'role' => 'guest',
-                    'avatar' => 'avatar.png'
-                ]);
+           $user = \Auth::user();
 
             //2. vérifier si inputs contients // credit-name & credit montant
             $inputs = $this->checkInputCredit($inputs);
 
+            try{
             //3. enregistre le model
             $user->prospect()->create($inputs);
+            }catch (\Exception $exception){
+                throw new $exception;
+            }
 
             //4. Si il s'agit d'un import de prospect
             if(isset($inputs['tempProspectId']))
@@ -398,6 +402,7 @@ class ProspectRepository
      * Met à jour une row du tableau credits stocké en base
      * @param array $inputs
      * @param $id
+     * @return array
      */
     public function updateCreditRow(array $inputs, $id)
     {
