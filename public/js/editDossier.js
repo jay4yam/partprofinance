@@ -103,8 +103,11 @@ var dossierJS = {
                 },
             select:function (event, ui) {
                 //insère le user_id dans l'input hidden
-                var user_id = ui.item.id;
+                var user_id = ui.item.user_id;
                 $('#user_id').val(user_id);
+
+                var prospect_id = ui.item.prospect_id;
+                $('#prospect_id').val(prospect_id);
 
                 //récupère la liste des réponses au format nom-prenom-email
                 var items = ui.item.value;

@@ -54,6 +54,7 @@ class Prospect extends Model
         'BanqueDepuis',
         'iban',
         'notes',
+        'prospect_id',
         'user_id',
         'prospect_source'
     ];
@@ -67,6 +68,10 @@ class Prospect extends Model
     ];
 
 
+    public function scopeOwner($query)
+    {
+        return $query->where('user_id', '=', \Auth::user()->id);
+    }
 
     /**
      * Relation 1/1 vers la table user

@@ -55,7 +55,7 @@ class ProspectRepository
 
             $prospects = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -64,7 +64,7 @@ class ProspectRepository
 
             $prospects = $this->prospect
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -74,7 +74,7 @@ class ProspectRepository
             $prospects = $this->prospect
                         ->whereYear('created_at', $inputs['annee'])
                         ->whereMonth('created_at', $inputs['mois'])
-                        ->with('prospect', 'dossier', 'tasks')
+                        ->with('user', 'dossier', 'tasks')
                         ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -83,7 +83,7 @@ class ProspectRepository
         {
             $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -93,7 +93,7 @@ class ProspectRepository
             $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -104,7 +104,7 @@ class ProspectRepository
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -126,7 +126,7 @@ class ProspectRepository
         //recherche par rappel
         if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
 
-            $allUsers = $this->prospect->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $allUsers = $this->prospect->guest()->with('user', 'dossier', 'tasks')->get();
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
             });
@@ -142,7 +142,7 @@ class ProspectRepository
 
             $allUsers = $this->user->guest()
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')->get();
+                ->with('user', 'dossier', 'tasks')->get();
 
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
@@ -160,15 +160,16 @@ class ProspectRepository
             $allUsers = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')->get();
+                ->with('user', 'dossier', 'tasks')->get();
 
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
             });
+
             //Get current page form url e.g. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
             $prospects = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
         }
 
@@ -181,7 +182,14 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        if(\Auth::user()->role == 'staff')
+        {
+            return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        }
+        if(\Auth::user()->role == 'admin')
+        {
+            return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        }
     }
 
     /**

@@ -5,7 +5,7 @@
     <section class="content-header">
         <h1>
             Dossiers
-            <small>Envois d'email de création de dossier : <b>{{ $dossier->user->prospect->nom }}</b> </small>
+            <small>Envois d'email de création de dossier : <b>{{ $dossier->prospect->nom }}</b> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,7 +17,7 @@
     <section class="content">
         <div class="row">
         {{ Form::open(['route' => 'post.mail', 'method' => 'POST', 'class' => 'form', 'files' => 'true'] ) }}
-        {{ Form::hidden('user_id', $dossier->user->id, ['id' => 'user_id']) }}
+        {{ Form::hidden('user_id', $dossier->prospect->id, ['id' => 'prospect_id']) }}
         <!-- Col. gauche -->
             <div class="col-md-12">
                 <!-- Edition Dossier -->
@@ -36,7 +36,7 @@
                     <div class="box-body">
                         <div class="form-group">
                             {{ Form::label('subject', 'Sujet :') }}
-                            {{ Form::text('subject', 'Nouveau dossier ppf: '.$dossier->banque->nom.', capital :  €, '.$dossier->objet_du_pret, ['class' => 'form-control']) }}
+                            {{ Form::text('subject', 'Nouveau dossier ppf: '.$dossier->banque->nom.', capital :'. $dossier->montant_demande.' €, '.$dossier->objet_du_pret, ['class' => 'form-control']) }}
                         </div>
                         <!-- Infos prospect (non editable) -->
                         <div class="form-group">
@@ -46,13 +46,13 @@
                                 <tr>
                                     <td>Nom :</td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->nom }}</b>
+                                        <b>{{ $dossier->prospect->nom }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Prenom :</td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->prenom }}</b>
+                                        <b>{{ $dossier->prospect->prenom }}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -60,25 +60,25 @@
                                         Téléphone :
                                     </td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->numTelPortable }}</b>
+                                        <b>{{ $dossier->prospect->numTelPortable }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Email Client : </td>
                                     <td>
-                                        <b>{{ $dossier->user->email }}</b>
+                                        <b>{{ $dossier->prospect->email }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Iban Client : </td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->iban }}</b>
+                                        <b>{{ $dossier->prospect->iban }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Signature Electronique : </td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->mandat_status ? 'oui' : 'non' }}</b>
+                                        <b>{{ $dossier->prospect->mandat_status ? 'oui' : 'non' }}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -90,13 +90,13 @@
                                 <tr>
                                     <td>Date de Naissance : </td>
                                     <td>
-                                        <b>{{ $dossier->user->prospect->dateDeNaissance->format('d M Y') }}</b>
+                                        <b>{{ $dossier->prospect->dateDeNaissance->format('d M Y') }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td> Ville & Département : </td>
                                     <td>
-                                       <b>{{ $dossier->user->prospect->codePostal }} - {{ $dossier->user->prospect->ville }}</b>
+                                       <b>{{ $dossier->prospect->codePostal }} - {{ $dossier->prospect->ville }}</b>
                                     </td>
                                 </tr>
                                 <tr>
