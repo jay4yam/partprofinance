@@ -23,7 +23,7 @@
     <section class="content">
         <div class="row">
         {{ Form::open(['route' => ['dossiers.store'], 'method' => 'POST', 'class' => 'form'] ) }}
-            {{ Form::hidden('user_id', null, ['id' => 'user_id']) }}
+            {{ Form::hidden('prospect_id', null, ['id' => 'prospect_id']) }}
         <!-- Col. gauche -->
             <div class="col-md-9">
                 <!-- Edition Dossier -->

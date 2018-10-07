@@ -83,7 +83,7 @@ class Prospect extends Model
      */
     public function dossier()
     {
-        return $this->hasMany(Dossier::class, 'user_id');
+        return $this->hasMany(Dossier::class, 'prospect_id');
     }
 
     /**

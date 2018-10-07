@@ -13,7 +13,9 @@ class UpdateProspectsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('prospects', function (Blueprint $table){
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +25,9 @@ class UpdateProspectsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('prospects', function (Blueprint $table){
+            $table->dropColumn('created_at');
+            $table->dropColumn('updated_at');
+        });
     }
 }

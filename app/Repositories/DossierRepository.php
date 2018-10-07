@@ -102,7 +102,7 @@ class DossierRepository
         $dossier->status = $inputs['status'];
         $dossier->banque_id = $inputs['banque_id'];
         $dossier->iban = $inputs['iban'];
-        $dossier->user_id = $inputs['user_id'];
+        $dossier->prospect_id = $inputs['user_id'];
 
         DB::transaction(function () use ($dossier) {
 
