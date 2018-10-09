@@ -23,7 +23,7 @@ class Dossier extends Model
         'apporteur',
         'taux_commission',
         'status',
-        'user_id',
+        'prospect_id',
         'banque_id',
         'num_dossier_banque'
     ];
@@ -76,9 +76,9 @@ class Dossier extends Model
      * Relation 1:n avec la table User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function prospect()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Prospect::class, 'prospect_id');
     }
 
     /**
@@ -90,13 +90,13 @@ class Dossier extends Model
         return $this->belongsTo(Banque::class, 'banque_id');
     }
 
-
     /**
-     * Relation entre les Prospects (qui sont des users) et les dossiers
+     * Relation 1:n avec la table banque
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function prospect()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'banque_id');
     }
+
 }

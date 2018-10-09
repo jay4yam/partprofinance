@@ -55,25 +55,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($prospects as $user)
+                    @foreach($prospects as $prospect)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                            <td>{{ $prospect->id }}</td>
+                            <td>{{ @$prospect->created_at->format('d M Y') }}</td>
                             <td>
-                                {{ $user->prospect->civilite }}
-                                {{ $user->prospect->nom }}
-                                {{ $user->prospect->prenom }}
+                                {{ $prospect->civilite }}
+                                {{ $prospect->nom }}
+                                {{ $prospect->prenom }}
                             </td>
                             <td>
-                                {{ $user->prospect->numTelPortable }} /
-                                <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                                {{ $prospect->numTelPortable }} /
+                                <a href="mailto:{{ $prospect->email }}">{{ $prospect->email }}</a>
                             </td>
                             <td style="text-align: center">
-                                {!! $user->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                                {!! $prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                @if(count($user->dossier))
-                                    @foreach($user->dossier as $dossier)
+                                @if(count($prospect->dossier))
+                                    @foreach($prospect->dossier as $dossier)
                                         <small class="label {{ str_slug($dossier->status) }}">
                                             <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
                                             {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
@@ -83,8 +83,8 @@
                                 @endif
                             </td>
                             <td>
-                                @if($user->tasks)
-                                    @foreach($user->tasks as $task)
+                                @if($prospect->tasks)
+                                    @foreach($prospect->tasks as $task)
                                         <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }}" data-toggle="tooltip" data-placement="top" title="{{ $task->taskcontent }}">
                                             <i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M y') }}
                                         </small>
@@ -92,10 +92,10 @@
                                 @endif
                             </td>
                             <td>
-                                {!! @$user->prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                                {!! @$prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $user]) }}" class="btn btn-default">
+                                <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                 </a>
                             </td>
@@ -128,30 +128,7 @@
     </section>
     <!-- /.content -->
 
-    <!-- /.modal dossier -->
-    <div class="modal fade" id="modal-default" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 id="dossier-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <p id="dossier-content"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">fermer</button>
-                    <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-info pull-right">
-                        <i class="fa fa-pencil" aria-hidden="true"></i> Editer
-                    </a>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal dossier -->
+
 @endsection
 
 @section('js')
@@ -167,6 +144,7 @@
                 'lengthChange': false,
                 'searching'   : false,
                 'ordering'    : true,
+                'order'       : [[0, 'desc']],
                 'info'        : true,
                 'autoWidth'   : true
             });

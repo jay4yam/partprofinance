@@ -24,7 +24,7 @@ class TaskRepository
      */
     public function __construct(Task $task)
     {
-        $this->task = $task->with('user');
+        $this->task = $task->with('user', 'prospect');
     }
 
     /**
@@ -43,7 +43,7 @@ class TaskRepository
      */
     public function getAll()
     {
-        return $this->task->with('user')->orderBy('taskdate', 'desc')->paginate(6);
+        return $this->task->orderBy('taskdate', 'desc')->paginate(6);
     }
 
     /**
@@ -55,7 +55,7 @@ class TaskRepository
         // nouvelle task
         $task = new Task();
 
-        // utilise la methode privée pour sauv. le model
+        // utilise la méthode privée pour sauv. le model
         $this->save($task, $inputs);
     }
 
@@ -70,7 +70,7 @@ class TaskRepository
         $task->taskdate = $inputs['taskdate'];
         $task->taskcontent = $inputs['taskcontent'];
         $task->level = $inputs['level'];
-        $task->user_id = $inputs['user_id'];
+        $task->prospect_id = $inputs['prospect_id'];
 
         $task->save();
     }

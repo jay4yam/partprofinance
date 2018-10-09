@@ -102,6 +102,7 @@ class DossierRepository
         $dossier->status = $inputs['status'];
         $dossier->banque_id = $inputs['banque_id'];
         $dossier->iban = $inputs['iban'];
+        $dossier->prospect_id = $inputs['prospect_id'];
         $dossier->user_id = $inputs['user_id'];
 
         DB::transaction(function () use ($dossier) {
@@ -137,19 +138,15 @@ class DossierRepository
     public function autoCompleteName($request)
     {
         //retourne une collection contenant le nom-prenom-email
-        $results = DB::table('prospects')
-            ->join('users', 'users.id', '=', 'prospects.user_id')
-            ->where('nom', 'LIKE', '%'.$request->term.'%')
-            ->select('users.email', 'prospects.nom', 'prospects.prenom', 'prospects.user_id', 'prospects.iban')
-            ->get();
+        $results = Prospect::where('nom', 'LIKE', '%'.$request->term.'%')->get();
 
         //init un tableau vide
         $array = [];
 
         //itère sur la collection pour peupler lz tableau array
-        foreach ($results as $valeur)
+        foreach ($results as $prospect)
         {
-            $array[] = ['value' => $valeur->nom.' / '.$valeur->prenom.' / '.$valeur->email.' / '.$valeur->iban, 'id' => $valeur->user_id,];
+            $array[] = ['value' => $prospect->nom.' / '.$prospect->prenom.' / '.$prospect->email.' / '.$prospect->iban, 'prospect_id' => $prospect->id , 'user_id' => $prospect->user_id];
         }
 
         //test si le tableau est rempli

@@ -18,6 +18,11 @@ class Task extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'task_creator_user_id');
+    }
+
+    public function prospect()
+    {
+        return $this->belongsTo(Prospect::class, 'prospect_id');
     }
 }

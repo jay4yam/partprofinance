@@ -67,9 +67,9 @@ class ProspectController extends Controller
      */
     public function show($id)
     {
-        $user = $this->prospectRepository->getById($id);
+        $prospect = $this->prospectRepository->getById($id);
 
-        return view('prospects.edit', compact('user'));
+        return view('prospects.edit', compact('prospect'));
     }
 
     /**

@@ -35,7 +35,7 @@
                         <div class="box-body">
                             {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST', 'class' => 'form-group']) }}
                                 {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
-                                {{ Form::hidden('user_id', $user->id) }}
+                                {{ Form::hidden('prospect_id', $prospect->id) }}
                                 <div class="col-xs-3">
                                     {{ Form::label('taskdate', 'Programmez une date.') }}
                                     {{ Form::date('taskdate', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'taskdate']) }}
@@ -76,10 +76,10 @@
                             <div class="box-body">
                                 {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST']) }}
                                 {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
-                                {{ Form::hidden('user_id', $user->id) }}
+                                {{ Form::hidden('prospect_id', $prospect->id) }}
                                     <label for="mandat_status">Etat du mandat:</label>
                                     <span class="button-checkbox">
-                                        <button type="button" class="btn form-control {{ $user->prospect->mandat_status==1 ? 'btn-success active' : 'btn-default' }}" id="mandat_status" name="mandat_status" data-color="success">Mandat signé</button>
+                                        <button type="button" class="btn form-control {{ $prospect->mandat_status==1 ? 'btn-success active' : 'btn-default' }}" id="mandat_status" name="mandat_status" data-color="success">Mandat signé</button>
                                         <input type="checkbox" class="form-control hidden" />
                                     </span>
                                 {{ Form::close() }}
@@ -107,7 +107,7 @@
                                 <tr>
                                     <td>Source</td>
                                     <td id="prospect_source" class="data">
-                                        <b class="value">{{ $user->prospect->prospect_source }}</b>
+                                        <b class="value">{{ $prospect->prospect_source }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -116,7 +116,7 @@
                                 <tr>
                                     <td>Civilite</td>
                                     <td id="civilite" class="data">
-                                        <b class="value">{{ $user->prospect->civilite }}</b>
+                                        <b class="value">{{ $prospect->civilite }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -125,7 +125,7 @@
                                 <tr>
                                     <td>Nom</td>
                                     <td id="nom" class="data">
-                                        <b class="value">{{ $user->prospect->nom }}</b>
+                                        <b class="value">{{ $prospect->nom }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -134,7 +134,7 @@
                                 <tr>
                                     <td>Nom Jeune fille</td>
                                     <td id="nomjeunefille" class="data">
-                                        <b class="value">{{ $user->prospect->nomjeunefille }}</b>
+                                        <b class="value">{{ $prospect->nomjeunefille }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -143,7 +143,7 @@
                                 <tr>
                                     <td>Prénom</td>
                                     <td id="prenom" class="data">
-                                        <b class="value">{{ $user->prospect->prenom }}</b>
+                                        <b class="value">{{ $prospect->prenom }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -152,7 +152,7 @@
                                 <tr>
                                     <td>Email</td>
                                     <td id="email" class="data">
-                                        <b class="value">{{ $user->email }}</b>
+                                        <b class="value">{{ $prospect->email }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -161,7 +161,7 @@
                                 <tr>
                                     <td>Téléphone Fixe</td>
                                     <td id="numTelFixe" class="data">
-                                        <b class="value">{{ $user->prospect->numTelFixe }}</b>
+                                        <b class="value">{{ $prospect->numTelFixe }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -170,7 +170,7 @@
                                 <tr>
                                     <td>Téléphone Portable</td>
                                     <td id="numTelPortable" class="data">
-                                        <b class="value">{{ $user->prospect->numTelPortable }}</b>
+                                        <b class="value">{{ $prospect->numTelPortable }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -199,7 +199,7 @@
                                 <tr>
                                     <td>Date de Naissance</td>
                                     <td id="dateDeNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->dateDeNaissance->format('d/m/Y') }}</b>
+                                        <b class="value">{{ $prospect->dateDeNaissance->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -208,7 +208,7 @@
                                 <tr>
                                     <td>Situation Familiale</td>
                                     <td id="situationFamiliale" class="data">
-                                        <b class="value">{{ $user->prospect->situationFamiliale }}</b>
+                                        <b class="value">{{ $prospect->situationFamiliale }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -217,7 +217,7 @@
                                 <tr>
                                     <td>Nb Enfants à charge</td>
                                     <td id="nbEnfantACharge" class="data">
-                                        <b class="value">{{ $user->prospect->nbEnfantACharge }}</b>
+                                        <b class="value">{{ $prospect->nbEnfantACharge }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -226,7 +226,7 @@
                                 <tr>
                                     <td>Nationalite</td>
                                     <td id="nationalite" class="data">
-                                        <b class="value">{{ $user->prospect->nationalite }}</b>
+                                        <b class="value">{{ $prospect->nationalite }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -235,7 +235,7 @@
                                 <tr>
                                     <td>Pays de Naissance</td>
                                     <td id="paysNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->paysNaissance }}</b>
+                                        <b class="value">{{ $prospect->paysNaissance }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -244,7 +244,7 @@
                                 <tr>
                                     <td>Département Naissance</td>
                                     <td id="departementNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->departementNaissance }}</b>
+                                        <b class="value">{{ $prospect->departementNaissance }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -253,7 +253,7 @@
                                 <tr>
                                     <td>Ville De Naissance</td>
                                     <td id="VilleDeNaissance" class="data">
-                                        <b class="value">{{ $user->prospect->VilleDeNaissance }}</b>
+                                        <b class="value">{{ $prospect->VilleDeNaissance }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -283,7 +283,7 @@
                                 <tr>
                                     <td>Secteur d'activité</td>
                                     <td id="secteurActivite" class="data">
-                                        <b class="value">{{ $user->prospect->secteurActivite }}</b>
+                                        <b class="value">{{ $prospect->secteurActivite }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -292,7 +292,7 @@
                                 <tr>
                                     <td>Profession</td>
                                     <td id="profession" class="data">
-                                        <b class="value">{{ $user->prospect->profession }}</b>
+                                        <b class="value">{{ $prospect->profession }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -301,7 +301,7 @@
                                 <tr>
                                     <td>Depuis</td>
                                     <td id="professionDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->professionDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ $prospect->professionDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -310,7 +310,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel</td>
                                     <td id="revenusNetMensuel" class="data">
-                                        <b class="value">{{ $user->prospect->revenusNetMensuel }}</b><b>€</b>
+                                        <b class="value">{{ $prospect->revenusNetMensuel }}</b><b>€</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -340,7 +340,7 @@
                                 <tr>
                                     <td>Secteur d'activité conjoint</td>
                                     <td id="secteurActiviteConjoint" class="data">
-                                        <b class="value">{{ @$user->prospect->secteurActiviteConjoint }}</b>
+                                        <b class="value">{{ @$prospect->secteurActiviteConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -349,7 +349,7 @@
                                 <tr>
                                     <td>Profession conjoint</td>
                                     <td id="professionConjoint" class="data">
-                                        <b class="value">{{ @$user->prospect->professionConjoint }}</b>
+                                        <b class="value">{{ @$prospect->professionConjoint }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -358,7 +358,7 @@
                                 <tr>
                                     <td>Depuis conjoint</td>
                                     <td id="professionDepuisConjoint" class="data">
-                                        <b class="value">{{ @$user->prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -367,7 +367,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel conjoint</td>
                                     <td id="revenusNetMensuelConjoint" class="data">
-                                        <b class="value">{{ @$user->prospect->revenusNetMensuelConjoint }}</b><b> €</b>
+                                        <b class="value">{{ @$prospect->revenusNetMensuelConjoint }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -397,7 +397,7 @@
                                 <tr>
                                     <td>Habitation</td>
                                     <td id="habitation" class="data">
-                                        <b class="value">{{ $user->prospect->habitation }}</b>
+                                        <b class="value">{{ $prospect->habitation }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -406,7 +406,7 @@
                                 <tr>
                                     <td>Habite Depuis</td>
                                     <td id="habiteDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->habiteDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ $prospect->habiteDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -415,7 +415,7 @@
                                 <tr>
                                     <td>Adresse</td>
                                     <td id="adresse" class="data">
-                                        <b class="value">{{ $user->prospect->adresse }}</b>
+                                        <b class="value">{{ $prospect->adresse }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -424,7 +424,7 @@
                                 <tr>
                                     <td>Complément adresse</td>
                                     <td id="complementAdresse" class="data">
-                                        <b class="value">{{ $user->prospect->complementAdresse }}</b>
+                                        <b class="value">{{ $prospect->complementAdresse }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -433,7 +433,7 @@
                                 <tr>
                                     <td>Code postal</td>
                                     <td id="codePostal" class="data">
-                                        <b class="value">{{ $user->prospect->codePostal }}</b>
+                                        <b class="value">{{ $prospect->codePostal }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -442,7 +442,7 @@
                                 <tr>
                                     <td>Ville</td>
                                     <td id="ville" class="data">
-                                        <b class="value">{{ $user->prospect->ville }}</b>
+                                        <b class="value">{{ $prospect->ville }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -475,7 +475,7 @@
                                 <input type="hidden" name="id" value="notes">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                    <textarea title="oldnotes" name="value" id="oldnotes" class="form-control">{{ $user->prospect->notes }}</textarea>
+                                    <textarea title="oldnotes" name="value" id="oldnotes" class="form-control">{{ $prospect->notes }}</textarea>
                                     <textarea title="notes" name="value" id="notes" class="form-control"></textarea>
                                 </div>
                                 <button type="submit" id="ajaxnotesupdate" class="btn btn-success updateNotesbutton">
@@ -508,7 +508,7 @@
                                 <tr>
                                     <td>Loyer</td>
                                     <td id="loyer" class="data">
-                                        <b class="value">{{ $user->prospect->loyer }}</b><b> €</b>
+                                        <b class="value">{{ $prospect->loyer }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -517,15 +517,15 @@
                                 <tr>
                                     <td>Pension Alimentaire</td>
                                     <td id="pensionAlimentaire" class="data">
-                                        <b class="value">{{ $user->prospect->pensionAlimentaire }}</b><b> €</b>
+                                        <b class="value">{{ $prospect->pensionAlimentaire }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                 </tr>
                                 <?php $index = 0; ?>
-                                @if( $user->prospect->credits != '' || $user->prospect->credits  != null)
-                                    @foreach(json_decode($user->prospect->credits, true) as $credit => $montant)
+                                @if( $prospect->credits != '' || $prospect->credits  != null)
+                                    @foreach(json_decode($prospect->credits, true) as $credit => $montant)
                                         <tr>
                                             <td>{{ @$credit }}</td>
                                             <td id="credit-{{ $index }}" data-index="{{ $index }}" class="data">
@@ -569,7 +569,7 @@
                                 <tr>
                                     <td>Banque</td>
                                     <td id="NomBanque" class="data">
-                                        <b class="value">{{ $user->prospect->NomBanque }}</b>
+                                        <b class="value">{{ $prospect->NomBanque }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -578,7 +578,7 @@
                                 <tr>
                                     <td>Depuis le</td>
                                     <td id="BanqueDepuis" class="data">
-                                        <b class="value">{{ $user->prospect->BanqueDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ $prospect->BanqueDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -593,7 +593,7 @@
             </div>
             <div class="row">
                 <div class="text-center">
-                    <form class='delete' action="{{ route('prospect.destroy', ['prospect' => $user->id]) }}" method="post">
+                    <form class='delete' action="{{ route('prospect.destroy', ['prospect' => $prospect->id]) }}" method="post">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="DELETE">
                         <button class="btn btn-danger">

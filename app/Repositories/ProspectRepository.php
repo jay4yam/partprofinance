@@ -16,12 +16,18 @@ class ProspectRepository
     protected $user;
 
     /**
+     * @var Prospect
+     */
+    protected $prospect;
+
+    /**
      * ProspectRepository constructor.
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Prospect $prospect)
     {
         $this->user = $user;
+        $this->prospect = $prospect;
     }
 
     /**
@@ -31,7 +37,7 @@ class ProspectRepository
      */
     public function getById($id)
     {
-        return $this->user->with('prospect')->findOrFail($id);
+        return $this->prospect->with('user')->findOrFail($id);
     }
 
     /**
@@ -42,77 +48,77 @@ class ProspectRepository
      */
     public function getFilter(array $inputs)
     {
-        $users = $this->getAll();
+        $prospects = $this->getAll();
 
         //recherche par annee
         if(isset($inputs['annee']) && $inputs['annee'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recherche par mois + année
         if(isset($inputs['annee']) && $inputs['annee'] != '' && isset($inputs['mois']) && $inputs['mois'] != '') {
 
-            $users = $this->user->guest()
+            $prospects = $this->prospect
                         ->whereYear('created_at', $inputs['annee'])
                         ->whereMonth('created_at', $inputs['mois'])
-                        ->with('prospect', 'dossier', 'tasks')
+                        ->with('user', 'dossier', 'tasks')
                         ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recherche par nom
         if(isset($inputs['search']))
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recheche par nom + mois
         if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' )
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recheche par nom + mois + année
         if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != '')
         {
-            $users = $this->user->guest()
+            $prospects = $this->user->guest()
                 ->where('name', 'LIKE', '%'.$inputs['search'].'%')
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')
+                ->with('user', 'dossier', 'tasks')
                 ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
         }
 
         //recherche par iban
         if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
 
-            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
-            $users = $allUsers->filter(function ($user){
+            $allUsers = $this->prospect>with('user', 'dossier', 'tasks')->get();
+            $prospects = $allUsers->filter(function ($user){
                if($user->prospect->iban != ''){ return $user;}
             });
             //Get current page form url e.g. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $users->slice(($currentPage - 1) * 10, 10);
-            $paginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
+            $currentPageItems = $prospects->slice(($currentPage - 1) * 10, 10);
+            $paginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
             $paginate->setPath($_SERVER['REQUEST_URI']);
             return $paginate;
         }
@@ -120,7 +126,7 @@ class ProspectRepository
         //recherche par rappel
         if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
 
-            $allUsers = $this->user->guest()->with('prospect', 'dossier', 'tasks')->get();
+            $allUsers = $this->prospect->guest()->with('user', 'dossier', 'tasks')->get();
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
             });
@@ -136,7 +142,7 @@ class ProspectRepository
 
             $allUsers = $this->user->guest()
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')->get();
+                ->with('user', 'dossier', 'tasks')->get();
 
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
@@ -151,22 +157,23 @@ class ProspectRepository
         //recherche par rappel + mois + annee
         if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != ''){
 
-            $allUsers = $this->user->guest()
+            $allUsers = $this->prospect
                 ->whereYear('created_at', $inputs['annee'])
                 ->whereMonth('created_at', $inputs['mois'])
-                ->with('prospect', 'dossier', 'tasks')->get();
+                ->with('user', 'dossier', 'tasks')->get();
 
             $usersWithTask = $allUsers->filter(function ($user){
                 if(count($user->tasks)){ return $user;}
             });
+
             //Get current page form url e.g. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
+            $prospects = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
         }
 
-        return $users;
+        return $prospects;
     }
 
     /**
@@ -175,7 +182,17 @@ class ProspectRepository
      */
     public function getAll()
     {
-        return $this->user->guest()->orderBy('id', 'desc')->with('prospect', 'dossier', 'tasks')->paginate(10);
+        if(\Auth::user()->role == 'staff')
+        {
+            return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        }
+
+        if(\Auth::user()->role == 'admin')
+        {
+            return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        }
+
+        return null;
     }
 
     /**
@@ -199,19 +216,17 @@ class ProspectRepository
         \DB::transaction(function () use($prospect, $inputs) {
 
             //1. Crée l'utilisateur sur la table user
-                $user = User::create([
-                    'name' => $inputs['nom'],
-                    'email' => $inputs['email'],
-                    'password' => bcrypt('partpro'),
-                    'role' => 'guest',
-                    'avatar' => 'avatar.png'
-                ]);
+           $user = \Auth::user();
 
             //2. vérifier si inputs contients // credit-name & credit montant
             $inputs = $this->checkInputCredit($inputs);
 
+            try{
             //3. enregistre le model
             $user->prospect()->create($inputs);
+            }catch (\Exception $exception){
+                throw new $exception;
+            }
 
             //4. Si il s'agit d'un import de prospect
             if(isset($inputs['tempProspectId']))
@@ -281,32 +296,30 @@ class ProspectRepository
      */
     public function update(array $input, $id)
     {
+        $prospect = $this->getById($id);
         try {
-            $user = $this->getById($id);
-
             //met à jour les items en base
-            //si c'est le mail qui est mise a jour on update pas
-            // le même model entre $user et $user->prospect
+            //update mail
             if(isset($input['id']) && $input['id'] == "email")
             {
                 //met à jour l'email de l'utilisateur
-                $user->update([$input['id'] => $input['value']]);
-                $user->save();
+                $prospect->update([$input['id'] => $input['value']]);
+                $prospect->save();
             }
 
             //Si c'est un item qui appartient à la table prospect
             if( isset($input['id']) && $input['id'] != "email"){
                 //met à jour le champs de la table ($input[id] avec la nouvelle valeur $input[value]
-                $user->prospect()->update([$input['id'] => $input['value']]);
+                $prospect->update([$input['id'] => $input['value']]);
 
                 //sauv. le model
-                $user->save();
+                $prospect->save();
             }
 
             //Ajout d'un crédit
             if( isset($input['creditName']) && isset($input['creditValue'])){
                 //recupere le tableau de credit à modifier
-                $creditArray = json_decode($user->prospect->credits, true);
+                $creditArray = json_decode($prospect->credits, true);
 
                 //Ajoute le nouveau credit et son montant
                 $creditArray[ $input['creditName'] ] = (double)$input['creditValue'];
@@ -315,16 +328,16 @@ class ProspectRepository
                 $serializeCredit = json_encode($creditArray);
 
                 //met à jour le credit
-                $user->prospect()->update( ['credits' => $serializeCredit] );
+                $prospect->update( ['credits' => $serializeCredit] );
 
                 //sauv. le model
-                $user->save();
+                $prospect->save();
             }
 
             //Suppression d'un crédit
             if( isset($input['creditToDelete'])){
                 //recupere le tableau de credit à modifier
-                $creditArray = json_decode($user->prospect->credits, true);
+                $creditArray = json_decode($prospect->credits, true);
 
                 //supprimer le credit du tableau
                 unset( $creditArray[ $input['creditToDelete'] ] );
@@ -333,10 +346,10 @@ class ProspectRepository
                 $serializeCredit = json_encode($creditArray);
 
                 //enregistre le nouveau tableau de credit
-                $user->prospect()->update( ['credits' => $serializeCredit ] );
+                $prospect->update( ['credits' => $serializeCredit ] );
 
                 //sauv. le model.
-                $user->save();
+                $prospect->save();
 
             }
 
@@ -351,45 +364,46 @@ class ProspectRepository
     /**
      * Supprime un prospect
      * @param $id
-     * @return string
+     * @return void
      */
     public function delete($id)
     {
-            $user = $this->user->findOrFail($id);
-            $user->dossier()->delete();
-            $user->prospect()->delete();
-            $user->delete();
+        \DB::transaction(function () use ($id){
+            $prospect = $this->prospect->findOrFail($id);
+            $prospect->dossier()->delete();
+            $prospect->delete();
+        });
     }
 
     /**
      * Retourne un tableau contenant "la somme revenus" et "la sommes des charges"
-     * @param User $user
+     * @param Prospect $prospect
      * @return array
      */
-    public function revenusAndChargesToArray(User $user)
+    public function revenusAndChargesToArray(Prospect $prospect)
     {
         //init un tableau vide
         $array = [];
 
         //additionne les revenus prospect & conjoint
-        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuelConjoint;
+        $array['revenus'] = $prospect->revenusNetMensuel + $prospect->revenusNetMensuelConjoint;
 
         //cree l'index charges du tableau pour y stocker les charges
         $array['charges'] = 0;
 
         //Si le champs credit n'est pas vide
-        if($user->prospect->credits != '' || $user->prospect->credits != null) {
+        if($prospect->credits != '' || $prospect->credits != null) {
             //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
-            foreach (json_decode($user->prospect->credits) as $credit => $montant) {
+            foreach (json_decode($prospect->credits) as $credit => $montant) {
                 $array['charges'] += $montant;
             }
         }
 
         //additionne le loyer
-        $array['charges'] += $user->prospect->loyer ? $user->prospect->loyer : 0;
+        $array['charges'] += $prospect->loyer ? $prospect->loyer : 0;
 
         //additionne la pension alimentaire
-        $array['charges'] += $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ;
+        $array['charges'] += $prospect->pensionAlimentaire ? $prospect->pensionAlimentaire : 0 ;
 
         return $array;
     }
@@ -398,15 +412,16 @@ class ProspectRepository
      * Met à jour une row du tableau credits stocké en base
      * @param array $inputs
      * @param $id
+     * @return array
      */
     public function updateCreditRow(array $inputs, $id)
     {
         try {
             //recupere le user/prospect à mettre à jour
-            $user = $this->getById($id);
+            $prospect = $this->getById($id);
 
             //recupere le tableau  stocké en base
-            $credits = (array)json_decode($user->prospect->credits, true);
+            $credits = (array)json_decode($prospect->credits, true);
 
             //init la nouvelle clé
             $newKey = $inputs['nomCredit'];
@@ -425,7 +440,7 @@ class ProspectRepository
 
             $credits[$newKey] = $newValue;
 
-            $user->prospect()->update(['credits' => json_encode($credits)]);
+            $prospect->update(['credits' => json_encode($credits)]);
         }catch (\Exception $exception){
             return ['fail' => $exception->getMessage()];
         }
