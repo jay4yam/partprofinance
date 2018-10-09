@@ -37,7 +37,7 @@ class ProspectRepository
      */
     public function getById($id)
     {
-        return $this->user->with('prospect')->findOrFail($id);
+        return $this->prospect->with('user')->findOrFail($id);
     }
 
     /**
@@ -186,10 +186,13 @@ class ProspectRepository
         {
             return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
         }
+
         if(\Auth::user()->role == 'admin')
         {
             return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
         }
+
+        return null;
     }
 
     /**
@@ -293,32 +296,30 @@ class ProspectRepository
      */
     public function update(array $input, $id)
     {
+        $prospect = $this->getById($id);
         try {
-            $user = $this->getById($id);
-
             //met à jour les items en base
-            //si c'est le mail qui est mise a jour on update pas
-            // le même model entre $user et $user->prospect
+            //update mail
             if(isset($input['id']) && $input['id'] == "email")
             {
                 //met à jour l'email de l'utilisateur
-                $user->update([$input['id'] => $input['value']]);
-                $user->save();
+                $prospect->update([$input['id'] => $input['value']]);
+                $prospect->save();
             }
 
             //Si c'est un item qui appartient à la table prospect
             if( isset($input['id']) && $input['id'] != "email"){
                 //met à jour le champs de la table ($input[id] avec la nouvelle valeur $input[value]
-                $user->prospect()->update([$input['id'] => $input['value']]);
+                $prospect->update([$input['id'] => $input['value']]);
 
                 //sauv. le model
-                $user->save();
+                $prospect->save();
             }
 
             //Ajout d'un crédit
             if( isset($input['creditName']) && isset($input['creditValue'])){
                 //recupere le tableau de credit à modifier
-                $creditArray = json_decode($user->prospect->credits, true);
+                $creditArray = json_decode($prospect->credits, true);
 
                 //Ajoute le nouveau credit et son montant
                 $creditArray[ $input['creditName'] ] = (double)$input['creditValue'];
@@ -327,16 +328,16 @@ class ProspectRepository
                 $serializeCredit = json_encode($creditArray);
 
                 //met à jour le credit
-                $user->prospect()->update( ['credits' => $serializeCredit] );
+                $prospect->update( ['credits' => $serializeCredit] );
 
                 //sauv. le model
-                $user->save();
+                $prospect->save();
             }
 
             //Suppression d'un crédit
             if( isset($input['creditToDelete'])){
                 //recupere le tableau de credit à modifier
-                $creditArray = json_decode($user->prospect->credits, true);
+                $creditArray = json_decode($prospect->credits, true);
 
                 //supprimer le credit du tableau
                 unset( $creditArray[ $input['creditToDelete'] ] );
@@ -345,10 +346,10 @@ class ProspectRepository
                 $serializeCredit = json_encode($creditArray);
 
                 //enregistre le nouveau tableau de credit
-                $user->prospect()->update( ['credits' => $serializeCredit ] );
+                $prospect->update( ['credits' => $serializeCredit ] );
 
                 //sauv. le model.
-                $user->save();
+                $prospect->save();
 
             }
 
@@ -363,45 +364,46 @@ class ProspectRepository
     /**
      * Supprime un prospect
      * @param $id
-     * @return string
+     * @return void
      */
     public function delete($id)
     {
-            $user = $this->user->findOrFail($id);
-            $user->dossier()->delete();
-            $user->prospect()->delete();
-            $user->delete();
+        \DB::transaction(function () use ($id){
+            $prospect = $this->prospect->findOrFail($id);
+            $prospect->dossier()->delete();
+            $prospect->delete();
+        });
     }
 
     /**
      * Retourne un tableau contenant "la somme revenus" et "la sommes des charges"
-     * @param User $user
+     * @param Prospect $prospect
      * @return array
      */
-    public function revenusAndChargesToArray(User $user)
+    public function revenusAndChargesToArray(Prospect $prospect)
     {
         //init un tableau vide
         $array = [];
 
         //additionne les revenus prospect & conjoint
-        $array['revenus'] = $user->prospect->revenusNetMensuel + $user->prospect->revenusNetMensuelConjoint;
+        $array['revenus'] = $prospect->revenusNetMensuel + $prospect->revenusNetMensuelConjoint;
 
         //cree l'index charges du tableau pour y stocker les charges
         $array['charges'] = 0;
 
         //Si le champs credit n'est pas vide
-        if($user->prospect->credits != '' || $user->prospect->credits != null) {
+        if($prospect->credits != '' || $prospect->credits != null) {
             //itère sur le tableau de credits de l'utilisateur pour additionner les montants des credits
-            foreach (json_decode($user->prospect->credits) as $credit => $montant) {
+            foreach (json_decode($prospect->credits) as $credit => $montant) {
                 $array['charges'] += $montant;
             }
         }
 
         //additionne le loyer
-        $array['charges'] += $user->prospect->loyer ? $user->prospect->loyer : 0;
+        $array['charges'] += $prospect->loyer ? $prospect->loyer : 0;
 
         //additionne la pension alimentaire
-        $array['charges'] += $user->prospect->pensionAlimentaire ? $user->prospect->pensionAlimentaire : 0 ;
+        $array['charges'] += $prospect->pensionAlimentaire ? $prospect->pensionAlimentaire : 0 ;
 
         return $array;
     }
@@ -416,10 +418,10 @@ class ProspectRepository
     {
         try {
             //recupere le user/prospect à mettre à jour
-            $user = $this->getById($id);
+            $prospect = $this->getById($id);
 
             //recupere le tableau  stocké en base
-            $credits = (array)json_decode($user->prospect->credits, true);
+            $credits = (array)json_decode($prospect->credits, true);
 
             //init la nouvelle clé
             $newKey = $inputs['nomCredit'];
@@ -438,7 +440,7 @@ class ProspectRepository
 
             $credits[$newKey] = $newValue;
 
-            $user->prospect()->update(['credits' => json_encode($credits)]);
+            $prospect->update(['credits' => json_encode($credits)]);
         }catch (\Exception $exception){
             return ['fail' => $exception->getMessage()];
         }

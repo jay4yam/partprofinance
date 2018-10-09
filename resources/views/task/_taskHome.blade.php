@@ -25,7 +25,7 @@
                 <!-- checkbox -->
                 <input type="checkbox" value="{{ $task->status }}" class="taskdone" data-taskid="{{ $task->id }}" title="done" {{ $task->status == 0 ? 'checked' :'' }}>
                 <!-- todo text -->
-                <span class="text">{{ $task->taskcontent }} | {{ $task->user->prospect->nom }}</span>
+                <span class="text">{{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->prospect->id]) }}">{{ $task->prospect->nom }}</a></span>
                 <!-- Emphasis label -->
                 <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
                 <!-- General tools such as edit or delete-->
