@@ -22,6 +22,10 @@
     <!-- Main content -->
     <section class="content">
 
+        <!-- menu box -->
+        @include('filters._dossier')
+        <!-- /. menu box -->
+
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
@@ -40,6 +44,9 @@
                     <thead>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                        <th>Commercial</th>
+                        @endif
                         <th>date</th>
                         <th>clients</th>
                         <th>status</th>
@@ -55,6 +62,9 @@
                     @foreach($dossiers as $dossier)
                         <tr>
                             <td>{{ $dossier->id }}</td>
+                            @if(Auth::user()->role == "admin")
+                                <td>{{ $dossier->user->name }}</td>
+                            @endif
                             <td>{{ $dossier->created_at->format('d M y') }}</td>
                             <td>{{ $dossier->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
@@ -84,6 +94,9 @@
                     <tr>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>date</th>
                         <th>clients</th>
                         <th>status</th>

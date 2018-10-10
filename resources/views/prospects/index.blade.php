@@ -44,6 +44,9 @@
                     <thead>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>Date</th>
                         <th>Civ Nom Prénom</th>
                         <th>Téléphone / Email</th>
@@ -58,6 +61,9 @@
                     @foreach($prospects as $prospect)
                         <tr>
                             <td>{{ $prospect->id }}</td>
+                            @if(Auth::user()->role == "admin")
+                                <td>{{ $prospect->user->name }}</td>
+                            @endif
                             <td>{{ @$prospect->created_at->format('d M Y') }}</td>
                             <td>
                                 {{ $prospect->civilite }}
@@ -105,6 +111,9 @@
                     <tfoot>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>Date</th>
                         <th>Civ Nom Prénom</th>
                         <th>Téléphone / Email</th>

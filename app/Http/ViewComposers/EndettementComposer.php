@@ -19,10 +19,7 @@ class EndettementComposer
      */
     protected $prospectRepository;
 
-    /**
-     * @var object|string
-     */
-    protected $userId;
+    protected $prospectId;
 
     protected $dossierRepository;
 
@@ -39,7 +36,7 @@ class EndettementComposer
         $this->dossierRepository = $dossierRepository;
 
         //récupère l'id de l'utilisateur passée à la route en tant que variable prospect
-        $this->userId = request()->route()->parameter('prospect');
+        $this->prospectId = request()->route()->parameter('prospect');
 
         //récupère l'id du dossier passée à la route en tant que variable dossier
         $this->dossierId = request()->route()->parameter('dossier');
@@ -58,11 +55,11 @@ class EndettementComposer
         {
             $dossier = $this->dossierRepository->getById($this->dossierId);
 
-            $user = $this->prospectRepository->getById( $dossier->user_id );
+            $user = $this->prospectRepository->getById( $dossier->prospect_id );
         }
         //si la route est celle des prospect
-        if($this->userId) {
-            $user = $this->prospectRepository->getById($this->userId);
+        if($this->prospectId) {
+            $user = $this->prospectRepository->getById($this->prospectId);
         }
         return $user;
     }

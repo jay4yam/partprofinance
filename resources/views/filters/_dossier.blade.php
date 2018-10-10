@@ -2,11 +2,11 @@
     {{ Form::open([ 'route' => 'prospect.index', 'method' => 'GET', 'class' => 'form-inline']) }}
     <div class="form-group sep">
         {{ Form::label('annee', 'Année') }}
-        {{ Form::select('annee', $prospectYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
+        {{ Form::select('annee', $dossierYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
     </div>
     <div class="form-group sep">
         {{ Form::label('mois', 'Mois') }}
-        {{ Form::select('mois', $prospectMonths, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
+        {{ Form::select('mois', $dossierMonths, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
     </div>
     <div class="form-group sep">
         {{ Form::label('nom', 'Recherche') }}

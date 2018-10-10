@@ -37,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
 
         //renvois les mois et années de creation des prospects en base
         View::composer('filters._prospect', MonthsAndYearsForFilterComposer::class);
+
+        //renvois les mois et années de creation des prospects en base
+        View::composer('filters._dossier', MonthsAndYearsForFilterComposer::class);
     }
 
     /**

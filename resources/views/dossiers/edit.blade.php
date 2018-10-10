@@ -18,7 +18,8 @@
     <section class="content">
         <div class="row">
             {{ Form::model($dossier,['route' => ['dossiers.update', $dossier], 'method' => 'PATCH', 'class' => 'form'] ) }}
-            {{ Form::hidden('user_id', $dossier->user->id, ['id' => 'user_id']) }}
+            {{ Form::hidden('user_id', $dossier->user_id, ['id' => 'user_id']) }}
+            {{ Form::hidden('prospect_id', $dossier->prospect_id, ['id' => 'prospect_id']) }}
             <!-- Col. gauche -->
             <div class="col-md-9">
                 <!-- Edition Dossier -->
