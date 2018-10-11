@@ -1,5 +1,5 @@
 <div class="box">
-    {{ Form::open([ 'route' => 'prospect.index', 'method' => 'GET', 'class' => 'form-inline']) }}
+    {{ Form::open([ 'route' => 'dossiers.index', 'method' => 'GET', 'class' => 'form-inline']) }}
     <div class="form-group sep">
         {{ Form::label('annee', 'Année') }}
         {{ Form::select('annee', $dossierYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}

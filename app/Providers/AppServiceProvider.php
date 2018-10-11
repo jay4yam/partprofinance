@@ -35,11 +35,9 @@ class AppServiceProvider extends ServiceProvider
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('task._taskHome', TaskComposer::class);
 
-        //renvois les mois et années de creation des prospects en base
-        View::composer('filters._prospect', MonthsAndYearsForFilterComposer::class);
+        //renvois les mois et années de creation des prospects et des dossiers en base
+        View::composer(['filters._prospect', 'filters._dossier'], MonthsAndYearsForFilterComposer::class);
 
-        //renvois les mois et années de creation des prospects en base
-        View::composer('filters._dossier', MonthsAndYearsForFilterComposer::class);
     }
 
     /**

@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth'], function(){
      */
     //Route resource contenant index, show, edit, save... pour le model Prospect
     Route::resource('prospect', 'ProspectController');
+
     //requête ajax qui gère l'ajout d'un credit
     Route::post('/prospect/add-credit/{prospectId}', 'ProspectController@ajaxAddCredit');
     //Requête ajax qui gère la mise à jour d'un credit
@@ -37,16 +38,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('import/upload', 'UploadProspect@uploadFile')->name('prospect.upload');
     //3. Suprrime l'un des fichiers .csv
     Route::delete('remove/file', 'UploadProspect@deleteFile')->name('remove.file');
-
     //4. Gère le clic sur le bouton importer dans la vue Prospect.index
     Route::post('import/csv/builder', 'UploadProspect@csvBuilder')->name('prospect.csv.import');
-
-    //Gère la sauv. d'un prospect
+    //5. Gère la sauv. d'un prospect
     Route::post('save/temp/prospect/{id}', 'UploadProspect@save')->name('save.temp.prospect');
-    //supprime un prospect temp de la table
+    //6. supprime un prospect temp de la table
     Route::delete('delete/temp/prospect/{id}', 'UploadProspect@delete')->name('delete.temp.prospect');
-
-    //Affiche la vue creation de prospect depuis l'import d'un fichier
+    //7. Affiche la vue creation de prospect depuis l'import d'un fichier
     Route::get('create/imported/prospect/{prospectId}', 'UploadProspect@createImportedProspect' )->name('create.imported.prospect');
 
 
@@ -100,5 +98,9 @@ Route::group(['middleware' => 'auth'], function(){
      */
     //Route resource contenant index, show, edit, save... pour le model Task
     Route::resource('task', 'TaskController');
+
+    /** GESTION DES UTILISATEURS **/
+    Route::resource('user', 'UserController');
+
 });
 

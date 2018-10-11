@@ -403,7 +403,7 @@
                 </li>
 
                 <!-- Commerciaux -->
-                <li class="">
+                <li class="treeview {{ @$activeCommerciaux }}">
                     <a href="#">
                         <i class="fa fa-female" aria-hidden="true"></i>
                         <span>Commerciaux</span>
@@ -411,6 +411,18 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
+                    <ul class="treeview-menu ">
+                        <li class="{{ @$activeCommerciaux }}">
+                            <a href="{{ url()->route('user.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des Utilisateurs
+                            </a>
+                        </li>
+                        <li class="{{ @$activeCommerciaux }}">
+                            <a href="{{ url()->route('user.create') }}">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> Ajouter un Utilisateur
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- Banques -->

@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Helpers\FilterModelByDate;
 use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
+use Carbon\Carbon;
 use Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -21,17 +23,23 @@ class ProspectRepository
     protected $prospect;
 
     /**
+     * @var Filter;
+     */
+    protected $filter;
+
+    /**
      * ProspectRepository constructor.
      * @param User $user
      */
-    public function __construct(User $user, Prospect $prospect)
+    public function __construct(User $user, Prospect $prospect, FilterModelByDate $filter)
     {
         $this->user = $user;
         $this->prospect = $prospect;
+        $this->filter = $filter;
     }
 
     /**
-     * Retourne un utilisateur et la table liée 'prospect'
+     * Retourne un prospect et la table liée 'user'
      * @param $id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
@@ -50,13 +58,11 @@ class ProspectRepository
     {
         $prospects = $this->getAll();
 
-        //recherche par annee
-        if(isset($inputs['annee']) && $inputs['annee'] != '') {
+        if( count($inputs) ){
+            //Filtre par année
+            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
 
-            $prospects = $this->prospect
-                ->whereYear('created_at', $inputs['annee'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
+            $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
         }
 
         //recherche par mois
@@ -163,7 +169,7 @@ class ProspectRepository
                 ->with('user', 'dossier', 'tasks')->get();
 
             $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
+                if(count($user->tasks)){ return $user; }
             });
 
             //Get current page form url e.g. &page=1
@@ -182,16 +188,17 @@ class ProspectRepository
      */
     public function getAll()
     {
-        if(\Auth::user()->role == 'staff')
-        {
-            return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+        //test le role de l'utilisateur
+        switch (\Auth::user()->role){
+            case 'staff':
+                //retourne la vue avec les prospects qui n'appartiennent qu'à cet utilisateur
+                return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                break;
+            case 'admin':
+                //retourne la vue avec tous les  prospects car admin
+                return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                break;
         }
-
-        if(\Auth::user()->role == 'admin')
-        {
-            return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
-        }
-
         return null;
     }
 
