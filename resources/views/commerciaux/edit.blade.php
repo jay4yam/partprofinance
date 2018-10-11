@@ -1,23 +1,23 @@
-@extends('layouts.app', ['title' => 'Création d\'un coompte commercial', 'activeCommerciaux' => 'active'])
+@extends('layouts.app', ['title' => 'Edition d\'un compte commercial', 'activeCommerciaux' => 'active'])
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Creation de compte utilisateur
-            <small>Ajouter un nouvel utilisateur</small>
+            Edition d'un utilisateur
+            <small>Editer un utilisateur</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Commerciaux</a></li>
-            <li class="active">Ajout nouvel utilisateur</li>
+            <li class="active">Edition utilisateur</li>
         </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            {{ Form::open(['route' =>'user.store', 'method' => 'POST', 'files' => 'true']) }}
+            {{ Form::model($user, ['route' => ['user.update', $user], 'method' => 'PUT', 'files' => 'true']) }}
             <div class="row">
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
@@ -37,45 +37,33 @@
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
                                 <tr>
-                                    <td><label for="role">Role </label></td>
+                                    <td><label for="role">Nom </label></td>
                                     <td class="data">
-                                        {{ Form::select('role', ['admin'=>'Super admin', 'staff'=>'Commercial'], '', ['placeholder' => 'choisissez un role', 'class' => 'form-control']) }}
+                                        {{ Form::select('role', ['admin'=>'Super admin', 'staff'=>'Commercial'], $user->role, [ 'class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">Nom </label></td>
                                     <td class="data">
-                                        {{ Form::text('name', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('name', $user->name, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="email">Email</label></td>
                                     <td class="data">
-                                        {{ Form::email('email', null, ['class' => 'form-control']) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="confirmationEmail">Confirmation Email</label></td>
-                                    <td class="data">
-                                        {{ Form::email('confirmationEmail', null, ['class' => 'form-control']) }}
+                                        {{ Form::email('email', $user->email, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">Mot de passe</label></td>
                                     <td class="data {{ $errors->has('password') ? ' has-error' : '' }}">
-                                        {{ Form::password('password' , ['class' => 'form-control']) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="nom">Mot de passe</label></td>
-                                    <td class="data {{ $errors->has('passwordConfirmation') ? ' has-error' : '' }}">
-                                        {{ Form::password('passwordConfirmation' , ['class' => 'form-control']) }}
+                                        {{ Form::password('password', ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="taux_commission">Taux de commission</label></td>
                                     <td class="data {{ $errors->has('taux_commission') ? ' has-error' : '' }}">
-                                        {{ Form::text('taux_commission', null , ['class' => 'form-control']) }}
+                                        {{ Form::text('commission_rate', $user->commission_rate , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -100,6 +88,9 @@
                             </div>
                         </div>
                         <div class="box-body">
+                            <div>
+                                <img src="{{ asset('storage/avatar').'/'. $user->avatar}}" class="img-responsive">
+                            </div>
                             <div class="input-group">
                                 {{ Form::file('avatar', null , ['class' => 'form-control', 'id' => 'nom']) }}
                             </div>
