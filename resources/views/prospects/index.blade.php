@@ -81,7 +81,7 @@
                                 @if(count($prospect->dossier))
                                     @foreach($prospect->dossier as $dossier)
                                         <small class="label {{ str_slug($dossier->status) }}">
-                                            <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
+                                            <a href="#" class="showdossier" data-target="#myModal" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
                                             {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
                                             </a>
                                         </small>
@@ -101,9 +101,11 @@
                                 {!! @$prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i> Détails
-                                </a>
+                                @if(Auth::user()->id == $dossier->user_id)
+                                    <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Détails
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -137,7 +139,23 @@
     </section>
     <!-- /.content -->
 
-
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="dossier-title"></h4>
+                </div>
+                <div class="modal-body" id="dossier-content">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 
 @section('js')
