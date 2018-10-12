@@ -239,9 +239,6 @@ class ProspectRepository
             if( isset($input['id']) && $input['id'] != "email"){
                 //met à jour le champs de la table ($input[id] avec la nouvelle valeur $input[value]
                 $prospect->update([$input['id'] => $input['value']]);
-                if($input['id'] == 'mandat_status' && $input['value'] == 1){
-                    $prospect->update(['mandat_status' => true]);
-                }
 
                 //sauv. le model
                 $prospect->save();
