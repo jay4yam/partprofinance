@@ -76,9 +76,11 @@
                                 {!! $dossier->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
+                                @if(Auth::user()->id == $dossier->user_id)
                                 <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
+                                @endif
                                 <form class='delete' action="{{ route('dossiers.destroy', ['dossier' => $dossier->id]) }}" method="post">
                                     {{ csrf_field() }}
                                     <input name="_method" type="hidden" value="DELETE">

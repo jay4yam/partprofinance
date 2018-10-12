@@ -1,6 +1,6 @@
 <div class="box">
     {{ Form::open([ 'route' => 'prospect.index', 'method' => 'GET', 'class' => 'form-inline']) }}
-    @if(Auth::user()->role = 'admin')
+    @if(Auth::user()->role == 'admin')
     <div class="form-group sep">
         {{ Form::select('user', $commerciaux, '', ['class' => 'form-control', 'placeholder' => 'choisissez un commercial']) }}
     </div>

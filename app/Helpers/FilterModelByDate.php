@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -79,6 +80,37 @@ class FilterModelByDate
     }
 
     /**
+     * Filtre le model par le nom
+     * @param Model|null $model
+     * @param $searchedName
+     * @param $dbColumn
+     * @return LengthAwarePaginator|Model
+     */
+    public function filterDossierByName(Model $model = null, $searchedName, $dbColumn)
+    {
+        $modelFiltered2return = null;
+
+        //recherche par nom
+        if( isset($searchedName) && !empty($searchedName) )
+        {
+            $collection = New Collection();
+            $allModels = $model->with('user', 'banque', 'prospect')->get();
+            $modelFiltered= $allModels->each(function ($dossier) use ($searchedName, $collection) {
+                $nom = $dossier->prospect->nom;
+                $pos = strpos( strtolower($nom), $searchedName);
+                if($pos !== false)
+                    $collection->push($dossier);
+            });
+            //Get current page form url e.g. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $collection->slice(($currentPage - 1) * 10, 10);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($collection), 10);
+            $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+        }
+        return $modelFiltered2return;
+    }
+
+    /**
      * Filtre par iban
      * @param Model|null $model
      * @param $iban
@@ -91,7 +123,33 @@ class FilterModelByDate
         if(isset($iban) && $iban = 'on') {
             $allModels = $model->with('user', 'dossier', 'tasks')->get();
             $modelFiltered = $allModels->filter(function ($model) {
-                if ($model->iban != '') {
+                if ($model->iban != '') return $model;
+            });
+
+            //Get current page form url e.g. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
+            $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+        }
+
+        return $modelFiltered2return;
+    }
+
+    /**
+     * Filtre par iban
+     * @param Model|null $model
+     * @param $iban
+     * @return LengthAwarePaginator
+     */
+    public function filterDossierByIban(Model $model = null, $iban)
+    {
+        $modelFiltered2return = null;
+
+        if(isset($iban) && $iban = 'on') {
+            $allModels = $model->with('user', 'banque', 'prospect')->get();
+            $modelFiltered = $allModels->filter(function ($model) {
+                if ($model->prospect->iban != '') {
                     return $model;
                 }
             });
@@ -104,6 +162,17 @@ class FilterModelByDate
         }
 
         return $modelFiltered2return;
+    }
+
+    public function filterDossierByStatus(Model $model = null, $status)
+    {
+        //recherche par status de dossier
+        if( isset($status) && !empty($status) )
+        {
+            $modelFiltered = $model->where('status', '=', $status)->paginate(10);
+            return $modelFiltered;
+        }
+        return $model;
     }
 
     /**

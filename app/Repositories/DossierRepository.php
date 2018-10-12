@@ -52,10 +52,10 @@ class DossierRepository
     {
         switch(\Auth::user()->role){
             case('admin'):
-                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque')->paginate(10);
+                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
                 break;
             case ('staff'):
-                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque')->paginate(10);
+                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
                 break;
         }
         return null;
@@ -68,7 +68,7 @@ class DossierRepository
     {
         $dossiers = $this->getAll();
 
-        //Filtre par commerciaux
+        //Filtre sur les commerciaux
         if( isset($inputs['user']) && $inputs['user'] != '' ) {
             $dossiers = $this->filter->FilterBySales($this->dossier, $inputs['user']);
         }
@@ -85,12 +85,17 @@ class DossierRepository
 
         //recherche par nom
         if(isset($inputs['search'])) {
-            $dossiers = $this->filter->filterByName($this->dossier, $inputs['search'], 'nom');
+            $dossiers = $this->filter->filterDossierByName($this->dossier, $inputs['search'], 'nom');
+        }
+
+        //filter par status
+        if(isset($inputs['status'])){
+            $dossiers = $this->filter->filterDossierByStatus($this->dossier, $inputs['status']);
         }
 
         //recherche par iban
         if(isset($inputs['iban'])){
-            $dossiers = $this->filter->filterByIban($this->dossier, $inputs['iban']);
+            $dossiers = $this->filter->filterDossierByIban($this->dossier, $inputs['iban']);
         }
 
         return $dossiers;
