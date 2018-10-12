@@ -83,14 +83,14 @@ class ProspectRepository
             $prospects = $this->filter->FilterBySales($this->prospect, $inputs['user']);
         }
 
-        //Filtre par année
-        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
-            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
-        }
-
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
             $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
+        }
+
+        //Filtre par année
+        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
+            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
         }
 
         //recherche par nom
@@ -239,6 +239,9 @@ class ProspectRepository
             if( isset($input['id']) && $input['id'] != "email"){
                 //met à jour le champs de la table ($input[id] avec la nouvelle valeur $input[value]
                 $prospect->update([$input['id'] => $input['value']]);
+                if($input['id'] == 'mandat_status' && $input['value'] == 1){
+                    $prospect->update(['mandat_status' => true]);
+                }
 
                 //sauv. le model
                 $prospect->save();

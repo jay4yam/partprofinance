@@ -76,7 +76,7 @@
                                 {!! $dossier->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                @if(Auth::user()->id == $dossier->user_id)
+                                @if(Auth::user()->id == $dossier->user_id || Auth::user()->role == 'admin')
                                 <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>

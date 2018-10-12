@@ -31,21 +31,6 @@ class FilterModelByDate
     }
 
     /**
-     * Retourne un model quelconque filtré par année
-     * @param $annee
-     * @param $model
-     * @return mixed
-     */
-    public function filterByYear(Model $model, $annee)
-    {
-        if(isset($annee) && !empty($annee)) {
-             $modelFiltered = $model->whereYear('created_at', $annee)->paginate(10);
-            return $modelFiltered;
-        }
-        return $model;
-    }
-
-    /**
      * Retourne un model quelconque filtré par mois
      * @param $model
      * @param $month
@@ -56,6 +41,21 @@ class FilterModelByDate
         if(isset($month) && !empty($month)) {
 
             $modelFiltered = $model->whereMonth('created_at', $month)->paginate(10);
+            return $modelFiltered;
+        }
+        return $model;
+    }
+
+    /**
+     * Retourne un model quelconque filtré par année
+     * @param $annee
+     * @param $model
+     * @return mixed
+     */
+    public function filterByYear(Model $model, $annee)
+    {
+        if(isset($annee) && !empty($annee)) {
+             $modelFiltered = $model->whereYear('created_at', $annee)->paginate(10);
             return $modelFiltered;
         }
         return $model;

@@ -73,14 +73,14 @@ class DossierRepository
             $dossiers = $this->filter->FilterBySales($this->dossier, $inputs['user']);
         }
 
-        //Filtre par année
-        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
-            $dossiers = $this->filter->FilterByYear($this->dossier, $inputs['annee']);
-        }
-
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
             $dossiers = $this->filter->FilterByMonth($this->dossier, $inputs['mois']);
+        }
+
+        //Filtre par année
+        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
+            $dossiers = $this->filter->FilterByYear($this->dossier, $inputs['annee']);
         }
 
         //recherche par nom
