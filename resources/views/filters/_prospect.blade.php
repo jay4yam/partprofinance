@@ -1,16 +1,18 @@
 <div class="box">
     {{ Form::open([ 'route' => 'prospect.index', 'method' => 'GET', 'class' => 'form-inline']) }}
+    @if(Auth::user()->role = 'admin')
     <div class="form-group sep">
-        {{ Form::label('annee', 'Année') }}
+        {{ Form::select('user', $commerciaux, '', ['class' => 'form-control', 'placeholder' => 'choisissez un commercial']) }}
+    </div>
+    @endif
+    <div class="form-group sep">
         {{ Form::select('annee', $prospectYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::label('mois', 'Mois') }}
         {{ Form::select('mois', $prospectMonths, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::label('nom', 'Recherche') }}
-        {{ Form::text('search', null, ['class' => 'form-control']) }}
+        {{ Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'recherche par nom']) }}
     </div>
     <div class="form-group sep">
         {{ Form::label('iban', 'iban') }}

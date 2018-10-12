@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\CommerciauxComposer;
 use App\Http\ViewComposers\EndettementComposer;
 use App\Http\ViewComposers\LeadStatComposer;
 use App\Http\ViewComposers\MonthsAndYearsForFilterComposer;
@@ -37,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
         //renvois les mois et années de creation des prospects et des dossiers en base
         View::composer(['filters._prospect', 'filters._dossier'], MonthsAndYearsForFilterComposer::class);
+
+        View::composer(['filters._prospect', 'filters._dossier'], CommerciauxComposer::class);
 
     }
 

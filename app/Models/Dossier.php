@@ -39,6 +39,16 @@ class Dossier extends Model
     }
 
     /**
+     * Retourne les dossiers de l'utilisateur en cours
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOwner($query)
+    {
+        return $query->where('user_id', \Auth::user()->id);
+    }
+
+    /**
      * Retourne les dossiers du mois refusés
      * @param $query
      * @return mixed
@@ -70,7 +80,6 @@ class Dossier extends Model
         return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
-
 
     /**
      * Relation 1:n avec la table User

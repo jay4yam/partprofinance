@@ -28,9 +28,9 @@ class DossierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dossiers = $this->dossierRepository->getAll();
+        $dossiers = $this->dossierRepository->getFilter($request->all());
 
         return view('dossiers.index', compact('dossiers'));
     }

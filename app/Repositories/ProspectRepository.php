@@ -49,140 +49,6 @@ class ProspectRepository
     }
 
     /**
-     * Gère la réception des datas pour filtrer la vue prospect.index
-     * Retourne une collection de prospect
-     * @param array $inputs
-     * @return mixed
-     */
-    public function getFilter(array $inputs)
-    {
-        $prospects = $this->getAll();
-
-        if( count($inputs) ){
-            //Filtre par année
-            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
-
-            $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
-        }
-
-        //recherche par mois
-        if(isset($inputs['mois']) && $inputs['mois'] != '') {
-
-            $prospects = $this->prospect
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recherche par mois + année
-        if(isset($inputs['annee']) && $inputs['annee'] != '' && isset($inputs['mois']) && $inputs['mois'] != '') {
-
-            $prospects = $this->prospect
-                        ->whereYear('created_at', $inputs['annee'])
-                        ->whereMonth('created_at', $inputs['mois'])
-                        ->with('user', 'dossier', 'tasks')
-                        ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recherche par nom
-        if(isset($inputs['search']))
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recheche par nom + mois
-        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' )
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recheche par nom + mois + année
-        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != '')
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->whereYear('created_at', $inputs['annee'])
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recherche par iban
-        if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
-
-            $allUsers = $this->prospect>with('user', 'dossier', 'tasks')->get();
-            $prospects = $allUsers->filter(function ($user){
-               if($user->prospect->iban != ''){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $prospects->slice(($currentPage - 1) * 10, 10);
-            $paginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
-            $paginate->setPath($_SERVER['REQUEST_URI']);
-            return $paginate;
-        }
-
-        //recherche par rappel
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
-
-            $allUsers = $this->prospect->guest()->with('user', 'dossier', 'tasks')->get();
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($usersWithTask), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recherche par rappel + mois
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != ''){
-
-            $allUsers = $this->user->guest()
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')->get();
-
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recherche par rappel + mois + annee
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != ''){
-
-            $allUsers = $this->prospect
-                ->whereYear('created_at', $inputs['annee'])
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')->get();
-
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user; }
-            });
-
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
-            $prospects = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        return $prospects;
-    }
-
-    /**
      * Retourne la liste des utilisateurs
      * @return mixed
      */
@@ -201,6 +67,61 @@ class ProspectRepository
         }
         return null;
     }
+
+    /**
+     * Gère la réception des datas pour filtrer la vue prospect.index
+     * Retourne une collection de prospect
+     * @param array $inputs
+     * @return mixed
+     */
+    public function getFilter(array $inputs)
+    {
+        $prospects = $this->getAll();
+
+        //Filtre par commerciaux
+        if( isset($inputs['user']) && $inputs['user'] != '' ) {
+            $prospects = $this->filter->FilterBySales($this->prospect, $inputs['user']);
+        }
+
+        //Filtre par année
+        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
+            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
+        }
+
+        //recherche par mois
+        if(isset($inputs['mois']) && $inputs['mois'] != '') {
+            $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
+        }
+
+        //recherche par nom
+        if(isset($inputs['search'])) {
+            $prospects = $this->filter->filterByName($this->prospect, $inputs['search'], 'nom');
+        }
+
+        //recherche par iban
+        if(isset($inputs['iban'])){
+            $prospects = $this->filter->filterByIban($this->prospect, $inputs['iban']);
+        }
+
+        //recherche par rappel
+        if(isset($inputs['rappel'])){
+            $prospects = $this->filter->filterByTask($this->prospect, $inputs['rappel']);
+        }
+
+        //recherche par dossier
+        if(isset($inputs['dossier'])){
+            $prospects = $this->filter->filterByDossier($this->prospect, $inputs['dossier']);
+        }
+
+        //recherche par mandat
+        if(isset($inputs['mandat'])){
+            $prospects = $this->filter->filterByMandat($this->prospect, $inputs['mandat']);
+        }
+
+        return $prospects;
+    }
+
+
 
     /**
      * Gère l'ajout d'un model prospect

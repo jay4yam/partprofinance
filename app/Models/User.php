@@ -48,6 +48,16 @@ class User extends Authenticatable
     }
 
     /**
+     * scopeStaff, retourne uniquement les utilisateurs dont le rôle est staff
+     * @param $query
+     * @return mixed
+     */
+    public function scopeStaff($query)
+    {
+        return $query->where('role', 'staff');
+    }
+
+    /**
      * Retourne la liste des utilisateurs du mois en cours
      * @param $query
      * @return mixed

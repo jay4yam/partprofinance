@@ -67,7 +67,11 @@ class Prospect extends Model
         'BanqueDepuis'
     ];
 
-
+    /**
+     * Retourne les prospects n'appartenant qu'à l'utilisateur en cours
+     * @param $query
+     * @return mixed
+     */
     public function scopeOwner($query)
     {
         return $query->where('user_id', '=', \Auth::user()->id);
