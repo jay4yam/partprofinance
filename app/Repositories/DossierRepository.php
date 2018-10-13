@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 
+use App\Helpers\FilterModelByDate;
 use App\Models\Dossier;
 use App\Models\Prospect;
 use App\Models\User;
@@ -21,22 +22,16 @@ class DossierRepository
      */
     protected $dossier;
 
+    protected $filter;
+
     /**
      * DossierRepository constructor.
      * @param Dossier $dossier
      */
-    public function __construct(Dossier $dossier)
+    public function __construct(Dossier $dossier, FilterModelByDate $filter)
     {
         $this->dossier = $dossier;
-    }
-
-    /**
-     * Retourne la liste des dossiers paginés 10/10
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function getAll()
-    {
-        return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque')->paginate(10);
+        $this->filter = $filter;
     }
 
     /**
@@ -47,6 +42,63 @@ class DossierRepository
     public function getById($id)
     {
         return $this->dossier->with('user', 'banque')->findOrFail($id);
+    }
+
+    /**
+     * Retourne la liste des dossiers paginés 10/10
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getAll()
+    {
+        switch(\Auth::user()->role){
+            case('admin'):
+                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
+                break;
+            case ('staff'):
+                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
+                break;
+        }
+        return null;
+    }
+
+    /**
+     *
+     */
+    public function getFilter(array $inputs)
+    {
+        $dossiers = $this->getAll();
+
+        //Filtre sur les commerciaux
+        if( isset($inputs['user']) && $inputs['user'] != '' ) {
+            $dossiers = $this->filter->FilterBySales($this->dossier, $inputs['user']);
+        }
+
+        //recherche par mois
+        if(isset($inputs['mois']) && $inputs['mois'] != '') {
+            $dossiers = $this->filter->FilterByMonth($this->dossier, $inputs['mois']);
+        }
+
+        //Filtre par année
+        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
+            $dossiers = $this->filter->FilterByYear($this->dossier, $inputs['annee']);
+        }
+
+        //recherche par nom
+        if(isset($inputs['search'])) {
+            $dossiers = $this->filter->filterDossierByName($this->dossier, $inputs['search'], 'nom');
+        }
+
+        //filter par status
+        if(isset($inputs['status'])){
+            $dossiers = $this->filter->filterDossierByStatus($this->dossier, $inputs['status']);
+        }
+
+        //recherche par iban
+        if(isset($inputs['iban'])){
+            $dossiers = $this->filter->filterDossierByIban($this->dossier, $inputs['iban']);
+        }
+
+        return $dossiers;
     }
 
     /**

@@ -22,6 +22,10 @@
     <!-- Main content -->
     <section class="content">
 
+        <!-- menu box -->
+        @include('filters._dossier')
+        <!-- /. menu box -->
+
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
@@ -36,10 +40,13 @@
                 </div>
             </div>
             <div class="box-body">
-                <table id="listedossier" class="table table-bordered table-hover">
+                <table id="listedossiers" class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                        <th>Commercial</th>
+                        @endif
                         <th>date</th>
                         <th>clients</th>
                         <th>status</th>
@@ -55,6 +62,9 @@
                     @foreach($dossiers as $dossier)
                         <tr>
                             <td>{{ $dossier->id }}</td>
+                            @if(Auth::user()->role == "admin")
+                                <td>{{ $dossier->user->name }}</td>
+                            @endif
                             <td>{{ $dossier->created_at->format('d M y') }}</td>
                             <td>{{ $dossier->prospect->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
@@ -66,9 +76,11 @@
                                 {!! $dossier->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
+                                @if(Auth::user()->id == $dossier->user_id || Auth::user()->role == 'admin')
                                 <a href="{{ url()->route('dossiers.edit', ['dossier' => $dossier]) }}" class="btn btn-default pull-left">
                                     <i class="fa fa-pencil" aria-hidden="true"></i> Editer
                                 </a>
+                                @endif
                                 <form class='delete' action="{{ route('dossiers.destroy', ['dossier' => $dossier->id]) }}" method="post">
                                     {{ csrf_field() }}
                                     <input name="_method" type="hidden" value="DELETE">
@@ -84,6 +96,9 @@
                     <tr>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>date</th>
                         <th>clients</th>
                         <th>status</th>
@@ -111,7 +126,23 @@
 @endsection
 
 @section('js')
+    <!-- DataTables -->
+    <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+
     <script>
+        $(function () {
+            $('#listedossiers').DataTable({
+                'paging'      : false,
+                'lengthChange': false,
+                'searching'   : false,
+                'ordering'    : true,
+                'order'       : [[2, 'desc']],
+                'info'        : true,
+                'autoWidth'   : true
+            });
+        });
+
         $(".delete").on("submit", function(){
             return confirm("La suppression est definitive, êtes vous sure ?");
         });

@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'avatar'
+        'name', 'email', 'password', 'role', 'avatar', 'commission_rate'
     ];
 
     /**
@@ -45,6 +45,16 @@ class User extends Authenticatable
     public function scopeGuest($query)
     {
         return $query->where('role', 'guest');
+    }
+
+    /**
+     * scopeStaff, retourne uniquement les utilisateurs dont le rôle est staff
+     * @param $query
+     * @return mixed
+     */
+    public function scopeStaff($query)
+    {
+        return $query->where('role', 'staff');
     }
 
     /**

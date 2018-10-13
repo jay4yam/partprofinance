@@ -44,6 +44,9 @@
                     <thead>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>Date</th>
                         <th>Civ Nom Prénom</th>
                         <th>Téléphone / Email</th>
@@ -58,6 +61,9 @@
                     @foreach($prospects as $prospect)
                         <tr>
                             <td>{{ $prospect->id }}</td>
+                            @if(Auth::user()->role == "admin")
+                                <td>{{ $prospect->user->name }}</td>
+                            @endif
                             <td>{{ @$prospect->created_at->format('d M Y') }}</td>
                             <td>
                                 {{ $prospect->civilite }}
@@ -75,7 +81,7 @@
                                 @if(count($prospect->dossier))
                                     @foreach($prospect->dossier as $dossier)
                                         <small class="label {{ str_slug($dossier->status) }}">
-                                            <a href="#" class="showdossier" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
+                                            <a href="#" class="showdossier" data-target="#myModal" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
                                             {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
                                             </a>
                                         </small>
@@ -95,9 +101,11 @@
                                 {!! @$prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i> Détails
-                                </a>
+                                @if(Auth::user()->id == $dossier->user_id || Auth::user()->role == 'admin')
+                                    <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Détails
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -105,6 +113,9 @@
                     <tfoot>
                     <tr>
                         <th>id</th>
+                        @if(Auth::user()->role == "admin")
+                            <th>Commercial</th>
+                        @endif
                         <th>Date</th>
                         <th>Civ Nom Prénom</th>
                         <th>Téléphone / Email</th>
@@ -128,7 +139,22 @@
     </section>
     <!-- /.content -->
 
-
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="dossier-title"></h4>
+                </div>
+                <div class="modal-body" id="dossier-content">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 
 @section('js')

@@ -39,6 +39,16 @@ class Dossier extends Model
     }
 
     /**
+     * Retourne les dossiers de l'utilisateur en cours
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOwner($query)
+    {
+        return $query->where('user_id', \Auth::user()->id);
+    }
+
+    /**
      * Retourne les dossiers du mois refusés
      * @param $query
      * @return mixed
@@ -71,7 +81,6 @@ class Dossier extends Model
             ->where('status', '=', 'Payé');
     }
 
-
     /**
      * Relation 1:n avec la table User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -96,7 +105,7 @@ class Dossier extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'banque_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

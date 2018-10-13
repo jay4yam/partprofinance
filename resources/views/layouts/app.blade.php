@@ -261,13 +261,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ asset('img') }}/{{ \Auth::user()->avatar }}" class="user-image" alt="User Image">
+                            <img src="{{ asset('/storage/avatar/') }}/{{ \Auth::user()->avatar }}" class="user-image" alt="User Image">
                             <span class="hidden-xs">{{ \Auth::user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{ asset('img') }}/{{ \Auth::user()->avatar }}" class="img-circle" alt="User Image">
+                                <img src="{{ asset('/storage/avatar/') }}/{{ \Auth::user()->avatar }}" class="img-circle" alt="User Image">
 
                                 <p>
                                     {{ \Auth::user()->name}} - {{ \Auth::user()->role }}
@@ -292,7 +292,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="{{ route('user.edit', ['id' => Auth::user()->id]) }}" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="{{ url('/logout') }}"
@@ -326,7 +326,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ asset('img') }}/{{ \Auth::user()->avatar }}" class="img-circle" alt="User Image">
+                    <img src="{{ asset('/storage/avatar/') }}/{{ \Auth::user()->avatar }}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>{{ \Auth::user()->name }}</p>
@@ -403,7 +403,7 @@
                 </li>
 
                 <!-- Commerciaux -->
-                <li class="">
+                <li class="treeview {{ @$activeCommerciaux }}">
                     <a href="#">
                         <i class="fa fa-female" aria-hidden="true"></i>
                         <span>Commerciaux</span>
@@ -411,6 +411,18 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
+                    <ul class="treeview-menu ">
+                        <li class="{{ @$activeCommerciaux }}">
+                            <a href="{{ url()->route('user.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste des Utilisateurs
+                            </a>
+                        </li>
+                        <li class="{{ @$activeCommerciaux }}">
+                            <a href="{{ url()->route('user.create') }}">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> Ajouter un Utilisateur
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- Banques -->

@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Helpers\FilterModelByDate;
 use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
+use Carbon\Carbon;
 use Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -21,23 +23,49 @@ class ProspectRepository
     protected $prospect;
 
     /**
+     * @var Filter;
+     */
+    protected $filter;
+
+    /**
      * ProspectRepository constructor.
      * @param User $user
      */
-    public function __construct(User $user, Prospect $prospect)
+    public function __construct(User $user, Prospect $prospect, FilterModelByDate $filter)
     {
         $this->user = $user;
         $this->prospect = $prospect;
+        $this->filter = $filter;
     }
 
     /**
-     * Retourne un utilisateur et la table liée 'prospect'
+     * Retourne un prospect et la table liée 'user'
      * @param $id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function getById($id)
     {
         return $this->prospect->with('user')->findOrFail($id);
+    }
+
+    /**
+     * Retourne la liste des utilisateurs
+     * @return mixed
+     */
+    public function getAll()
+    {
+        //test le role de l'utilisateur
+        switch (\Auth::user()->role){
+            case 'staff':
+                //retourne la vue avec les prospects qui n'appartiennent qu'à cet utilisateur
+                return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                break;
+            case 'admin':
+                //retourne la vue avec tous les  prospects car admin
+                return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                break;
+        }
+        return null;
     }
 
     /**
@@ -50,150 +78,50 @@ class ProspectRepository
     {
         $prospects = $this->getAll();
 
-        //recherche par annee
-        if(isset($inputs['annee']) && $inputs['annee'] != '') {
-
-            $prospects = $this->prospect
-                ->whereYear('created_at', $inputs['annee'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
+        //Filtre par commerciaux
+        if( isset($inputs['user']) && $inputs['user'] != '' ) {
+            $prospects = $this->filter->FilterBySales($this->prospect, $inputs['user']);
         }
 
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
-
-            $prospects = $this->prospect
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
+            $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
         }
 
-        //recherche par mois + année
-        if(isset($inputs['annee']) && $inputs['annee'] != '' && isset($inputs['mois']) && $inputs['mois'] != '') {
-
-            $prospects = $this->prospect
-                        ->whereYear('created_at', $inputs['annee'])
-                        ->whereMonth('created_at', $inputs['mois'])
-                        ->with('user', 'dossier', 'tasks')
-                        ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
+        //Filtre par année
+        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
+            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
         }
 
         //recherche par nom
-        if(isset($inputs['search']))
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recheche par nom + mois
-        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' )
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        //recheche par nom + mois + année
-        if(isset($inputs['search']) && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != '')
-        {
-            $prospects = $this->user->guest()
-                ->where('name', 'LIKE', '%'.$inputs['search'].'%')
-                ->whereYear('created_at', $inputs['annee'])
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')
-                ->paginate(10)->setPath($_SERVER['REQUEST_URI']);
+        if(isset($inputs['search'])) {
+            $prospects = $this->filter->filterByName($this->prospect, $inputs['search'], 'nom');
         }
 
         //recherche par iban
-        if(isset($inputs['iban']) && $inputs['iban'] == 'on'){
-
-            $allUsers = $this->prospect>with('user', 'dossier', 'tasks')->get();
-            $prospects = $allUsers->filter(function ($user){
-               if($user->prospect->iban != ''){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $prospects->slice(($currentPage - 1) * 10, 10);
-            $paginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
-            $paginate->setPath($_SERVER['REQUEST_URI']);
-            return $paginate;
+        if(isset($inputs['iban'])){
+            $prospects = $this->filter->filterByIban($this->prospect, $inputs['iban']);
         }
 
         //recherche par rappel
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on'){
-
-            $allUsers = $this->prospect->guest()->with('user', 'dossier', 'tasks')->get();
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($usersWithTask), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+        if(isset($inputs['rappel'])){
+            $prospects = $this->filter->filterByTask($this->prospect, $inputs['rappel']);
         }
 
-        //recherche par rappel + mois
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != ''){
-
-            $allUsers = $this->user->guest()
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')->get();
-
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($users), 10);
-            $users = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+        //recherche par dossier
+        if(isset($inputs['dossier'])){
+            $prospects = $this->filter->filterByDossier($this->prospect, $inputs['dossier']);
         }
 
-        //recherche par rappel + mois + annee
-        if(isset($inputs['rappel']) && $inputs['rappel'] == 'on' && isset($inputs['mois']) && $inputs['mois'] != '' && isset($inputs['annee']) && $inputs['annee'] != ''){
-
-            $allUsers = $this->prospect
-                ->whereYear('created_at', $inputs['annee'])
-                ->whereMonth('created_at', $inputs['mois'])
-                ->with('user', 'dossier', 'tasks')->get();
-
-            $usersWithTask = $allUsers->filter(function ($user){
-                if(count($user->tasks)){ return $user;}
-            });
-
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $usersWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($prospects), 10);
-            $prospects = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+        //recherche par mandat
+        if(isset($inputs['mandat'])){
+            $prospects = $this->filter->filterByMandat($this->prospect, $inputs['mandat']);
         }
 
         return $prospects;
     }
 
-    /**
-     * Retourne la liste des utilisateurs
-     * @return mixed
-     */
-    public function getAll()
-    {
-        if(\Auth::user()->role == 'staff')
-        {
-            return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
-        }
 
-        if(\Auth::user()->role == 'admin')
-        {
-            return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
-        }
-
-        return null;
-    }
 
     /**
      * Gère l'ajout d'un model prospect
