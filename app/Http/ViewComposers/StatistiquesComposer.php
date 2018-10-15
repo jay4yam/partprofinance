@@ -30,6 +30,7 @@ class StatistiquesComposer
         $dossiers = $this->stat->getDossierThisMonth();
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
         $numAccepted = $this->stat->countAcceptedDossier();
+        $numPaid = $this->stat->countPaidDossier();
         $numRefus = $this->stat->countRefusedDossier();
         $commissionPartPro = $this->stat->commissionOfTheMonth();
         $commissionDossierAccepted = $this->stat->commissionAccepted();
@@ -40,6 +41,7 @@ class StatistiquesComposer
             'dossiers'  =>  $dossiers,
             'percentageOfDossier' => $percentageOfDossier,
             'numAccepted' => $numAccepted,
+            'numPaid' => $numPaid,
             'numRefus' => $numRefus,
             'commissionPartPro' => $commissionPartPro,
             'commissionDossierAccepted' => $commissionDossierAccepted,

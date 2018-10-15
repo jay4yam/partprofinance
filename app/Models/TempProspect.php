@@ -79,7 +79,20 @@ class TempProspect extends Model
      */
     public function scopeCountUserOfTheMonth($query)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    /**
+     * Retourne la liste des utilisateurs du mois en cours pour l'utilisateur actif
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCountUserOfTheMonthForSale($query, $userId)
+    {
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->where('user_id', $userId);
     }
 
     /**

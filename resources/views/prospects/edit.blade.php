@@ -23,7 +23,6 @@
                     <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title">Tâches & Rendez-vous</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -55,6 +54,30 @@
                                     </button>
                                 </div>
                             {{ Form::close() }}
+                            <div class="col-md-12 margin-top30">
+                                <ul class="todo-list">
+                                @foreach($prospect->tasks as $task)
+                                    <li class="{{ $task->status == 0 ? 'done' : '' }}">
+                                        <!-- drag handle -->
+                                        <span class="handle">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </span>
+                                        <!-- checkbox -->
+                                        <input type="checkbox" value="{{ $task->status }}" class="taskdone" data-taskid="{{ $task->id }}" title="done" {{ $task->status == 0 ? 'checked' :'' }}>
+                                        <!-- todo text -->
+                                        <span class="text">{{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->prospect->id]) }}">{{ $task->prospect->nom }}</a></span>
+                                        <!-- Emphasis label -->
+                                        <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
+                                        <!-- General tools such as edit or delete-->
+                                        <div class="tools">
+                                            <i class="fa fa-edit"></i>
+                                            <i class="fa fa-trash-o"></i>
+                                        </div>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,6 +97,7 @@
                             </div>
                         </div>
                             <div class="box-body">
+                                <div class="col-md-12">
                                 {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST']) }}
                                 {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
                                 {{ Form::hidden('prospect_id', $prospect->id) }}
@@ -83,6 +107,20 @@
                                         <input type="checkbox" class="form-control hidden" />
                                     </span>
                                 {{ Form::close() }}
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="mandat_status">Liste des dossiers:</label>
+
+                                    <ul class="dossier-liste">
+                                    @foreach($prospect->dossier as $dossier)
+                                        <li>({{ $dossier->id }}) |    {{ $dossier->montant_demande }} | {{ $dossier->montant_final }}
+                                            <a class="pull-right" href="{{ route('mandat.edition', ['prospectId' => $prospect->id, 'dossierId' => $dossier->id]) }}">
+                                                <button class="btn btn-warning btn-sm">Générer le mandat</button>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

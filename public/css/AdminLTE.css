@@ -5780,4 +5780,15 @@ a.updateData, a.deleteCredit{
 .pagination {
   margin: 0px !important;
 }
+
+.margin-top30{ margin-top: 30px;}
+
+.dossier-liste{
+  list-style-type: none;
+  padding: 0;
+}
+
+.dossier-liste li{
+  padding: 15px 0;
+}
 /* FIN CSS PERSO JAY*/

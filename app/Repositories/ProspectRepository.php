@@ -45,7 +45,7 @@ class ProspectRepository
      */
     public function getById($id)
     {
-        return $this->prospect->with('user')->findOrFail($id);
+        return $this->prospect->with('user', 'dossier', 'tasks')->findOrFail($id);
     }
 
     /**
