@@ -17,9 +17,9 @@ class ImportCSV extends ExcelFile
 {
     public $fileName;
 
-    protected $delimiter  = ';';
-    protected $enclosure  = '"';
-    protected $lineEnding = '\r\n';
+    public $delimiter  = ';';
+    public $enclosure  = '"';
+    public $lineEnding = '\r\n';
 
     /**
      * ImportCSV constructor.

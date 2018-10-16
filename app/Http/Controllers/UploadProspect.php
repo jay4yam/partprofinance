@@ -45,7 +45,6 @@ class UploadProspect extends Controller
 
     /**
      * Affiche la vue de création de prospect liée à la table user
-     * @param $userId
      * @param $prospectId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

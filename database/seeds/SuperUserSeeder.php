@@ -17,6 +17,7 @@ class SuperUserSeeder extends Seeder
             'email' => 'superuser@superuser.com',
             'password' => bcrypt('superuser'),
             'role' => 'admin',
+            'commission_rate' => 5,
             'avatar' => 'avatar5.png'
         ]);
     }

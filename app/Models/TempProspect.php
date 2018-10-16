@@ -65,7 +65,8 @@ class TempProspect extends Model
         'contrat_conjoint_depuis_annee',
         'salaire_conjoint',
         'periodicite_salaire_conjoint',
-        'nombre_de_credits_en_cours'
+        'nombre_de_credits_en_cours',
+        'user_id'
     ];
 
     protected $events = [
