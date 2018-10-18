@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('Commerciaux.create');
+        return view('commerciaux.create');
     }
 
     /**
