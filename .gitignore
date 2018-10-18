@@ -24,3 +24,5 @@ material_custom_theme.xml
 material_theme.xml
 notifications.xml
 ui.lnf.xml
+composer.json
+composer.lock
