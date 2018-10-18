@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('avatar')->default('');
             $table->enum('role', ['admin', 'staff', 'guest'])->default('guest');
+            $table->double('commission_rate')->after('role')->default(5);
             $table->rememberToken();
             $table->timestamps();
         });
