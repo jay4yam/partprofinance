@@ -28,7 +28,6 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function(Blueprint $table){
-            $table->dropColumn('avatar');
             $table->dropColumn('commission_rate');
             $table->dropColumn('role');
         });
