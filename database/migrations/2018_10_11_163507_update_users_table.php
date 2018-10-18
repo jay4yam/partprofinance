@@ -14,6 +14,7 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table){
+           $table->string('avatar')->default('');
            $table->enum('role', ['admin', 'staff', 'guest'])->default('guest');
            $table->double('commission_rate')->after('role')->default(5);
         });
@@ -27,6 +28,7 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function(Blueprint $table){
+            $table->dropColumn('avatar');
             $table->dropColumn('commission_rate');
             $table->dropColumn('role');
         });
