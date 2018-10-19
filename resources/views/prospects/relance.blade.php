@@ -32,7 +32,6 @@
                                     <i class="fa fa-times"></i></button>
                             </div>
                         </div>
-                        {{ phpinfo() }}
                         <div class="box-body">
                             {{ Form::open([ 'route' => 'process.send.relance.une', 'method' => 'POST']) }}
                             {{ Form::hidden('temp_prospect_id', $prospect->id) }}
