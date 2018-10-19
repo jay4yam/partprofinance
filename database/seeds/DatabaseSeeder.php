@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         //$this->call(InsertOldProspectData::class);
         //$this->call(InsertOldDossierData::class);
         $this->call(InsertOldProcessProspectData::class);
+
     }
 }
