@@ -74,7 +74,13 @@ class FilterModelByDate
         if( isset($searchedName) && !empty($searchedName) )
         {
             $modelFiltered = $model->where($dbColumn, 'LIKE', '%'.$searchedName.'%')->paginate(10);
-            return $modelFiltered;
+
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
+            $modelsFiltredToReturn = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
         }
         return $model;
     }

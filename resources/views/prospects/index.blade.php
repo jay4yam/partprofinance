@@ -80,9 +80,9 @@
                             <td>
                                 @if(count($prospect->dossier))
                                     @foreach($prospect->dossier as $dossier)
-                                        <small class="label {{ str_slug($dossier->status) }}">
-                                            <a href="#" class="showdossier" data-target="#myModal" data-toggle="modal" data-dossierid="{{ $dossier->id }}" data-target="#modal-default">
-                                            {{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €
+                                        <small class="label {{ @str_slug($dossier->status) }}">
+                                            <a href="#" class="showdossier" data-target="#myModal" data-toggle="modal" data-dossierid="{{ @$dossier->id }}" data-target="#modal-default">
+                                            {{ @number_format($dossier->montant_demande, 2, ',', ' ')  }} €
                                             </a>
                                         </small>
                                     @endforeach
@@ -101,7 +101,7 @@
                                 {!! @$prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                @if(Auth::user()->id == $dossier->user_id || Auth::user()->role == 'admin')
+                                @if(Auth::user()->id == @$dossier->user_id || Auth::user()->role == 'admin')
                                     <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                     </a>

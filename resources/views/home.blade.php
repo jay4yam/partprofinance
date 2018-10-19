@@ -18,7 +18,7 @@
     <section class="content-header">
         <h1>
             Dashboard
-            <small>Control panel</small>
+            <small>Statistique du mois</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -29,8 +29,14 @@
     <!-- Main content -->
     <section class="content">
         <!-- 2 ligne de stats -->
-        @include('stats._statsHome')
+        @if(Auth::user()->role == 'admin')
+            @include('stats._statsHome')
+        @endif
         <!-- /.row -->
+
+        @if(Auth::user()->role == 'staff')
+            @include('stats._statsHomeSale')
+        @endif
 
         <!-- Main row -->
         <div class="row">

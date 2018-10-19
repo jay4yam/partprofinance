@@ -28,8 +28,10 @@ class CalendarController extends Controller
     {
         $value = Cache::remember('eventNrp', 10, function () {
             try {
-                $events = $this->processProspect->with('tempProspect')->where('status', '=', 'nrp')
-                    ->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'))
+                $events = $this->processProspect->with('tempProspect')
+                    ->where('status', '=', 'nrp')
+                    ->whereYear('created_at', Carbon::now()->format('Y') )
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
                     ->get(['id', 'temp_prospects_id', 'status', 'relance_status', 'relance_j1', 'created_at']);
 
                 $array = [];
@@ -60,11 +62,11 @@ class CalendarController extends Controller
         $value = Cache::remember('eventDossier', 10, function () {
             $array = [];
             try {
-                $dossiers = $this->dossier->with('user')->dossierOfTheMonth()->get();
+                $dossiers = $this->dossier->with('prospect')->dossierOfTheMonth()->get();
 
                 foreach ($dossiers as $dossier) {
                     $array[] = [
-                        'title' => @$dossier->user->prospect->nom . ' : ' . $dossier->montant_final . ' €',
+                        'title' => @$dossier->prospect->nom . ' : ' . $dossier->montant_final . ' €',
                         'start' => $dossier->created_at->format('Y-m-d'),
                         'backgroundColor' => '#00c0ef',
                         'borderColor' => '#00c0ef'

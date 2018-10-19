@@ -56,6 +56,7 @@
                     day  : 'jour'
                 },
                 //Random default events
+                //Source qui gère le retour des datas pour le calendrier
                 eventSources: [
                     '{{ action('CalendarController@getMonthRelance') }}',
                     '{{ action('CalendarController@getMonthDossier') }}',

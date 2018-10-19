@@ -26,5 +26,8 @@
             <i class="fa fa-search" aria-hidden="true"></i> Filtre
         </button>
     </div>
+    <div class="form-group">
+        <a href="{{ url()->route('dossiers.index') }}" class="btn btn-warning">raz filtre</a>
+    </div>
     {{ Form::close() }}
 </div>

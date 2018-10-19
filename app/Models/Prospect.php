@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -76,6 +77,16 @@ class Prospect extends Model
     public function scopeOwner($query)
     {
         return $query->where('user_id', '=', \Auth::user()->id);
+    }
+
+    public function scopeMonthly($query)
+    {
+        return $query->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    public function scopeSalers($query, $userId)
+    {
+        return $query->where('user_id', '=',$userId);
     }
 
     /**

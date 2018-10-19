@@ -39,13 +39,14 @@ class Dossier extends Model
     }
 
     /**
-     * Retourne les dossiers de l'utilisateur en cours
+     * Retourne les dossiers du mois acceptés
      * @param $query
      * @return mixed
      */
-    public function scopeOwner($query)
+    public function scopeDossierAcceptedOfTheMonth($query)
     {
-        return $query->where('user_id', \Auth::user()->id);
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Payé');
     }
 
     /**
@@ -60,26 +61,84 @@ class Dossier extends Model
     }
 
     /**
-     * Retourne les dossiers du mois acceptés
-     * @param $query
-     * @return mixed
-     */
-    public function scopeDossierAcceptedOfTheMonth($query)
-    {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
-            ->where('status', '=', 'Payé');
-    }
-
-    /**
      * Retourne les dossiers du montant dont le status est payé
      * @param $query
      * @return mixed
      */
     public function scopeDossierPayeeOfTheMonth($query)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('updated_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
+
+    /**
+     * Retourne les dossiers de l'utilisateur en cours
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOwner($query)
+    {
+        return $query->where('user_id', \Auth::user()->id);
+    }
+
+    /**
+     * Retourne les dossiers du mois pour un commercial
+     * @param int $userId
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierOfTheMonthForSale($query, $userId)
+    {
+        return $query->where('user_id', '=', $userId)
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    /**
+     * Retourne les dossiers du mois refusés du commercial
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierRefusedOfTheMonthForSale($query, int $userId)
+    {
+        return $query->where('user_id', '=', $userId)
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Refusé');
+    }
+
+    /**
+     * Retourne les dossiers du mois acceptés
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId)
+    {
+        return $query->where('user_id', '=', $userId)
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Accepté');
+    }
+
+    /**
+     * Retourne les dossiers du mois acceptés
+     * @param $query
+     * @param  int $userId
+     * @return mixed
+     */
+    public function scopeDossierPaidOfTheMonthForSale($query, int $userId)
+    {
+        return $query->where('user_id', '=', $userId)
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Payé');
+    }
+
+
+    /**
+     * RELATION ENTRE MODEL
+     **/
 
     /**
      * Relation 1:n avec la table User

@@ -102,5 +102,9 @@ Route::group(['middleware' => 'auth'], function(){
     /** GESTION DES UTILISATEURS **/
     Route::resource('user', 'UserController');
 
+    /* EDITION & GENERATION DE MANDAT */
+    Route::get('mandat/edition', 'MandatController@editMandat')->name('mandat.edition');
+    Route::get('mandat/generate', 'MandatController@generateMandat')->name('mandat.generate');
+
 });
 

@@ -17,6 +17,7 @@ class SalesUserSeeder extends Seeder
             'email' => 'partprofinance.ed@gmail.com',
             'password' => bcrypt('Miniboo27'),
             'role' => 'staff',
+            'commission_rate' => 5,
             'avatar' => 'avatar5.png'
         ]);
     }

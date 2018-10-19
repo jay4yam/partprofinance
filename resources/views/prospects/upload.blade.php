@@ -154,15 +154,15 @@
                                         <td>
                                             {{ Form::open(['route' =>'process.update.status', 'method' => 'POST', 'class' => 'form-inline']) }}
                                             {{ Form::hidden('temp_prospect_id', $prospect->id) }}
-                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], $prospect->processProspect->status , ['class'=> 'form-control']) }}
+                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], @$prospect->processProspect->status , ['class'=> 'form-control']) }}
                                             <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                                             {{ Form::close() }}
                                         </td>
                                         <td>
-                                            @if($prospect->processProspect->relance_status)
+                                            @if(@$prospect->processProspect->relance_status)
                                                 <div class="progress progress-sm active">
                                                     @php
-                                                        switch($prospect->processProspect->relance_status)
+                                                        switch(@$prospect->processProspect->relance_status)
                                                         {
                                                             case 'relance_1':
                                                                 $value = 33;
@@ -186,7 +186,7 @@
                                                 <div class="form-group">
                                                     {{ Form::select('relancestatus',
                                                     ['relance_1' => 'relance 1', 'relance_2' => 'relance 2', 'relance_3' => 'relance 3'],
-                                                    $prospect->processProspect->relance_status, ['class' => 'form-control', 'data-processid' => $prospect->processProspect->id] ) }}
+                                                    @$prospect->processProspect->relance_status, ['class' => 'form-control', 'data-processid' => $prospect->processProspect->id] ) }}
                                                 </div>
                                             @endif
                                         </td>
