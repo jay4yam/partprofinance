@@ -11,7 +11,7 @@ use App\Models\TempProspect;
 use Illuminate\Foundation\Application;
 use Maatwebsite\Excel\Collections\RowCollection;
 use Maatwebsite\Excel\Excel;
-use \Maatwebsite\Excel\Files\ExcelFile;
+use Maatwebsite\Excel\Files\ExcelFile;
 
 class ImportCSV extends ExcelFile
 {
