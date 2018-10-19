@@ -79,23 +79,14 @@ class ProcessProspectRepository
      * Gère l'envois du mail
      * @param array $inputs
      * @param TempProspect $prospect
-     * @return string
      */
     public function sendRelanceUne(array $inputs, TempProspect $prospect)
     {
-        try {
-            //Gère l'envois du mail
-            $this->sendEmail($inputs['mailcontent'], $prospect);
-        }catch (\Exception $exception){
-            return $exception->getMessage();
-        }
+        //Gère l'envois du mail
+        $this->sendEmail($inputs['mailcontent'], $prospect);
 
-        try {
-            //gère l'envois du sms
-            $this->sendSMS($inputs['smscontent'], $prospect);
-        }catch (\Exception $exception){
-            return $exception->getMessage();
-        }
+        //gère l'envois du sms
+        $this->sendSMS($inputs['smscontent'], $prospect);
     }
 
     /**
