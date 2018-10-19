@@ -82,11 +82,19 @@ class ProcessProspectRepository
      */
     public function sendRelanceUne(array $inputs, TempProspect $prospect)
     {
-        //Gère l'envois du mail
-        $this->sendEmail($inputs['mailcontent'], $prospect);
+        try {
+            //Gère l'envois du mail
+            $this->sendEmail($inputs['mailcontent'], $prospect);
+        }catch (\Exception $exception){
+            throw new $exception;
+        }
 
-        //gère l'envois du sms
-        $this->sendSMS($inputs['smscontent'], $prospect);
+        try {
+            //gère l'envois du sms
+            $this->sendSMS($inputs['smscontent'], $prospect);
+        }catch (\Exception $exception){
+            throw new $exception;
+        }
     }
 
     /**
