@@ -39,7 +39,7 @@ class UploadProspect extends Controller
         //1. récupère le prospect temporaire
         $prospect = TempProspect::findOrFail($id);
 
-        //3. redirige vers la page de création 'prospect' liée à la table l'utilisateur
+        //2. redirige vers la page de création 'prospect' liée à la table l'utilisateur
         return redirect()->route('create.imported.prospect', [ 'prospectId' => $prospect->id ]);
     }
 
