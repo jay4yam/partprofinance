@@ -14,6 +14,7 @@
 @endsection
 
 @section('content')
+    {{ phpinfo() }}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
