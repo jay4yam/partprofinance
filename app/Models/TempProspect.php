@@ -66,6 +66,7 @@ class TempProspect extends Model
         'salaire_conjoint',
         'periodicite_salaire_conjoint',
         'nombre_de_credits_en_cours',
+        'notes',
         'user_id'
     ];
 

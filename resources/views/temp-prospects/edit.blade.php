@@ -1,11 +1,11 @@
-@extends('layouts.app', ['title' => 'Création d\'un prospects', 'activeDashboard' => 'active'])
+@extends('layouts.app', ['title' => 'Edition d\'un prospect', 'activeDashboard' => 'active'])
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Creation de Prospects
-            <small>Insérez les informations sur votre prospects</small>
+            Edition du Prospect
+            <small>Editez les informations du prospect</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,7 +17,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            {{ Form::open(['route' =>'prospect.store', 'method' => 'POST']) }}
+            {{ Form::open(['route' =>'temp_prospect.store', 'method' => 'POST']) }}
             <div class="row">
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
@@ -25,7 +25,6 @@
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Informations</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -39,49 +38,49 @@
                                 <tr>
                                     <td><label for="civilite">Source </label></td>
                                     <td class="data">
-                                        {{ Form::text('prospect_source', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('prospect_source', $prospect->prospect_source, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="civilite">Civilité</label></td>
                                     <td class="data">
-                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], 'Madame' , ['class' => 'form-control']) }}
+                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], $prospect->civilite , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">nom</label></td>
                                     <td class="data {{ $errors->has('nom') ? ' has-error' : '' }}">
-                                        {{ Form::text('nom', null , ['class' => 'form-control', 'id' => 'nom']) }}
+                                        {{ Form::text('nom', $prospect->nom , ['class' => 'form-control', 'id' => 'nom']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">nom jeune fille</label></td>
                                     <td class="data {{ $errors->has('nomjeunefille') ? ' has-error' : '' }}">
-                                        {{ Form::text('nomjeunefille', null , ['class' => 'form-control', 'id' => 'nomjeunefille']) }}
+                                        {{ Form::text('nomjeunefille', $prospect->nomjeunefille , ['class' => 'form-control', 'id' => 'nomjeunefille']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="prenom">prenom</label></td>
                                     <td class="data {{ $errors->has('prenom') ? ' has-error' : '' }}">
-                                        {{ Form::text('prenom', null , ['class' => 'form-control', 'id' => 'prenom']) }}
+                                        {{ Form::text('prenom', $prospect->prenom , ['class' => 'form-control', 'id' => 'prenom']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="email">email</label></td>
                                     <td class="data {{ $errors->has('email') ? ' has-error' : '' }}">
-                                        {{ Form::email('email', null , ['class' => 'form-control', 'id' => 'email']) }}
+                                        {{ Form::email('email', $prospect->email , ['class' => 'form-control', 'id' => 'email']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelFixe">Téléphone Fixe</label></td>
                                     <td class="data">
-                                        {{ Form::text('numTelFixe', null, ['class' => 'form-control', 'id' => 'numTelFixe']) }}
+                                        {{ Form::text('numTelFixe', $prospect->tel_fixe, ['class' => 'form-control', 'id' => 'numTelFixe']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelPortable">Téléphone Portable</label></td>
                                     <td class="data {{ $errors->has('numTelPortable') ? ' has-error' : '' }}">
-                                        {{ Form::text('numTelPortable', null , ['class' => 'form-control', 'id' => 'numTelPortable']) }}
+                                        {{ Form::text('numTelPortable', $prospect->tel_portable , ['class' => 'form-control', 'id' => 'numTelPortable']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -94,7 +93,6 @@
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Civilite</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -108,7 +106,7 @@
                                 <tr>
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
-                                        {{ Form::date('dateDeNaissance', Carbon\Carbon::now()->subYear(1)  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {{ Form::date('dateDeNaissance', $prospect->date_de_naissance , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -126,13 +124,13 @@
                                 <tr>
                                     <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
                                     <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
-                                        {{ Form::text('nbEnfantACharge', 0, ['class' => 'form-control']) }}
+                                        {{ Form::text('nbEnfantACharge', $prospect->nombre_denfants_a_charge, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nationalite">nationalite</label></td>
                                     <td class="data {{ $errors->has('nationalite') ? ' has-error' : '' }}">
-                                        {{ Form::text('nationalite', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('nationalite', $prospect->nationalite, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -163,7 +161,6 @@
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Revenus</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -188,21 +185,39 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="profession">Type de Contrat</label></td>
+                                    <td class="data {{ $errors->has('type_de_votre_contrat') ? ' has-error' : '' }}">
+                                        {{ Form::text('type_de_votre_contrat', null, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><label for="profession">profession</label></td>
                                     <td class="data {{ $errors->has('profession') ? ' has-error' : '' }}">
-                                        {{ Form::text('profession', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('profession', $prospect->votre_profession, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
+                                        {{ Form::date('professionDepuis', Carbon\Carbon::create($prospect->depuis_contrat_annee), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="revenusNetMensuel">revenusNetMensuel</label></td>
                                     <td class="data {{ $errors->has('revenusNetMensuel') ? ' has-error' : '' }}">
-                                        {{ Form::text('revenusNetMensuel', null, ['class' => 'form-control', 'id' => 'revenusNetMensuel']) }}
+                                        {{ Form::text('revenusNetMensuel', $prospect->votre_salaire, ['class' => 'form-control', 'id' => 'revenusNetMensuel']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="profession">Périodicité Salaire</label></td>
+                                    <td class="data {{ $errors->has('periodicite_salaire') ? ' has-error' : '' }}">
+                                        {{ Form::text('periodicite_salaire', $prospect->periodicite_salaire, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="profession">Autre revenu</label></td>
+                                    <td class="data {{ $errors->has('autre_revenu') ? ' has-error' : '' }}">
+                                        {{ Form::text('autre_revenu', null, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -211,11 +226,54 @@
                     </div>
                     <!-- /.box revenus -->
 
+                    <!-- box infos conjoint-->
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Informations Conjoint</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                                    <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <td><label for="civ_du_conjoint">Civilité du conjoint</label></td>
+                                    <td class="data">
+                                        {{ Form::select('civ_du_conjoint', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], $prospect->civ_du_conjoint , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="nom conjoint">nom conjoint</label></td>
+                                    <td class="data {{ $errors->has('nom_du_conjoint') ? ' has-error' : '' }}">
+                                        {{ Form::text('nom_du_conjoint', $prospect->nom_du_conjoint , ['class' => 'form-control', 'id' => 'nom']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="prenom">prenom conjoint</label></td>
+                                    <td class="data {{ $errors->has('prenom_du_conjoint') ? ' has-error' : '' }}">
+                                        {{ Form::text('prenom_du_conjoint', $prospect->prenom_du_conjoint , ['class' => 'form-control', 'id' => 'prenom']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="dateDeNaissanceConjoint">Date De Naissance Conjoint</label></td>
+                                    <td class="data">
+                                        {{ Form::date('date_de_naissance_du_conjoint', $prospect->date_de_naissance_du_conjoint  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box infos conjoint-->
+
                     <!-- box revenus conjoint-->
                     <div id="box-conjoint" class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Revenus conjoint</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -240,21 +298,33 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="profession">Type de Contrat</label></td>
+                                    <td class="data {{ $errors->has('contrat_du_conjoint') ? ' has-error' : '' }}">
+                                        {{ Form::text('contrat_du_conjoint', null, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><label for="professionConjoint">profession Conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::text('professionConjoint', null, ['class' => 'form-control', 'id' => 'professionConjoint']) }}
+                                        {{ Form::text('professionConjoint', $prospect->profession_du_conjoint, ['class' => 'form-control', 'id' => 'professionConjoint']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="professionDepuisConjoint">profession Depuis Conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuisConjoint', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
+                                        {{ Form::date('professionDepuisConjoint', \Carbon\Carbon::create($prospect->contrat_conjoint_depuis_annee), ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="revenusNetMensuelConjoint">revenus net mensuel conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::text('revenusNetMensuelConjoint', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('revenusNetMensuelConjoint', $prospect->salaire_conjoint, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="profession">Périodicité Salaire</label></td>
+                                    <td class="data {{ $errors->has('periodicite_salaire_conjoint') ? ' has-error' : '' }}">
+                                        {{ Form::text('periodicite_salaire_conjoint', $prospect->periodicite_salaire_conjoint, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -294,31 +364,31 @@
                                 <tr>
                                     <td><label for="habiteDepuis">habiteDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('habiteDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
+                                        {{ Form::date('habiteDepuis', Carbon\Carbon::create($prospect->lgmt_depuis_annee), ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="adresse">adresse</label></td>
                                     <td class="data {{ $errors->has('adresse') ? ' has-error' : '' }}">
-                                        {{ Form::text('adresse', null, ['class' => 'form-control'] ) }}
+                                        {{ Form::text('adresse', $prospect->adresse, ['class' => 'form-control'] ) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="complementAdresse">complement adresse</label></td>
                                     <td class="data">
-                                        {{ Form::text('complementAdresse', null, ['class' => 'form-control'] ) }}
+                                        {{ Form::text('complementAdresse', $prospect->adresse_2, ['class' => 'form-control'] ) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="codePostal">code postal</label></td>
                                     <td class="data {{ $errors->has('codePostal') ? ' has-error' : '' }}">
-                                        {{ Form::text('codePostal', null, ['class' => 'form-control', 'id' => 'codePostal'] ) }}
+                                        {{ Form::text('codePostal', $prospect->code_postal, ['class' => 'form-control', 'id' => 'codePostal'] ) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="ville">ville</label></td>
                                     <td class="data {{ $errors->has('ville') ? ' has-error' : '' }}">
-                                        {{ Form::text('ville', null, ['class' => 'form-control'] ) }}
+                                        {{ Form::text('ville', $prospect->ville, ['class' => 'form-control'] ) }}
                                     </td>
                                 </tr>
                             </table>
@@ -345,7 +415,7 @@
                         <div class="box-body">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                <textarea title="notes" name="notes" id="notes" class="form-control">{{ Carbon\Carbon::now()->format('d M Y à h:m') }} Création</textarea>
+                                <textarea title="notes" name="notes" id="notes" class="form-control">{{ $prospect->notes }}</textarea>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -369,7 +439,7 @@
                                 <tr>
                                     <td><label for="loyer">loyer</label></td>
                                     <td>
-                                        {{ Form::text('loyer', null , ['class' => 'form-control']) }}
+                                        {{ Form::text('loyer', $prospect->montant_de_votre_loyer , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -378,6 +448,31 @@
                                         {{ Form::text('pensionAlimentaire', null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td><label for="loyer">Autre charges</label></td>
+                                    <td>
+                                        {{ Form::text('autre_charge',$prospect->autre_charge , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="nombre_de_credits_en_cours">Nb credits en cours</label></td>
+                                    <td>
+                                        {{ Form::text('nombre_de_credits_en_cours', $prospect->nombre_de_credits_en_cours , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="total_credit">Montant restant dû</label></td>
+                                    <td>
+                                        {{ Form::text('total_credit', $prospect->total_credit , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="total_credit_mensualite">Mensualite credit</label></td>
+                                    <td>
+                                        {{ Form::text('total_credit_mensualite', $prospect->total_credit_mensualite , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <!--
                                 <tr id="creditrow-0">
                                     <td>
                                         <input type="text" class="form-control" id="credit-name-0" name="credit-name-0" placeholder="nom credit"></td>
@@ -385,12 +480,15 @@
                                         <input type="text" class="form-control" id="credit-montant-0" name="credit-montant-0" placeholder="montant credit">
                                     </td>
                                 </tr>
+                                -->
                             </table>
+                            <!--
                             <div class="text-center" style="padding-top: 10px;">
                                 <button id="addCreditButton" class="btn btn-info btn-sm">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Ajouter un credit
                                 </button>
                             </div>
+                            -->
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -430,8 +528,8 @@
 
                     <!-- bouton submit -->
                     <div class="text-center col-md-12">
-                        <button class="btn btn-lg btn-success">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Enregistrer
+                        <button class="btn btn-lg btn-warning">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Mettre à jour
                         </button>
                     </div>
                     <!-- ./ bouton submit -->
@@ -456,16 +554,16 @@
 
             //Affiche et/ou Masque la box conjoint
             $('select#situationFamiliale').on('change', function (e) {
-               e.preventDefault();
+                e.preventDefault();
 
-               var val = $('select#situationFamiliale option:selected').text();
-               if(val != 'Marié(e)') {
-                   $('#box-conjoint').removeClass().addClass('box collapsed-box')
-               }
-               if(val == 'Marié(e)'){
-                   $('#box-conjoint').removeClass().addClass('box')
-               }
-           });
+                var val = $('select#situationFamiliale option:selected').text();
+                if(val != 'Marié(e)') {
+                    $('#box-conjoint').removeClass().addClass('box collapsed-box')
+                }
+                if(val == 'Marié(e)'){
+                    $('#box-conjoint').removeClass().addClass('box')
+                }
+            });
 
             //js ajout de nouvelle ligne de credit dans le tableau
             createProspect.addCredit();

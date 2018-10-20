@@ -121,8 +121,6 @@ class ProspectRepository
         return $prospects;
     }
 
-
-
     /**
      * Gère l'ajout d'un model prospect
      * @param array $request

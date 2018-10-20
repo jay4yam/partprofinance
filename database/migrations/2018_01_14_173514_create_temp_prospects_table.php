@@ -59,6 +59,7 @@ class CreateTempProspectsTable extends Migration
             $table->string('salaire_conjoint')->nullable();
             $table->string('periodicite_salaire_conjoint')->nullable();
             $table->string('nombre_de_credits_en_cours')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
 
