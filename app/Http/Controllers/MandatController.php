@@ -31,7 +31,7 @@ class MandatController extends Controller
         $zeDossier = null;
 
         //3. Parcours les dossiers du prospect pour voir si il en a plusieurs
-        $allDossier = $prospect->dossier->each(function ($dossier) use ($request, &$zeDossier){
+        $allDossier = $prospect->dossiers->each(function ($dossier) use ($request, &$zeDossier){
             if($dossier->id == $request->dossierId)
             return $zeDossier = $dossier;
         });
@@ -63,8 +63,8 @@ class MandatController extends Controller
         $zeDossier = null;
 
         //4. Parcours les dossiers du prospect et enregistre le dossier passé en paramètre
-        $allDossier = $prospect->dossier->each(function ($dossier) use ($request, &$zeDossier) {
-            if ($dossier->id == $request->dossierId)
+        $allDossier = $prospect->dossiers->each(function ($dossier) use ($request, &$zeDossier){
+            if($dossier->id == $request->dossierId)
                 return $zeDossier = $dossier;
         });
 

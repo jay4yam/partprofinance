@@ -52,10 +52,10 @@ class DossierRepository
     {
         switch(\Auth::user()->role){
             case('admin'):
-                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospects')->paginate(10);
+                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'dossierable')->paginate(10);
                 break;
             case ('staff'):
-                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospects')->paginate(10);
+                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'dossierable')->paginate(10);
                 break;
         }
         return null;

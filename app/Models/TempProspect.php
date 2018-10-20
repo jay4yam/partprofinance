@@ -116,11 +116,10 @@ class TempProspect extends Model
     }
 
     /**
-     * Retourne tous les dossiers d'un prospect temporaire
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function dossiers()
     {
-        return $this->morphToMany(Dossier::class, 'dossierable');
+        return $this->morphMany(Dossier::class, 'dossierable');
     }
 }

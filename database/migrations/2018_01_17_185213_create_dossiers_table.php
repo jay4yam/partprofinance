@@ -25,6 +25,8 @@ class CreateDossiersTable extends Migration
             $table->string('apporteur')->nullable();
             $table->enum('status', ['Refusé', 'A l étude', 'Accepté', 'Payé', 'Impayé'])->default('A l étude');
             $table->string('num_dossier_banque')->nullable();
+            $table->integer('dossierable_id')->unsigned();
+            $table->string('dossierable_type');
             $table->timestamps();
         });
 

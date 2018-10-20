@@ -41,6 +41,3 @@
     </div>
     <!-- /.content -->
 @endsection
-
-@section('js')
-@endsection

@@ -157,30 +157,14 @@ class Dossier extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
     /**
-     * Get all of the owning models.
+     * Relation polymorphic
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function dossierable()
     {
         return $this->morphTo();
-    }
-
-    /**
-     * Retourne tous les prospects qui ont des dossiers
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function prospects()
-    {
-        return $this->morphedByMany('App\Models\Prospect', 'dossierable');
-    }
-
-    /**
-     * Retourne tous les prospects temporaire qui ont des dossiers
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tempprospects()
-    {
-        return $this->morphedByMany('App\Models\TempProspect', 'dossierable');
     }
 
 }

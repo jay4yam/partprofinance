@@ -66,14 +66,14 @@
                                 <td>{{ $dossier->user->name }}</td>
                             @endif
                             <td>{{ $dossier->created_at->format('d M y') }}</td>
-                            <td>{{ $dossier->prospect->nom }}</td>
+                            <td>{{ $dossier->dossierable->nom }}</td>
                             <td class="{{ str_slug($dossier->status) }}">{{ $dossier->status }}</td>
                             <td><img src="{{ asset('storage/img').'/'. $dossier->banque->logo}}" height="30"></td>
                             <td>{{ number_format($dossier->montant_demande, 2, ',', ' ')  }} €</td>
                             <td>{{ number_format($dossier->montant_final, 2, ',', ' ') }} €</td>
                             <td>{{ $dossier->montant_commission_partpro ? number_format($dossier->montant_commission_partpro, 2, ',', ' ') :  number_format($dossier->montant_final * $dossier->taux_commission /100, 2, ',', ' ') }} €</td>
                             <td>
-                                {!! $dossier->prospect->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
+                                {!! $dossier->dossierable->iban ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
                                 @if(Auth::user()->id == $dossier->user_id || Auth::user()->role == 'admin')
