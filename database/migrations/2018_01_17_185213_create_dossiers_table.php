@@ -29,11 +29,11 @@ class CreateDossiersTable extends Migration
         });
 
         Schema::table('dossiers', function (Blueprint $table){
-           $table->integer('user_id')->unsigned();
-           $table->foreign('user_id')->references('id')->on('users');
-
             $table->integer('banque_id')->unsigned();
             $table->foreign('banque_id')->references('id')->on('banques');
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -45,11 +45,11 @@ class CreateDossiersTable extends Migration
     public function down()
     {
         Schema::table('dossiers', function (Blueprint $table){
-            $table->dropForeign('dossiers_user_id_foreign');
             $table->dropForeign('dossiers_banque_id_foreign');
+            $table->dropForeign('dossiers_user_id_foreign');
 
-            $table->dropColumn('user_id');
             $table->dropColumn('banque_id');
+            $table->dropColumn('user_id');
         });
         Schema::dropIfExists('dossiers');
     }

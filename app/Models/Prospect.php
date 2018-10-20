@@ -90,7 +90,7 @@ class Prospect extends Model
     }
 
     /**
-     * Relation 1/1 vers la table user
+     * Relation 1/1 vers la table user pour lier à un commercial à un prospect
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -99,20 +99,20 @@ class Prospect extends Model
     }
 
     /**
-     * Relation &:n vers la table dossiers
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Retourne tous les dossiers d'un prospect
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function dossier()
+    public function dossiers()
     {
-        return $this->hasMany(Dossier::class, 'prospect_id');
+        return $this->morphToMany(Dossier::class, 'dossierable');
     }
 
     /**
-     * Relation 1:n vers la table task
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Relation polymorphyque avec la table tasks
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'prospect_id');
+        return $this->morphMany(Task::class, 'taskable');
     }
 }

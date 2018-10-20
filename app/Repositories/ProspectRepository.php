@@ -45,7 +45,7 @@ class ProspectRepository
      */
     public function getById($id)
     {
-        return $this->prospect->with('user', 'dossier', 'tasks')->findOrFail($id);
+        return $this->prospect->with('user', 'dossiers', 'tasks')->findOrFail($id);
     }
 
     /**
@@ -58,11 +58,11 @@ class ProspectRepository
         switch (\Auth::user()->role){
             case 'staff':
                 //retourne la vue avec les prospects qui n'appartiennent qu'à cet utilisateur
-                return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                return $this->prospect->owner()->orderBy('id', 'desc')->with('user', 'dossiers', 'tasks')->paginate(10);
                 break;
             case 'admin':
                 //retourne la vue avec tous les  prospects car admin
-                return $this->prospect->orderBy('id', 'desc')->with('user', 'dossier', 'tasks')->paginate(10);
+                return $this->prospect->orderBy('id', 'desc')->with('user', 'dossiers', 'tasks')->paginate(10);
                 break;
         }
         return null;

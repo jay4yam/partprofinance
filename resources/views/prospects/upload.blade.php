@@ -153,9 +153,9 @@
                                         <td>{{ $prospect->email }}</td>
                                         <td>
                                             {{ Form::open(['route' =>'process.update.status', 'method' => 'POST', 'class' => 'form-inline']) }}
-                                            {{ Form::hidden('temp_prospect_id', $prospect->id) }}
-                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], @$prospect->processProspect->status , ['class'=> 'form-control']) }}
-                                            <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                                {{ Form::hidden('temp_prospect_id', $prospect->id) }}
+                                                {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], @$prospect->processProspect->status , ['class'=> 'form-control']) }}
+                                                <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                                             {{ Form::close() }}
                                         </td>
                                         <td>
@@ -195,6 +195,12 @@
                                             <button class="btn btn-danger pull-right">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
+                                            {{ Form::close() }}
+                                            <a href="{{ url()->route('temp_prospect.edit', ['id' => $prospect->id]) }}">
+                                                <button class="btn btn-infos pull-right">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
                                             {{ Form::close() }}
                                         </td>
                                     </tr>

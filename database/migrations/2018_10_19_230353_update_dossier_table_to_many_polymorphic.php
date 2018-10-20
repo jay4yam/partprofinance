@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateProspectsTable extends Migration
+class UpdateDossierTableToManyPolymorphic extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class UpdateProspectsTable extends Migration
      */
     public function up()
     {
-        Schema::table('prospects', function (Blueprint $table){
-            $table->timestamps();
+        Schema::create('dossierables', function (Blueprint $table){
+            $table->increments('dossier_id');
+            $table->integer('dossierable_id')->unsigned();
+            $table->string('dossierable_type');
         });
     }
 
@@ -25,9 +27,6 @@ class UpdateProspectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('prospects', function (Blueprint $table){
-            $table->dropColumn('created_at');
-            $table->dropColumn('updated_at');
-        });
+        Schema::dropIfExists('dossierables');
     }
 }

@@ -61,6 +61,11 @@ class CreateTempProspectsTable extends Migration
             $table->string('nombre_de_credits_en_cours')->nullable();
             $table->timestamps();
         });
+
+        Schema::table('temp_prospects', function (Blueprint $table) {
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
@@ -70,6 +75,11 @@ class CreateTempProspectsTable extends Migration
      */
     public function down()
     {
+        Schema::table('temp_prospects', function (Blueprint $table){
+            $table->dropForeign('temp_prospects_user_id_foreign');
+            $table->dropColumn('user_id');
+        });
+
         Schema::dropIfExists('temp_prospects');
     }
 }

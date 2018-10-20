@@ -66,9 +66,12 @@ class InsertOldDossierData extends Seeder
             $dossier->num_dossier_banque = $result->num_dossier_banque;
             $dossier->created_at = $result->created_at;
             $dossier->updated_at = $result->updated_at;
-            $dossier->prospect_id = $this->replaceProspectId($result->user_id);
             $dossier->user_id = 2;
             $dossier->banque_id = $result->banque_id;
+
+            $prospect = \App\Models\Prospect::findOrFail( $this->replaceProspectId( $result->user_id) );
+
+            $dossier->prospects()->save($prospect);
 
             $dossier->save();
         }

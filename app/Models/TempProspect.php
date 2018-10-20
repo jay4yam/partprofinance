@@ -104,4 +104,23 @@ class TempProspect extends Model
     {
         return $this->hasOne(ProcessProspect::class, 'temp_prospects_id');
     }
+
+    public function tasks()
+    {
+        return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function owner()
+    {
+        return $this->hasOne(TempProspect::class, 'user_id');
+    }
+
+    /**
+     * Retourne tous les dossiers d'un prospect temporaire
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function dossiers()
+    {
+        return $this->morphToMany(Dossier::class, 'dossierable');
+    }
 }

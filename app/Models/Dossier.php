@@ -23,7 +23,6 @@ class Dossier extends Model
         'apporteur',
         'taux_commission',
         'status',
-        'prospect_id',
         'banque_id',
         'num_dossier_banque'
     ];
@@ -141,15 +140,6 @@ class Dossier extends Model
      **/
 
     /**
-     * Relation 1:n avec la table User
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function prospect()
-    {
-        return $this->belongsTo(Prospect::class, 'prospect_id');
-    }
-
-    /**
      * Relation 1:n avec la table banque
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -165,6 +155,32 @@ class Dossier extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get all of the owning models.
+     */
+    public function dossierable()
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Retourne tous les prospects qui ont des dossiers
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function prospects()
+    {
+        return $this->morphedByMany('App\Models\Prospect', 'dossierable');
+    }
+
+    /**
+     * Retourne tous les prospects temporaire qui ont des dossiers
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tempprospects()
+    {
+        return $this->morphedByMany('App\Models\TempProspect', 'dossierable');
     }
 
 }
