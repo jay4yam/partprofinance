@@ -25,7 +25,6 @@
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Informations</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -45,7 +44,7 @@
                                 <tr>
                                     <td><label for="civilite">Civilité</label></td>
                                     <td class="data">
-                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], 'Madame' , ['class' => 'form-control']) }}
+                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -107,7 +106,7 @@
                                 <tr>
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
-                                        {{ Form::date('dateDeNaissance', Carbon\Carbon::now()->subYear(1)  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {{ Form::date('dateDeNaissance', null , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -125,7 +124,7 @@
                                 <tr>
                                     <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
                                     <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
-                                        {{ Form::text('nbEnfantACharge', 0, ['class' => 'form-control']) }}
+                                        {{ Form::text('nbEnfantACharge',null, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -175,14 +174,11 @@
                                 <tr>
                                     <td><label for="secteurActivite">secteur d'activite</label></td>
                                     <td class="data">
-                                        <select id="secteurActivite" name="secteurActivite" class="form-control">
-                                            <option value="Secteur privé">Secteur privé</option>
-                                            <option value="Secteur public">Secteur public</option>
-                                            <option value="Secteur agricole">Secteur agricole</option>
-                                            <option value="Artisans-Commerçants">Artisans-Commerçants</option>
-                                            <option value="Professions libérales">Professions libérales</option>
-                                            <option value="Autres">Autres</option>
-                                        </select>
+                                        {{ Form::select('secteurActivite', [
+                                        'Secteur privé' => 'Secteur privé', 'Secteur public' => 'Secteur public',
+                                        'Secteur agricole' => 'Secteur agricole', 'Artisans-Commerçants' => 'Artisans-Commerçants',
+                                        'Professions libérales' => 'Professions libérales', 'Autres' => 'Autres'
+                                         ], null ,['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -200,7 +196,7 @@
                                 <tr>
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
+                                        {{ Form::date('professionDepuis', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -244,7 +240,7 @@
                                 <tr>
                                     <td><label for="civ_du_conjoint">Civilité du conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::select('civ_du_conjoint', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], 'Madame' , ['class' => 'form-control']) }}
+                                        {{ Form::select('civ_du_conjoint', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -262,7 +258,7 @@
                                 <tr>
                                     <td><label for="dateDeNaissanceConjoint">Date De Naissance Conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::date('date_de_naissance_du_conjoint', Carbon\Carbon::now()->subYear(1)  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {{ Form::date('date_de_naissance_du_conjoint', null  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -275,7 +271,6 @@
                     <div id="box-conjoint" class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Revenus conjoint</h3>
-
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                                         title="Collapse">
@@ -289,14 +284,11 @@
                                 <tr>
                                     <td><label for="secteurActiviteConjoint">secteur Activite Conjoint</label></td>
                                     <td class="data">
-                                        <select id="secteurActiviteConjoint" name="secteurActiviteConjoint" class="form-control">
-                                            <option value="Secteur privé">Secteur privé</option>
-                                            <option value="Secteur public">Secteur public</option>
-                                            <option value="Secteur agricole">Secteur agricole</option>
-                                            <option value="Artisans-Commerçants">Artisans-Commerçants</option>
-                                            <option value="Professions libérales">Professions libérales</option>
-                                            <option value="Autres">Autres</option>
-                                        </select>
+                                        {{ Form::select('secteur_activite_conjoint', [
+                                        'Secteur privé' => 'Secteur privé', 'Secteur public' => 'Secteur public',
+                                        'Secteur agricole' => 'Secteur agricole', 'Artisans-Commerçants' => 'Artisans-Commerçants',
+                                        'Professions libérales' => 'Professions libérales', 'Autres' => 'Autres'
+                                         ], null ,['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -314,7 +306,7 @@
                                 <tr>
                                     <td><label for="professionDepuisConjoint">profession Depuis Conjoint</label></td>
                                     <td class="data">
-                                        {{ Form::date('professionDepuisConjoint', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
+                                        {{ Form::date('professionDepuisConjoint', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'professionDepuisConjoint']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -366,7 +358,7 @@
                                 <tr>
                                     <td><label for="habiteDepuis">habiteDepuis</label></td>
                                     <td class="data">
-                                        {{ Form::date('habiteDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
+                                        {{ Form::date('habiteDepuis', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'habiteDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -417,7 +409,7 @@
                         <div class="box-body">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                <textarea title="notes" name="notes" id="notes" class="form-control">{{ Carbon\Carbon::now()->format('d M Y à h:m') }} Création</textarea>
+                                <textarea title="notes" name="notes" id="notes" class="form-control">{{ \Carbon\Carbon::now() }} : </textarea>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -441,7 +433,19 @@
                                 <tr>
                                     <td><label for="loyer">loyer</label></td>
                                     <td>
-                                        {{ Form::text('loyer', null , ['class' => 'form-control']) }}
+                                        {{ Form::text('loyer', null, ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="loyer">Mensualité immo</label></td>
+                                    <td>
+                                        {{ Form::text('mensualite_immo', null , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="loyer">Valeur Immo</label></td>
+                                    <td>
+                                        {{ Form::text('valeur_de_votre_bien_immobilier', null , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -512,14 +516,14 @@
                             <table id="chargesTable" class="table table-bordered table-hover">
                                 <tr>
                                     <td><label for="NomBanque">Banque</label></td>
-                                    <td class="data {{ $errors->has('NomBanque') ? ' has-error' : '' }}">
-                                        {{ Form::text('NomBanque', null, ['class' => 'form-control']) }}
+                                    <td class="data {{ $errors->has('banque') ? ' has-error' : '' }}">
+                                        {{ Form::text('banque', null, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label for="pensionAlimentaire">Banque depuis le </label></td>
+                                    <td><label for="BanqueDepuis">Banque depuis le </label></td>
                                     <td>
-                                        {{ Form::date('BanqueDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control']) }}
+                                        {{ Form::date('BanqueDepuis', \Carbon\Carbon::now(), ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -530,8 +534,8 @@
 
                     <!-- bouton submit -->
                     <div class="text-center col-md-12">
-                        <button class="btn btn-lg btn-success">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Enregistrer
+                        <button class="btn btn-lg btn-warning">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Mettre à jour
                         </button>
                     </div>
                     <!-- ./ bouton submit -->

@@ -54,4 +54,20 @@ class TempProspectController extends Controller
 
         return view('temp-prospects.edit', compact('prospect'));
     }
+
+    /**
+     * Gère la mise à jour de temp_prospect demandée par l'utilisateur
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(int $id, Request $request)
+    {
+        try {
+            $this->tempProspectRepository->update($id, $request->all());
+        }catch(\Exception $exception){
+            return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
+        }
+        return redirect()->route('temp_prospect.edit', ['$prospect' => $id])->with(['message' => 'Mise à jour Ok']);
+    }
 }

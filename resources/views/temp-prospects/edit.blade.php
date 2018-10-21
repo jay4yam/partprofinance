@@ -17,8 +17,8 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            {{ Form::open(['route' =>'temp_prospect.store', 'method' => 'POST']) }}
-            <div class="row">
+            {{ Form::model($prospect,['route' => ['temp_prospect.update', $prospect], 'method' => 'PATCH', 'class' => 'form'] ) }}
+                <div class="row">
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
                     <!-- box informations -->
@@ -136,19 +136,19 @@
                                 <tr>
                                     <td><label for="paysNaissance">Pays de Naissance</label></td>
                                     <td class="data {{ $errors->has('paysNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('paysNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('paysNaissance', $prospect->pays_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="departementNaissance">Département de Naissance</label></td>
                                     <td class="data {{ $errors->has('departementNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('departementNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('departementNaissance', $prospect->dpt_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="VilleDeNaissance">VilleDeNaissance</label></td>
                                     <td class="data {{ $errors->has('VilleDeNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('VilleDeNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('VilleDeNaissance', $prospect->ville_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -174,14 +174,11 @@
                                 <tr>
                                     <td><label for="secteurActivite">secteur d'activite</label></td>
                                     <td class="data">
-                                        <select id="secteurActivite" name="secteurActivite" class="form-control">
-                                            <option value="Secteur privé">Secteur privé</option>
-                                            <option value="Secteur public">Secteur public</option>
-                                            <option value="Secteur agricole">Secteur agricole</option>
-                                            <option value="Artisans-Commerçants">Artisans-Commerçants</option>
-                                            <option value="Professions libérales">Professions libérales</option>
-                                            <option value="Autres">Autres</option>
-                                        </select>
+                                        {{ Form::select('secteurActivite', [
+                                        'Secteur privé' => 'Secteur privé', 'Secteur public' => 'Secteur public',
+                                        'Secteur agricole' => 'Secteur agricole', 'Artisans-Commerçants' => 'Artisans-Commerçants',
+                                        'Professions libérales' => 'Professions libérales', 'Autres' => 'Autres'
+                                         ], $prospect->secteur_activite ,['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -287,14 +284,11 @@
                                 <tr>
                                     <td><label for="secteurActiviteConjoint">secteur Activite Conjoint</label></td>
                                     <td class="data">
-                                        <select id="secteurActiviteConjoint" name="secteurActiviteConjoint" class="form-control">
-                                            <option value="Secteur privé">Secteur privé</option>
-                                            <option value="Secteur public">Secteur public</option>
-                                            <option value="Secteur agricole">Secteur agricole</option>
-                                            <option value="Artisans-Commerçants">Artisans-Commerçants</option>
-                                            <option value="Professions libérales">Professions libérales</option>
-                                            <option value="Autres">Autres</option>
-                                        </select>
+                                        {{ Form::select('secteur_activite_conjoint', [
+                                        'Secteur privé' => 'Secteur privé', 'Secteur public' => 'Secteur public',
+                                        'Secteur agricole' => 'Secteur agricole', 'Artisans-Commerçants' => 'Artisans-Commerçants',
+                                        'Professions libérales' => 'Professions libérales', 'Autres' => 'Autres'
+                                         ], $prospect->secteur_activite_conjoint ,['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -443,9 +437,21 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><label for="loyer">Mensualité immo</label></td>
+                                    <td>
+                                        {{ Form::text('mensualite_immo',$prospect->mensualite_immo , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="loyer">Valeur Immo</label></td>
+                                    <td>
+                                        {{ Form::text('valeur_de_votre_bien_immobilier',$prospect->valeur_de_votre_bien_immobilier , ['class' => 'form-control']) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><label for="pensionAlimentaire">pension alimentaire</label></td>
                                     <td id="pensionAlimentaire" class="data">
-                                        {{ Form::text('pensionAlimentaire', null , ['class' => 'form-control']) }}
+                                        {{ Form::text('pensionAlimentaire', $prospect->pension_alimentaire , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -510,14 +516,14 @@
                             <table id="chargesTable" class="table table-bordered table-hover">
                                 <tr>
                                     <td><label for="NomBanque">Banque</label></td>
-                                    <td class="data {{ $errors->has('NomBanque') ? ' has-error' : '' }}">
-                                        {{ Form::text('NomBanque', null, ['class' => 'form-control']) }}
+                                    <td class="data {{ $errors->has('banque') ? ' has-error' : '' }}">
+                                        {{ Form::text('banque', $prospect->banque, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label for="pensionAlimentaire">Banque depuis le </label></td>
+                                    <td><label for="BanqueDepuis">Banque depuis le </label></td>
                                     <td>
-                                        {{ Form::date('BanqueDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control']) }}
+                                        {{ Form::date('BanqueDepuis', $prospect->banque_depuis, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
