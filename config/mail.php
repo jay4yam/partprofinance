@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'ssl0.ovh.net'),
+    'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 25),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'partprofinance@partprofinance.ovh'),
+        'address' => env('MAIL_FROM_ADDRESS', 'test@test.fr'),
         'name' => env('MAIL_FROM_NAME', 'PartProFinance'),
     ],
 
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('partprofinance@partprofinance.ovh'),
+    'username' => env('1e1c932e609ecb'),
 
-    'password' => env('mail:partpro:1975'),
+    'password' => env('8939ed27caed37'),
 
     /*
     |--------------------------------------------------------------------------
