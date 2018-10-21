@@ -143,6 +143,7 @@ class ProspectProcessController extends Controller
             //Recupère le prospect qui est en train d'être traité
             $prospect = TempProspect::findOrFail($request->temp_prospect_id);
 
+            //Envois les mail et le sms
             $this->processProspectRepository->sendRelanceUne($request->all(), $prospect);
 
             //Va mettre à jour les dates des relance J+1 et J+4

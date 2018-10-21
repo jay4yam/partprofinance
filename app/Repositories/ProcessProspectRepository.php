@@ -111,8 +111,10 @@ class ProcessProspectRepository
     {
         $nexmo = app('Nexmo\Client');
 
+        $num = $prospect->tel_portable;
+
         $nexmo->message()->send([
-                'to' => '33'.$prospect->tel_portable,
+                'to' => '33'.$num,
                 'from' => '0615805566',
                 'text' => $text,
             ]);
