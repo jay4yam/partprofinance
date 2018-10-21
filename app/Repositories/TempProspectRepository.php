@@ -125,8 +125,10 @@ class TempProspectRepository
      */
     public function update(int $id, array $inputs)
     {
+        //Trouve le model à updater
         $prospect = $this->tempProspect->findOrFail($id);
 
+        //utilise la méthode priveé save pour mettre à jour
         $this->save($prospect, $inputs);
     }
 }
