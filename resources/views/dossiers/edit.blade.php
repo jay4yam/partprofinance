@@ -5,7 +5,7 @@
     <section class="content-header">
         <h1>
             Dossiers
-            <small>Edition du dossier : <b>{{ $dossier->prospect->nom }}</b> </small>
+            <small>Edition du dossier : <b>{{ $dossier->dossierable->nom }}</b> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -40,17 +40,18 @@
                         <div class="form-group">
                             <div class="col-md-4 {{ $errors->has('nom') ? ' has-error' : '' }}">
                             {{ Form::label('nom', 'Nom : ') }}
-                            {{ Form::text('nom', $dossier->prospect->nom, ['class' => 'form-control', 'disabled']) }}
+                            {{ Form::text('nom', $dossier->dossierable->nom, ['class' => 'form-control', 'disabled']) }}
                             </div>
                             <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                             {{ Form::label('prenom', 'Prenom : ') }}
-                            {{ Form::text('prenom', $dossier->prospect->prenom, ['class' => 'form-control', 'disabled']) }}
+                            {{ Form::text('prenom', $dossier->dossierable->prenom, ['class' => 'form-control', 'disabled']) }}
                             </div>
                             <div class="col-md-4 {{ $errors->has('email') ? ' has-error' : '' }}">
                             {{ Form::label('email', 'Email : ') }}
-                            {{ Form::text('email', $dossier->prospect->email, ['class' => 'form-control', 'disabled']) }}
+                            {{ Form::text('email', $dossier->dossierable->email, ['class' => 'form-control', 'disabled']) }}
                             </div>
                         </div>
+
                         <!-- ./Infos prospect (non editable) -->
 
                         <!-- Type & objet du prêt -->
@@ -94,6 +95,7 @@
                                 {{ Form::text('montant_commission_partpro', $com, ['class' => 'form-control success', 'style' => 'color:#FFF;background-color:#00a65a']) }}
                             </div>
                         </div>
+
                         <!-- ./Montant & commission -->
 
                         <!-- Organisme préteur  -->
@@ -113,7 +115,7 @@
                         <!-- IBAN -->
                         <div class="form-group col-md-4 {{ $errors->has('iban') ? ' has-error' : '' }}" style="padding-top: 10px">
                             {{ Form::label('iban', 'Iban du client : ') }}
-                            {{ Form::text('iban', $dossier->prospect->iban , ['class' => 'form-control']) }}
+                            {{ Form::text('iban', $dossier->dossierable->iban , ['class' => 'form-control']) }}
                         </div>
                         <!-- IBAN -->
                     </div>

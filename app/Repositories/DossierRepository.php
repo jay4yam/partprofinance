@@ -41,7 +41,7 @@ class DossierRepository
      */
     public function getById($id)
     {
-        return $this->dossier->with('user', 'banque')->findOrFail($id);
+        return $this->dossier->with('user', 'banque', 'dossierable')->findOrFail($id);
     }
 
     /**
