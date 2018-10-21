@@ -54,6 +54,7 @@ class ImportCSV extends ExcelFile
             case 'assuragency':
                 foreach ($results as $items)
                 {
+                    dd($items);
                     //correction du 22 mai 2018
                     //Init un nouvel model pour la table temp_prospect
                     $tempData = new TempProspect();
