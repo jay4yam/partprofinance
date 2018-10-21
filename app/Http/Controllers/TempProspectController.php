@@ -64,7 +64,9 @@ class TempProspectController extends Controller
     public function update(int $id, Request $request)
     {
         try {
+
             $this->tempProspectRepository->update($id, $request->all());
+
         }catch(\Exception $exception){
             return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
         }
