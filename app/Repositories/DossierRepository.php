@@ -155,17 +155,21 @@ class DossierRepository
         $dossier->banque_id = $inputs['banque_id'];
         $dossier->user_id = $inputs['user_id'];
 
+        //Code placé dans une transaction afin de s'assurer de la mise en DB des bons éléments
         DB::transaction(function () use ($dossier, $inputs) {
-
-            $dossier->save();
-
+            //1. Identification du prospect
             $prospect = Prospect::findOrFail( $inputs['prospect_id']);
 
-            $prospect->dossiers()->save($dossier);
-
+            //2. Si l'input contient l'iban, on met à jour le prospect
             if(isset($inputs['iban']) && $inputs['iban'] != ''){
-                $prospect->update(['iban' => $dossier->iban]);
+                $prospect->update(['iban' => $inputs['iban']]);
             }
+
+            //3. Enregistrement du nouveau dossier.
+            $dossier->save();
+
+            //4. Met à jour la table dossier avec la cle polymorphique qui va bien
+            $prospect->dossiers()->save($dossier);
         });
     }
 

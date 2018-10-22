@@ -31,7 +31,8 @@ class DossierRequest extends FormRequest
             'montant_final' => 'required',
             'taux_commission' => 'required',
             'montant_commission_partpro' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'prospect_id' => 'required'
         ];
     }
 }

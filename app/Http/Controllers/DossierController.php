@@ -46,6 +46,7 @@ class DossierController extends Controller
     }
 
     /**
+     * Gère l'enregistrement d'un nouveau dossier
      * @param DossierRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -65,7 +66,6 @@ class DossierController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
