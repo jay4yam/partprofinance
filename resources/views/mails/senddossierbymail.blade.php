@@ -1,11 +1,11 @@
-@extends('layouts.app', ['title' => 'Dossier a envoye par mail', 'activeDashboard' => 'active'])
+@extends('layouts.app', ['title' => 'Dossier a envoyer par mail', 'activeDashboard' => 'active'])
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             Dossiers
-            <small>Envois d'email de création de dossier : <b>{{ $dossier->prospect->nom }}</b> </small>
+            <small>Envois d'email de création de dossier : <b>{{ $dossier->dossierable->nom }}</b> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url()->route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,7 +17,7 @@
     <section class="content">
         <div class="row">
         {{ Form::open(['route' => 'post.mail', 'method' => 'POST', 'class' => 'form', 'files' => 'true'] ) }}
-        {{ Form::hidden('user_id', $dossier->prospect->id, ['id' => 'prospect_id']) }}
+        {{ Form::hidden('prospect_id', $dossier->dossierable_id, ['id' => 'prospect_id']) }}
         <!-- Col. gauche -->
             <div class="col-md-12">
                 <!-- Edition Dossier -->
@@ -46,13 +46,13 @@
                                 <tr>
                                     <td>Nom :</td>
                                     <td>
-                                        <b>{{ $dossier->prospect->nom }}</b>
+                                        <b>{{ $dossier->dossierable->nom }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Prenom :</td>
                                     <td>
-                                        <b>{{ $dossier->prospect->prenom }}</b>
+                                        <b>{{ $dossier->dossierable->prenom }}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -60,25 +60,25 @@
                                         Téléphone :
                                     </td>
                                     <td>
-                                        <b>{{ $dossier->prospect->numTelPortable }}</b>
+                                        <b>{{ $dossier->dossierable->numTelPortable }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Email Client : </td>
                                     <td>
-                                        <b>{{ $dossier->prospect->email }}</b>
+                                        <b>{{ $dossier->dossierable->email }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Iban Client : </td>
                                     <td>
-                                        <b>{{ $dossier->prospect->iban }}</b>
+                                        <b>{{ $dossier->dossierable->iban }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Signature Electronique : </td>
                                     <td>
-                                        <b>{{ $dossier->prospect->mandat_status ? 'oui' : 'non' }}</b>
+                                        <b>{{ $dossier->dossierable->mandat_status ? 'oui' : 'non' }}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -90,13 +90,13 @@
                                 <tr>
                                     <td>Date de Naissance : </td>
                                     <td>
-                                        <b>{{ $dossier->prospect->dateDeNaissance->format('d M Y') }}</b>
+                                        <b>{{ $dossier->dossierable->dateDeNaissance->format('d M Y') }}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td> Ville & Département : </td>
                                     <td>
-                                       <b>{{ $dossier->prospect->codePostal }} - {{ $dossier->prospect->ville }}</b>
+                                       <b>{{ $dossier->dossierable->codePostal }} - {{ $dossier->dossierable->ville }}</b>
                                     </td>
                                 </tr>
                                 <tr>

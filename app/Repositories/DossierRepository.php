@@ -153,22 +153,20 @@ class DossierRepository
         $dossier->num_dossier_banque = $inputs['num_dossier_banque'];
         $dossier->status = $inputs['status'];
         $dossier->banque_id = $inputs['banque_id'];
-        $dossier->iban = $inputs['iban'];
-        $dossier->prospect_id = $inputs['prospect_id'];
         $dossier->user_id = $inputs['user_id'];
 
-        DB::transaction(function () use ($dossier) {
+        DB::transaction(function () use ($dossier, $inputs) {
 
             $dossier->save();
 
-            $user = User::findOrFail( $dossier->user_id );
+            $prospect = Prospect::findOrFail( $inputs['prospect_id']);
 
-            if($dossier->iban){
-                $user->prospect()->update(['iban' => $dossier->iban]);
+            $prospect->dossiers()->save($dossier);
+
+            if(isset($inputs['iban']) && !emptyString($inputs['iban'])){
+                $prospect->update(['iban' => $dossier->iban]);
             }
         });
-
-
     }
 
     /**
@@ -198,13 +196,16 @@ class DossierRepository
         //itère sur la collection pour peupler lz tableau array
         foreach ($results as $prospect)
         {
-            $array[] = ['value' => $prospect->nom.' / '.$prospect->prenom.' / '.$prospect->email.' / '.$prospect->iban, 'prospect_id' => $prospect->id , 'user_id' => $prospect->user_id];
+            $array[] = [
+                        'value' => $prospect->nom.' / '.$prospect->prenom.' / '.$prospect->email.' / '.$prospect->iban,
+                        'prospect_id' => $prospect->id,
+                        'user_id' => $prospect->user_id];
         }
 
         //test si le tableau est rempli
         if(count($array))
             return $array;
         else
-            return ['value'=>'Pas de résultat','id'=>''];
+            return ['value'=>'Pas de résultat'];
     }
 }

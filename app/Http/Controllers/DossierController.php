@@ -52,7 +52,9 @@ class DossierController extends Controller
     public function store(DossierRequest $request)
     {
         try {
+
             $dossier = $this->dossierRepository->store($request->all());
+
         }catch (\Exception $exception){
             return back()->with( ['message' => $exception->getMessage()] );
         }
@@ -127,7 +129,7 @@ class DossierController extends Controller
 
     /**
      * GET : Renvois la vue qui affiche le mail a envoyer a seb et portet
-     * @param Dossier $dossier
+     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function sendMailShow($id)
