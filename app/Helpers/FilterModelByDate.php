@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Dossier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,11 +18,11 @@ class FilterModelByDate
 {
     /**
      * Retourne les models ou le commercial est userId
-     * @param Model $model
+     * @param LengthAwarePaginator $model
      * @param $userId
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|Model
      */
-    public function filterBySales(Model $model, $userId)
+    public function filterBySales($model, $userId)
     {
         if(isset($userId) && !empty($userId)) {
             $modelFiltered = $model->where('user_id', $userId)->paginate(10);
@@ -36,14 +37,28 @@ class FilterModelByDate
      * @param $month
      * @return mixed
      */
-    public function filterByMonth(Model $model = null, $month){
+    public function filterByMonth($model = null, $month){
 
+        //1. test si les inputs sont utilisé
         if(isset($month) && !empty($month)) {
+            //2. Init un array vide
+            $array = [];
 
-            $modelFiltered = $model->whereMonth('created_at', $month)->paginate(10);
-            return $modelFiltered;
+            //3. Parcours la collection
+            $modelFiltered = $model->each(function ($items) use($month, &$array){
+                $array = $items->whereMonth('created_at', $month)->get();
+            });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            //5. Enregistre les valeurs
+            return $modelsFiltredToReturn;
         }
-        return $model;
+        return null;
     }
 
     /**
@@ -52,13 +67,79 @@ class FilterModelByDate
      * @param $model
      * @return mixed
      */
-    public function filterByYear(Model $model, $annee)
+    public function filterByYear($model, $annee)
     {
         if(isset($annee) && !empty($annee)) {
-             $modelFiltered = $model->whereYear('created_at', $annee)->paginate(10);
-            return $modelFiltered;
+            $array = [];
+             $modelFiltered = $model->each(function ($items) use($annee, &$array){
+                 $array = $items->whereYear('created_at', $annee)->get();
+             });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
         }
-        return $model;
+        return null;
+    }
+
+    /**
+     * Retourne la liste des dossiers filtré par mois et par année
+     * @param $model
+     * @param $annee
+     * @param $mois
+     * @return LengthAwarePaginator
+     */
+    public function FilterByMonthAndYear($model, $annee, $mois)
+    {
+        if(isset($annee) && isset($mois)) {
+            $array = [];
+            $modelFiltered = $model->each(function ($items) use($annee, $mois,&$array){
+                $array = $items->whereYear('created_at', $annee)
+                                ->whereMonth('created_at', $mois)->get();
+            });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
+        }
+        return null;
+    }
+
+    /**
+     * Retourne la liste des dossiers filtré par mois et par année
+     * @param $model
+     * @param $annee
+     * @param $mois
+     * @return LengthAwarePaginator
+     */
+    public function FilterByMonthAndYearAndStatus($model, $annee, $mois, $status)
+    {
+        if(isset($annee) && isset($mois) && isset($status)) {
+            $array = [];
+            $modelFiltered = $model->each(function ($items) use($annee, $mois, $status, &$array){
+                $array = $items->whereYear('created_at', $annee)
+                                ->whereMonth('created_at', $mois)
+                                ->where('status', '=', $status)
+                                ->get();
+            });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
+        }
+        return null;
     }
 
     /**
@@ -90,30 +171,19 @@ class FilterModelByDate
      * @param Model|null $model
      * @param $searchedName
      * @param $dbColumn
-     * @return LengthAwarePaginator|Model
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function filterDossierByName(Model $model = null, $searchedName, $dbColumn)
+    public function filterDossierByName($model, $searchedName, $dbColumn)
     {
-        $modelFiltered2return = null;
-
+        $modelFiltered = null;
         //recherche par nom
         if( isset($searchedName) && !empty($searchedName) )
         {
-            $collection = New Collection();
-            $allModels = $model->with('user', 'banque', 'prospect')->get();
-            $modelFiltered= $allModels->each(function ($dossier) use ($searchedName, $collection) {
-                $nom = $dossier->prospect->nom;
-                $pos = strpos( strtolower($nom), $searchedName);
-                if($pos !== false)
-                    $collection->push($dossier);
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $collection->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($collection), 10);
-            $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            $modelFiltered = Dossier::with('prospect')->whereHas('prospect',  function ($query) use($searchedName){
+                $query->where('nom', 'like', '%'.$searchedName.'%');
+            })->paginate(10);
         }
-        return $modelFiltered2return;
+         return $modelFiltered;
     }
 
     /**
@@ -170,15 +240,25 @@ class FilterModelByDate
         return $modelFiltered2return;
     }
 
-    public function filterDossierByStatus(Model $model = null, $status)
+    public function filterDossierByStatus($model = null, $status)
     {
         //recherche par status de dossier
         if( isset($status) && !empty($status) )
         {
-            $modelFiltered = $model->where('status', '=', $status)->paginate(10);
-            return $modelFiltered;
+            $array = [];
+            $modelFiltered = $model->each(function ($items) use ($status, &$array){
+                $array = $items->where('status', '=', $status)->get();
+            });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
         }
-        return $model;
+        return null;
     }
 
     /**

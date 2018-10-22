@@ -157,7 +157,6 @@ class Dossier extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-
     /**
      * Relation polymorphic
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -165,6 +164,10 @@ class Dossier extends Model
     public function dossierable()
     {
         return $this->morphTo();
+    }
+
+    public function prospect(){
+        return $this->belongsTo(Prospect::class, 'dossierable_id');
     }
 
 }

@@ -115,7 +115,9 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer text-center">
-                {{ $dossiers->links() }}
+                @if($dossiers instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator)
+                    {{ $dossiers->links() }}
+                @endif
             </div>
             <!-- /.box-footer-->
         </div>

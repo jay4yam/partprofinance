@@ -62,40 +62,52 @@ class DossierRepository
     }
 
     /**
-     *
+     * Retourne la vue filtré par l'utilisateur
+     * @param array $inputs
+     * @return $this|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Model|\Illuminate\Pagination\LengthAwarePaginator|mixed|null
      */
     public function getFilter(array $inputs)
     {
         $dossiers = $this->getAll();
 
         //Filtre sur les commerciaux
-        if( isset($inputs['user']) && $inputs['user'] != '' ) {
-            $dossiers = $this->filter->FilterBySales($this->dossier, $inputs['user']);
+        if( isset($inputs['user'])) {
+            $dossiers = $this->filter->FilterBySales($dossiers, $inputs['user']);
         }
 
         //recherche par mois
-        if(isset($inputs['mois']) && $inputs['mois'] != '') {
-            $dossiers = $this->filter->FilterByMonth($this->dossier, $inputs['mois']);
+        if(isset($inputs['mois'])) {
+            $dossiers = $this->filter->FilterByMonth($dossiers, $inputs['mois']);
         }
 
         //Filtre par année
-        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
-            $dossiers = $this->filter->FilterByYear($this->dossier, $inputs['annee']);
+        if( isset($inputs['annee'])){
+            $dossiers = $this->filter->FilterByYear($dossiers, $inputs['annee']);
         }
 
         //recherche par nom
         if(isset($inputs['search'])) {
-            $dossiers = $this->filter->filterDossierByName($this->dossier, $inputs['search'], 'nom');
+            $dossiers = $this->filter->filterDossierByName($dossiers, $inputs['search'], 'nom');
         }
 
         //filter par status
         if(isset($inputs['status'])){
-            $dossiers = $this->filter->filterDossierByStatus($this->dossier, $inputs['status']);
+            $dossiers = $this->filter->filterDossierByStatus($dossiers, $inputs['status']);
         }
 
         //recherche par iban
         if(isset($inputs['iban'])){
             $dossiers = $this->filter->filterDossierByIban($this->dossier, $inputs['iban']);
+        }
+
+        //recherche par mois et par année
+        if(isset($inputs['mois']) && isset($inputs['annee'])){
+            $dossiers = $this->filter->FilterByMonthAndYear($dossiers, $inputs['annee'], $inputs['mois']);
+        }
+
+        //recherche par mois, par année et par status
+        if(isset($inputs['mois']) && isset($inputs['annee']) && isset($inputs['status'])){
+            $dossiers = $this->filter->FilterByMonthAndYearAndStatus($dossiers, $inputs['annee'], $inputs['mois'], $inputs['status']);
         }
 
         return $dossiers;
