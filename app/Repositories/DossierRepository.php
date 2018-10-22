@@ -163,7 +163,7 @@ class DossierRepository
 
             $prospect->dossiers()->save($dossier);
 
-            if(isset($inputs['iban']) && !emptyString($inputs['iban'])){
+            if(isset($inputs['iban']) && $inputs['iban'] != ''){
                 $prospect->update(['iban' => $dossier->iban]);
             }
         });
