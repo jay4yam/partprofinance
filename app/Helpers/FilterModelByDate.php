@@ -197,7 +197,7 @@ class FilterModelByDate
         $modelFiltered2return = null;
 
         if(isset($iban) && $iban = 'on') {
-            $allModels = $model->with('user', 'dossier', 'tasks')->get();
+            $allModels = $model->with('user', 'dossiers', 'tasks')->get();
             $modelFiltered = $allModels->filter(function ($model) {
                 if ($model->iban != '') return $model;
             });
