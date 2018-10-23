@@ -68,6 +68,21 @@ class StatistiquesHelper
     }
 
     /**
+     * Retourne les dossiers du mois et de l'année passé en paramètre
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
+    public function getDossierForMonthAndYear($month, $year)
+    {
+        $dossier = new Dossier();
+
+        $numOfDossier = $dossier->dossierForMonthAndYear($month, $year)->count();
+
+        return $numOfDossier;
+    }
+
+    /**
      * Retourne le taux de transfo des prospects vers les dossiers
      * @return float|int
      */
@@ -105,6 +120,20 @@ class StatistiquesHelper
     }
 
     /**
+     * Retourne dossier acceptés pour les dates passés en parametre
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
+    public function countAcceptedDossierForMonthAndYear($month, $year)
+    {
+        $dossier = new Dossier();
+
+        return $dossier->dossierAcceptedForTheMonthAndYear($month, $year)->count();
+
+    }
+
+    /**
      * Retourne le nombre de dossiers acceptés ce mois ci
      * @param int $userId
      * @return mixed
@@ -122,6 +151,18 @@ class StatistiquesHelper
     }
 
     /**
+     * Retourne le nombre de dossiers acceptés les mois / années passé en paramètre
+     * @param int $userId
+     * @return mixed
+     */
+    public function countPaidDossierADate($month, $year)
+    {
+        $dossier = new Dossier();
+
+        return $dossier->dossierPayeeForMonthAndYear($month, $year)->count();
+    }
+
+    /**
      * Retourne le nombre de dossier refusé du mois en cours
      * @return mixed
      */
@@ -135,6 +176,18 @@ class StatistiquesHelper
         });
 
         return $value;
+    }
+
+    /**
+     * Retourne le nombre de dossier refusé du mois en cours
+     * @return mixed
+     */
+    public function countRefusedDossierADate($month, $year)
+    {
+        $dossier = new Dossier();
+
+        return $dossier->dossierRefusedForMonthAndYear($month, $year)->count();
+
     }
 
     /**
@@ -162,6 +215,28 @@ class StatistiquesHelper
     }
 
     /**
+     * Affiche la commission partpro possible pour le mois / annee passé en params
+     * @param $month
+     * @param $year
+     * @return int
+     */
+    public function commissionForMonthAndYear($month, $year)
+    {
+
+        $dossier = new Dossier();
+
+        $dossierOfTheMonth = $dossier->dossierForMonthAndYear($month, $year)->get();
+
+        $commissionPartProFinance = 0;
+
+        foreach ($dossierOfTheMonth as $dossier) {
+            $commissionPartProFinance += $dossier->montant_commission_partpro;
+        }
+
+        return $commissionPartProFinance;
+    }
+
+    /**
      * Renvois le montant de la commission des dossiers acceptés du mois
      * @return int
      */
@@ -182,6 +257,27 @@ class StatistiquesHelper
         });
 
         return $value;
+    }
+
+    /**
+     * Retourne la commission possible des dossiers acceptés des mois/annee passés en param
+     * @param $month
+     * @param $year
+     * @return int
+     */
+    public function commissionAcceptedADate($month, $year)
+    {
+        $dossier = new Dossier();
+
+        $dossiers = $dossier->dossierAcceptedForTheMonthAndYear($month, $year)->get();
+
+        $montant = 0;
+
+        foreach ($dossiers as $dossier) {
+            $montant += $dossier->montant_commission_partpro;
+        }
+
+        return $montant;
     }
 
     public function commissionPaid()
@@ -220,6 +316,30 @@ class StatistiquesHelper
 
         return $montant;
     }
+
+    /**
+     * Retourne le montant des commissions sur les dossiers payés des mois/annee passés en param
+     * @param $month
+     * @param $year
+     * @return int
+     */
+    public function commissionPayeeADate($month, $year)
+    {
+        $dossier = new Dossier();
+
+        $dossiers = $dossier->dossierPayeeForMonthAndYear($month, $year)->get();
+
+        $montant = 0;
+
+        foreach ($dossiers as $dossier)
+        {
+            $montant += $dossier->montant_commission_partpro;
+        }
+
+        return $montant;
+    }
+
+
 
     /* STATS POUR UN COMMERCIAL */
 
@@ -382,7 +502,4 @@ class StatistiquesHelper
 
         return $montant;
     }
-
-
-
 }

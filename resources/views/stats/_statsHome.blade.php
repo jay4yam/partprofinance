@@ -39,7 +39,7 @@
             <!-- small box -->
             <div class="small-box bg-teal">
                 <div class="inner">
-                    <h3>{{ $dossiers }} </h3>
+                    <h3>{{ $dossierADate }} </h3>
 
                     <p>{{ round($percentageOfDossier,2) }} % de dossier passés</p>
                 </div>
@@ -58,7 +58,7 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{ $numAccepted }}</h3>
+                    <h3>{{ $numAcceptedADate }}</h3>
 
                     <p>Dossiers Acceptés</p>
                 </div>
@@ -77,7 +77,7 @@
             <!-- small box -->
             <div class="small-box bg-blue-gradient">
                 <div class="inner">
-                    <h3>{{ $numPaid }}</h3>
+                    <h3>{{ $numPaidADate }}</h3>
 
                     <p>Dossier Payés</p>
                 </div>
@@ -96,7 +96,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>{{ $numRefus }}</h3>
+                    <h3>{{ $numRefusADate }}</h3>
 
                     <p>Dossiers Réfusés</p>
                 </div>
@@ -120,7 +120,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>{{ round($commissionPartPro, 2) }} €</h3>
+                    <h3>{{ round($commissionPartProADate, 2) }} €</h3>
 
                     <p>Total com du mois</p>
                 </div>
@@ -136,7 +136,7 @@
             <!-- small box -->
             <div class="small-box bg-teal">
                 <div class="inner">
-                    <h3>{{ round($commissionDossierAccepted + $commissionPaye, 2) }} €</h3>
+                    <h3>{{ round($commissionDossierAcceptedADate + $commissionPayeADate, 2) }} €</h3>
 
                     <p>Acceptes + Payés</p>
                 </div>
@@ -152,7 +152,7 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{ round($commissionPartPro * 0.05, 2) }} €</h3>
+                    <h3>{{ round($commissionPartProADate * 0.05, 2) }} €</h3>
 
                     <p>Prime Possible</p>
                 </div>
@@ -168,7 +168,7 @@
             <!-- small box -->
             <div class="small-box bg-blue-gradient">
                 <div class="inner">
-                    <h3>{{ round( ($commissionPaye - ($commissionPaye * 0.2)), 2) }} €</h3>
+                    <h3>{{ round( ($commissionPayeADate - ($commissionPayeADate * 0.2)), 2) }} €</h3>
 
                     <p>Com' payées</p>
                 </div>
@@ -184,7 +184,7 @@
             <!-- small box -->
             <div class="small-box bg-black">
                 <div class="inner">
-                    <h3>{{ round($commissionPaye * 0.05, 2) }} €</h3>
+                    <h3>{{ round($commissionPayeADate * 0.05, 2) }} €</h3>
 
                     <p>Prime réelle</p>
                 </div>
