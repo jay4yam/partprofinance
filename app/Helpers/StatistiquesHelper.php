@@ -136,7 +136,7 @@ class StatistiquesHelper
 
             $dossier = new Dossier();
 
-            $dossierOfTheMonth = $dossier->dossierAcceptedOfTheMonth()->get();
+            $dossierOfTheMonth = $dossier->dossierOfTheMonth()->get();
 
             $commissionPartProFinance = 0;
 

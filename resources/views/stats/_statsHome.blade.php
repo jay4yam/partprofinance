@@ -133,7 +133,7 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{ round($commissionPartPro, 2) }} €</h3>
+                <h3>{{ round($commissionPartPro * 0.05, 2) }} €</h3>
 
                 <p>Prime Possible</p>
             </div>
