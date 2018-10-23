@@ -9,15 +9,20 @@
 namespace App\Http\ViewComposers;
 
 use App\Helpers\StatistiquesHelper;
+use Carbon\Carbon;
 use Illuminate\View\View;
 
 class StatistiquesComposer
 {
     protected $stat;
+    protected $year;
+    protected $month;
 
     public function __construct(StatistiquesHelper $stat)
     {
         $this->stat = $stat;
+        $this->year = \Request::get('annee') ? \Request::get('annee') : Carbon::now()->format('Y');
+        $this->month = \Request::get('mois') ? \Request::get('mois') : Carbon::now()->format('m');
     }
 
     /**
@@ -27,6 +32,7 @@ class StatistiquesComposer
     public function compose(View $view)
     {
         $prospects = $this->stat->getProspectThisMonth();
+        $prospectsADate = $this->stat->getProspectForMonthAndYear($this->month, $this->year);
         $dossiers = $this->stat->getDossierThisMonth();
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
         $numAccepted = $this->stat->countAcceptedDossier();
@@ -39,6 +45,7 @@ class StatistiquesComposer
 
         $view->with([
             'prospects' =>  $prospects,
+            'prospectsADate' => $prospectsADate,
             'dossiers'  =>  $dossiers,
             'percentageOfDossier' => $percentageOfDossier,
             'numAccepted' => $numAccepted,

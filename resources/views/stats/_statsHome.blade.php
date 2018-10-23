@@ -1,4 +1,3 @@
-{{ $annee }} / {{ $mois }}
 <div class="box">
     {{ Form::open([ 'route' => 'home', 'method' => 'GET', 'class' => 'form-inline']) }}
     <div class="form-group sep">
@@ -24,7 +23,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{ $prospects }}</h3>
+                    <h3>{{ $prospectsADate }}</h3>
 
                     <p>Prospects ce mois ci</p>
                 </div>

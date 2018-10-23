@@ -38,6 +38,17 @@ class StatistiquesHelper
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
 
+    public function getProspectForMonthAndYear($month, $year)
+    {
+        $tempProspect = new TempProspect();
+        $tempProspectOftheMonth = $tempProspect->countUserWithDate($month, $year)->count();
+
+        $prospect = new Prospect();
+        $prospectOfTheMonth = $prospect->countUserWithDate($month, $year)->count();
+
+        return $tempProspectOftheMonth + $prospectOfTheMonth;
+    }
+
     /**
      * Retourne le nombre de dossier du mois
      * @return mixed

@@ -89,6 +89,12 @@ class Prospect extends Model
         return $query->where('user_id', '=',$userId);
     }
 
+    public function scopeCountUserWithDate($query, $month, $year)
+    {
+        return $query->whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year);
+    }
+
     /**
      * Relation 1/1 vers la table user pour lier à un commercial à un prospect
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
