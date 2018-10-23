@@ -89,28 +89,34 @@ class ProspectProcessController extends Controller
      */
     private function getMailContent(TempProspect $prospect)
     {
-        $message = "Bonjour ".$prospect->civilite." ".$prospect->nom."\n";
-        $message .= "Suite à votre demande de crédit de restructuration et compte-tenu des premiers éléments que vous nous avez indiqués";
-        $message .= ", nous vous proposons les solutions de financement suivantes :\n\n";
-        $message .= "Reprise de vos encours de prêts 11000 € + une trésorerie de 00€ (plus si vous le désirez) :\n";
-        $message .= "Sur 96 mois, mensualités  de 159,32 €\n\n";
-        $message .= "Nous pouvons également moduler sur des durées plus courtes OU plus longues si vous le désirez.\n";
-        $message .= "Pour nous permettre de valider l’une de ces propositions et obtenir votre offre de prêt dans les meilleurs délais";
-        $message .= "nous vous invitons à nous appeler au 06.15.80.55.66 ou 04.89.68.41.02 munissez-vous des pièces justificatives suivantes :\n\n";
-        $message .= "Pièces relatives aux revenus du foyer :\n";
+        $message = "Bonjour ".$prospect->civilite." ".$prospect->nom."\n\n";
+        $message .= "Suite à votre demande de crédit de restructuration et compte tenu des premiers";
+        $message .= "éléments fournis, nous vous proposons les solutions de financement suivantes :\n\n";
+        $message .= "Reprise de vos encours de prêts 00 € + une trésorerie de 00€ (plus si vous le désirez) :";
+        $message .= "Sur 96 mois, mensualités de 159,32 €\n";
+        $message .= "Nous pouvons également moduler vos mensualités sur des durées plus courtes OU plus longues AU CHOIX.\n\n";
+        $message .= "Pour nous permettre de valider l’une de ces propositions et obtenir votre offre de prêt";
+        $message .= " dans les meilleurs délais nous vous invitons à nous contacter au 04.89.68.41.02 ou au ";
+        $message .= "06.15.80.55.66, et munissez-vous des pièces justificatives suivantes :\n";
+        $message .= "- Pièces relatives aux revenus du foyer :\n";
         $message .= "- Pièce d’identité en cours de validité (recto et verso).\n";
         $message .= "- Justificatif de domicile (Facture de téléphone, eau, EDF de préférence de moins de 3 mois)\n";
-        $message .= "- Bulletins de salaires des 2 derniers mois + décembre 2016.\n";
-        $message .= "Si retraité , dernier avis de paiement des retraites : principale + complémentaires\n";
-        $message .= "Un RIB (Compte sur lequel seront effectuées les opérations = virement du crédit, prélèvement des mensualités).\n";
+        $message .= "- Bulletins de salaires des 2 derniers mois + le mois de Décembre de l&#39;année dernière (N-1 ).\n";
+        $message .= "- Si retraité, dernier avis de paiement des retraites : principale + complémentaires OU dernier avis d&#39;imposition\n";
+        $message .= "- Un RIB (Compte sur lequel seront effectuées les opérations = virement du crédit, prélèvement des mensualités).\n\n";
         $message .= "Pièces relatives à vos crédits en cours :\n";
-        $message .= "Noms des organismes des crédits en cours\n\n";
-        $message .= "Enfin, nous vous recommandons de ne pas multiplier les demandes sur Internet,";
-        $message .= "cette démarche pourrait en effet nuire à de votre financement et aux conditions obtenues pour votre crédit.\n\n\n";
-        $message .= "DESCOLO  2721 Chemin de Saint Claude 06600 Antibes\n";
-        $message .= "Je reste naturellement à votre disposition pour des informations complémentaires au 06.15.80.55.66 ou le 04.89.68.41.02\n";
-        $message .= "Cordialement\n";
-        $message .= "Mme Emilie Pohier , votre conseiller financier";
+        $message .= "- Noms des organismes pour vos crédits en cours\n\n";
+        $message .= "Enfin, nous vous recommandons de ne pas multiplier les demandes sur Internet, cette démarche pourrait";
+        $message .= "en effet nuire à votre demande de financement et aux conditions obtenues pour votre crédit.\n\n";
+        $message .= "UN CREDIT VOUS ENGAGE ET DOIT ETRE REMBOURSE.\n";
+        $message .= "VERIFIEZ VOS CAPACITES DE REMBOURSEMENT AVANT DE VOUS ENGAGER.\n\n";
+        $message .= "DESCOLO / PART PRO FINANCE  2721 Chemin de Saint Claude 06600 Antibes\n";
+        $message .= "Nous restons naturellement à votre disposition pour des informations complémentaires.\n";
+        $message .= "Mme POHIER : 06.15.80.55.66\n";
+        $message .= "Mr PORTET : 06.46.45.80.35\n";
+        $message .= "Fixe : 04.89.68.41.02\n\n";
+        $message .= "Cordialement\n\n";
+        $message .= "Vos conseillers financiers";
 
         return $message;
     }
