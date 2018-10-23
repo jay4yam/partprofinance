@@ -45,15 +45,12 @@ class ProspectProcessController extends Controller
      */
     public function updateStatus(Request $request)
     {
-
-        //1. utilise le repo pour mettre a jour le status quoi q'il arrive
-        $this->processProspectRepository->updateStatus($request->all());
-
         //1.gère les différente action en fonction du status
         switch ($request['status'])
         {
             case 'nrp':
                 //redirection vers la vue qui affiche le form Mail et SMS
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'] ,$request['status']);
                 return redirect()->route('process.relanceUne', ['id' => $request->temp_prospect_id]);
                 break;
             case 'intérêt':
@@ -62,7 +59,6 @@ class ProspectProcessController extends Controller
             default:
                 break;
         }
-
         return back();
     }
 

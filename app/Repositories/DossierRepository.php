@@ -170,7 +170,7 @@ class DossierRepository
         //Code placé dans une transaction afin de s'assurer de la mise en DB des bons éléments
         DB::transaction(function () use ($dossier, $inputs) {
             //1. Identification du prospect
-            $prospect = Prospect::findOrFail( $inputs['prospect_id']);
+            $prospect = Prospect::findOrFail( $inputs['prospect_id'] );
 
             //2. Si l'input contient l'iban, on met à jour le prospect
             if(isset($inputs['iban']) && $inputs['iban'] != ''){

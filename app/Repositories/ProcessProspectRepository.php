@@ -65,14 +65,29 @@ class ProcessProspectRepository
     }
 
     /**
-     * Gère le chamgement du status de la table 'process_prospects'
-     * @param array $inputs
+     * Gère le changement du status de la table 'process_prospects'
+     * @param int $tempProspectId
+     * @param string $status
      */
-    public function updateStatus(array $inputs)
+    public function updateStatus(int $tempProspectId, string $status)
     {
-        $tempProspect = $this->tempProspect->findOrFail($inputs['temp_prospect_id']);
+        //1. recupère le prospect passé en paramètre
+        $tempProspect = $this->tempProspect->findOrFail($tempProspectId);
 
-        $tempProspect->processProspect()->update(['status' => $inputs['status']]);
+        //Test si le prospect à une relation avec la table processProspect
+        if($tempProspect->processProspect()->count()){
+            //On met à jour le status dans la table process prospect
+            $tempProspect->processProspect()->update(['status' => $status]);
+
+        }
+        //si le prospect n'a pas de relation avec la table processProspect
+        else{
+            //creation du nouveau model processProspect
+            $processProspect = new ProcessProspect(['status' => $status ]);
+
+            //Mise à jour du lien entre les tables tempProspect et ProcessProspect
+            $tempProspect->processProspect()->save($processProspect);
+        }
     }
 
     /**
@@ -128,15 +143,12 @@ class ProcessProspectRepository
     public function updateRelancesDate(TempProspect $prospect)
     {
         try {
-            $process = new ProcessProspect([
+
+            $prospect->processProspect()->update([
                 'relance_status' => 'relance_1',
                 'relance_j1' => Carbon::tomorrow(),
                 'relance_j4' => Carbon::now()->addDays(4)
             ]);
-
-            $prospect->processProspect()->save($process);
-
-            $prospect->save();
 
         }catch (\Exception $exception){
             throw new \Exception('Impossible de mettre à jour');
