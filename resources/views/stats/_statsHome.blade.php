@@ -12,7 +12,7 @@
         </button>
     </div>
     <div class="form-group">
-        <a href="{{ url()->route('dossiers.index') }}" class="btn btn-warning">raz filtre</a>
+        <a href="{{ url()->route('home') }}" class="btn btn-warning">raz filtre</a>
     </div>
     {{ Form::close() }}
 </div>
