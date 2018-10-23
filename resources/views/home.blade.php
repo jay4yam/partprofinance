@@ -30,7 +30,10 @@
     <section class="content">
         <!-- 2 ligne de stats -->
         @if(Auth::user()->role == 'admin')
-            @include('stats._statsHome')
+            @include('stats._statsHome', [
+            'annee' => Request::get('annee') ? Request::get('annee') : \Carbon\Carbon::now()->format('Y') ,
+            'mois' => Request::get('mois') ? Request::get('mois') : \Carbon\Carbon::now()->format('m')
+            ])
         @endif
         <!-- /.row -->
 
