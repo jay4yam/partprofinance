@@ -136,7 +136,7 @@ class StatistiquesHelper
 
             $dossier = new Dossier();
 
-            $dossierOfTheMonth = $dossier->dossierOfTheMonth()->get();
+            $dossierOfTheMonth = $dossier->dossierAcceptedOfTheMonth()->get();
 
             $commissionPartProFinance = 0;
 
@@ -170,6 +170,23 @@ class StatistiquesHelper
             return $montant;
         });
 
+        return $value;
+    }
+
+    public function commissionPaid()
+    {
+        $value = Cache::remember('caPartPro', 10, function () {
+            $dossier = new Dossier();
+
+            $dossiers = $dossier->dossierPayeeOfTheMonth()->get();
+
+            $montant = 0;
+
+            foreach ($dossiers as $dossier) {
+                $montant += $dossier->montant_commission_partpro;
+            }
+            return $montant;
+        });
         return $value;
     }
 

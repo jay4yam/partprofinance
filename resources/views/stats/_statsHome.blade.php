@@ -46,7 +46,7 @@
             <div class="icon">
                 <i class="ion ion-folder"></i>
             </div>
-            <a href="{{ route('dossiers.index', ['mois' => \Carbon\Carbon::now()->format('m'), 'annee' => \Carbon\Carbon::now()->format('Y'), 'status' =>'Accepté']) }}"
+            <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'),'mois' => \Carbon\Carbon::now()->format('m'), 'status' =>'Accepté']) }}"
                class="small-box-footer">
                 More info <i class="fa fa-arrow-circle-right"></i>
             </a>
@@ -65,7 +65,7 @@
             <div class="icon">
                 <i class="ion ion-social-euro"></i>
             </div>
-            <a href="{{ route('dossiers.index', ['mois' => \Carbon\Carbon::now()->format('m'), 'annee' => \Carbon\Carbon::now()->format('Y'), 'status' => 'Payé']) }}"
+            <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'), 'mois' => \Carbon\Carbon::now()->format('m'),'status' => 'Payé']) }}"
                class="small-box-footer">
                 More info <i class="fa fa-arrow-circle-right"></i>
             </a>
@@ -133,9 +133,9 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{ round( ( $commissionPartPro ) * 0.05, 2) }} €</h3>
+                <h3>{{ round($commissionPartPro, 2) }} €</h3>
 
-                <p>Prime possible</p>
+                <p>Prime Possible</p>
             </div>
             <div class="icon">
                 <i class="ion ion-social-euro"></i>

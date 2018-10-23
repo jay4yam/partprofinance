@@ -30,21 +30,13 @@ class StatistiquesSaleComposer
     {
         //Compte le nombre de prospects d'un commercial
         $prospectsDuMoisPourLeCommercial = $this->stat->getProspectSaleThisMonth($this->user->id);
-
         $dossiersDuMoisPourLeCommercial = $this->stat->getDossierSaleThisMonth($this->user->id);
-
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
-
         $numAcceptedDossierPourLeCommercial = $this->stat->countAcceptedDossierForSale($this->user->id);
-
         $numPaidDossierPourLeCommercial = $this->stat->countPaidDossierForSale($this->user->id);
-
         $numRefusedDossierPourLeCommercial = $this->stat->countRefusedDossierForSale($this->user->id);
-
         $commissionPartProPourLeCommercial = $this->stat->commissionOfTheMonthForSale($this->user->id);
-
         $commissionDossierAcceptedPourLeCommercial = $this->stat->commissionAcceptedForSale($this->user->id);
-
         $commissionDossierPayePourLeCommercial = $this->stat->commissionPayeeForSale($this->user->id);
 
         $view->with([

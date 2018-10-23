@@ -33,6 +33,7 @@ class StatistiquesComposer
         $numPaid = $this->stat->countPaidDossier();
         $numRefus = $this->stat->countRefusedDossier();
         $commissionPartPro = $this->stat->commissionOfTheMonth();
+        $commissionPaid = $this->stat->commissionPaid();
         $commissionDossierAccepted = $this->stat->commissionAccepted();
         $commissionPaye = $this->stat->commissionPayee();
 
@@ -43,6 +44,7 @@ class StatistiquesComposer
             'numAccepted' => $numAccepted,
             'numPaid' => $numPaid,
             'numRefus' => $numRefus,
+            'caPartProPayé' => $commissionPaid,
             'commissionPartPro' => $commissionPartPro,
             'commissionDossierAccepted' => $commissionDossierAccepted,
             'commissionPaye' => $commissionPaye
