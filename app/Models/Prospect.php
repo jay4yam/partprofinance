@@ -89,8 +89,14 @@ class Prospect extends Model
         return $query->where('user_id', '=',$userId);
     }
 
+    public function scopeCountUserWithDate($query, $month, $year)
+    {
+        return $query->whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year);
+    }
+
     /**
-     * Relation 1/1 vers la table user
+     * Relation 1/1 vers la table user pour lier à un commercial à un prospect
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -99,20 +105,19 @@ class Prospect extends Model
     }
 
     /**
-     * Relation &:n vers la table dossiers
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function dossier()
+    public function dossiers()
     {
-        return $this->hasMany(Dossier::class, 'prospect_id');
+        return $this->morphMany(Dossier::class, 'dossierable');
     }
 
     /**
-     * Relation 1:n vers la table task
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Relation polymorphyque avec la table tasks
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'prospect_id');
+        return $this->morphMany(Task::class, 'taskable');
     }
 }

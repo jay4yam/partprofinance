@@ -367,7 +367,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url()->route('prospect.create') }}">
+                            <a href="{{ url()->route('temp_prospect.create') }}">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> Créer un prospect
                             </a>
                         </li>

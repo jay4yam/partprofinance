@@ -9,15 +9,20 @@
 namespace App\Http\ViewComposers;
 
 use App\Helpers\StatistiquesHelper;
+use Carbon\Carbon;
 use Illuminate\View\View;
 
 class StatistiquesComposer
 {
     protected $stat;
+    protected $year;
+    protected $month;
 
     public function __construct(StatistiquesHelper $stat)
     {
         $this->stat = $stat;
+        $this->year = \Request::get('annee') ? \Request::get('annee') : Carbon::now()->format('Y');
+        $this->month = \Request::get('mois') ? \Request::get('mois') : Carbon::now()->format('m');
     }
 
     /**
@@ -26,26 +31,35 @@ class StatistiquesComposer
      */
     public function compose(View $view)
     {
-        $prospects = $this->stat->getProspectThisMonth();
-        $dossiers = $this->stat->getDossierThisMonth();
+        //$prospects = $this->stat->getProspectThisMonth();
+        $prospectsADate = $this->stat->getProspectForMonthAndYear($this->month, $this->year);
+        //$dossiers = $this->stat->getDossierThisMonth();
+        $dossierADate = $this->stat->getDossierForMonthAndYear($this->month, $this->year);
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
-        $numAccepted = $this->stat->countAcceptedDossier();
-        $numPaid = $this->stat->countPaidDossier();
-        $numRefus = $this->stat->countRefusedDossier();
-        $commissionPartPro = $this->stat->commissionOfTheMonth();
-        $commissionDossierAccepted = $this->stat->commissionAccepted();
-        $commissionPaye = $this->stat->commissionPayee();
+        //$numAccepted = $this->stat->countAcceptedDossier();
+        $numAcceptedADate = $this->stat->countAcceptedDossierForMonthAndYear($this->month, $this->year);
+        //$numPaid = $this->stat->countPaidDossier();
+        $numPaidADate = $this->stat->countPaidDossierADate($this->month, $this->year);
+        //$numRefus = $this->stat->countRefusedDossier();
+        $numRefusADate = $this->stat->countRefusedDossierADate($this->month, $this->year);
+        //$commissionPartPro = $this->stat->commissionOfTheMonth();
+        $commissionPartProADate = $this->stat->commissionForMonthAndYear($this->month, $this->year);
+        //$commissionPaid = $this->stat->commissionPaid();
+        //$commissionDossierAccepted = $this->stat->commissionAccepted();
+        $commissionDossierAcceptedADate = $this->stat->commissionAcceptedADate($this->month, $this->year);
+        //$commissionPaye = $this->stat->commissionPayee();
+        $commissionPayeADate = $this->stat->commissionPayeeADate($this->month, $this->year);
 
         $view->with([
-            'prospects' =>  $prospects,
-            'dossiers'  =>  $dossiers,
+            'prospectsADate' => $prospectsADate,
+            'dossierADate' => $dossierADate,
             'percentageOfDossier' => $percentageOfDossier,
-            'numAccepted' => $numAccepted,
-            'numPaid' => $numPaid,
-            'numRefus' => $numRefus,
-            'commissionPartPro' => $commissionPartPro,
-            'commissionDossierAccepted' => $commissionDossierAccepted,
-            'commissionPaye' => $commissionPaye
+            'numAcceptedADate' => $numAcceptedADate,
+            'numPaidADate' => $numPaidADate,
+            'numRefusADate' => $numRefusADate,
+            'commissionPartProADate' => $commissionPartProADate,
+            'commissionDossierAcceptedADate' => $commissionDossierAcceptedADate,
+            'commissionPayeADate' => $commissionPayeADate
         ]);
     }
 }

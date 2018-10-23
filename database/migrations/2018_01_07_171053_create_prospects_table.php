@@ -17,6 +17,7 @@ class CreateProspectsTable extends Migration
             $table->increments('id');
             $table->enum('civilite', ['Monsieur', 'Madame']);
             $table->string('nom');
+            $table->string('email');
             $table->string('nomjeunefille')->nullable();
             $table->string('prenom');
             $table->date('dateDeNaissance');
@@ -51,6 +52,8 @@ class CreateProspectsTable extends Migration
             $table->string('iban')->nullable();
             $table->text('notes')->nullable();
             $table->text('prospect_source')->nullable();
+            $table->boolean('mandat_status')->default(false);
+            $table->timestamps();
         });
 
         Schema::table('prospects', function (Blueprint $table){

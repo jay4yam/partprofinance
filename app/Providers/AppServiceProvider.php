@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('task._taskHome', TaskComposer::class);
 
         //renvois les mois et années de creation des prospects et des dossiers en base
-        View::composer(['filters._prospect', 'filters._dossier'], MonthsAndYearsForFilterComposer::class);
+        View::composer(['filters._prospect', 'filters._dossier', 'stats._statsHome'], MonthsAndYearsForFilterComposer::class);
 
         View::composer(['filters._prospect', 'filters._dossier'], CommerciauxComposer::class);
 

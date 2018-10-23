@@ -23,7 +23,6 @@ class Dossier extends Model
         'apporteur',
         'taux_commission',
         'status',
-        'prospect_id',
         'banque_id',
         'num_dossier_banque'
     ];
@@ -35,7 +34,45 @@ class Dossier extends Model
      */
     public function scopeDossierOfTheMonth($query)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+                     ->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    /**
+     * Retourne les dossiers du mois
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDossierForMonthAndYear($query, $month, $year)
+    {
+        return $query->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month);
+    }
+
+    /**
+ * Retourne les dossiers du mois acceptés
+ * @param $query
+ * @return mixed
+ */
+    public function scopeDossierAcceptedOfTheMonth($query)
+    {
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Accepté');
+    }
+
+    /**
+     * Retourne les dossiers acceptés pour les dates passés en paramètres
+     * @param $query
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
+    public function scopeDossierAcceptedForTheMonthAndYear($query, $month, $year)
+    {
+        return $query->whereYear('created_at', $year)
+            ->whereMonth('updated_at', $month)
+            ->where('status', '=', 'Accepté');
     }
 
     /**
@@ -43,9 +80,10 @@ class Dossier extends Model
      * @param $query
      * @return mixed
      */
-    public function scopeDossierAcceptedOfTheMonth($query)
+    public function scopeDossierPaidOfTheMonth($query)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))->whereMonth('updated_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('updated_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
 
@@ -61,6 +99,20 @@ class Dossier extends Model
     }
 
     /**
+     * Retourne les dossiers refusés du mois / annee passé en parame
+     * @param $query
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
+    public function scopeDossierRefusedForMonthAndYear($query, $month, $year)
+    {
+        return $query->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->where('status', '=', 'Refusé');
+    }
+
+    /**
      * Retourne les dossiers du montant dont le status est payé
      * @param $query
      * @return mixed
@@ -68,7 +120,13 @@ class Dossier extends Model
     public function scopeDossierPayeeOfTheMonth($query)
     {
         return $query->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->where('status', '=', 'Payé');
+    }
+
+    public function scopeDossierPayeeForMonthAndYear($query, $month, $year)
+    {
+        return $query->whereYear('created_at', $year)->whereMonth('created_at', $month)
             ->where('status', '=', 'Payé');
     }
 
@@ -141,15 +199,6 @@ class Dossier extends Model
      **/
 
     /**
-     * Relation 1:n avec la table User
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function prospect()
-    {
-        return $this->belongsTo(Prospect::class, 'prospect_id');
-    }
-
-    /**
      * Relation 1:n avec la table banque
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -165,6 +214,19 @@ class Dossier extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relation polymorphic
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function dossierable()
+    {
+        return $this->morphTo();
+    }
+
+    public function prospect(){
+        return $this->belongsTo(Prospect::class, 'dossierable_id');
     }
 
 }

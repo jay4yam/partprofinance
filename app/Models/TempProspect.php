@@ -16,61 +16,72 @@ class TempProspect extends Model
     /**
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps =  true;
 
     /**
      * @var array
      */
     protected $fillable = [
         'prospect_source',
-        'total_credit',
-        'total_credit_mensualite',
         'civilite',
         'nom',
+        'nom_jeune_fille',
         'prenom',
-        'date_de_naissance',
-        'adresse',
-        'adresse_2',
-        'code_postal',
-        'ville',
+        'email',
         'tel_fixe',
         'tel_portable',
         'tel_pro',
-        'email',
+        'date_de_naissance',
         'situation_familiale',
         'nombre_denfants_a_charge',
-        'votre_profession',
+        'nationalite',
+        'pays_de_naissance',
+        'dpt_de_naissance',
+        'ville_de_naissance',
+        'secteur_activite',
         'type_de_votre_contrat',
+        'votre_profession',
         'depuis_contrat_mois',
         'depuis_contrat_annee',
         'votre_salaire',
         'periodicite_salaire',
-        'habitation',
-        'lgmt_depuis_mois',
-        'lgmt_depuis_annee',
-        'montant_de_votre_loyer',
-        'valeur_de_votre_bien_immobilier',
-        'mensualite_immo',
-        'restant_du_ce_jour',
-        'treso_demande',
         'autre_revenu',
-        'autre_charge',
         'civ_du_conjoint',
         'nom_du_conjoint',
         'prenom_du_conjoint',
         'date_de_naissance_du_conjoint',
-        'profession_du_conjoint',
+        'secteur_activite_conjoint',
         'contrat_du_conjoint',
+        'profession_du_conjoint',
         'contrat_conjoint_depuis_mois',
         'contrat_conjoint_depuis_annee',
         'salaire_conjoint',
         'periodicite_salaire_conjoint',
+        'habitation',
+        'lgmt_depuis_mois',
+        'lgmt_depuis_annee',
+        'adresse',
+        'adresse_2',
+        'code_postal',
+        'ville',
+        'mensualite_immo',
+        'valeur_de_votre_bien_immobilier',
+        'montant_de_votre_loyer',
+        'pension_alimentaire',
+        'autre_charge',
         'nombre_de_credits_en_cours',
+        'total_credit',
+        'total_credit_mensualite',
+        'restant_du_ce_jour',
+        'treso_demande',
+        'banque',
+        'banque_depuis',
+        'notes',
         'user_id'
     ];
 
     protected $events = [
-        'created' => TempProspectEvents::class,
+        'created'  > TempProspectEvents::class,
     ];
 
     /**
@@ -81,7 +92,13 @@ class TempProspect extends Model
     public function scopeCountUserOfTheMonth($query)
     {
         return $query->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('created_at', Carbon::now()->format('m'));
+                     ->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
+    public function scopeCountUserWithDate($query, $month, $year)
+    {
+        return $query->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month);
     }
 
     /**
@@ -103,5 +120,23 @@ class TempProspect extends Model
     public function processProspect()
     {
         return $this->hasOne(ProcessProspect::class, 'temp_prospects_id');
+    }
+
+    public function tasks()
+    {
+        return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function owner()
+    {
+        return $this->hasOne(TempProspect::class, 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function dossiers()
+    {
+        return $this->morphMany(Dossier::class, 'dossierable');
     }
 }

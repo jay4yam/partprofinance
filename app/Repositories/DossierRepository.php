@@ -41,7 +41,7 @@ class DossierRepository
      */
     public function getById($id)
     {
-        return $this->dossier->with('user', 'banque')->findOrFail($id);
+        return $this->dossier->with('user', 'banque', 'dossierable')->findOrFail($id);
     }
 
     /**
@@ -52,50 +52,62 @@ class DossierRepository
     {
         switch(\Auth::user()->role){
             case('admin'):
-                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
+                return $this->dossier->orderBy('created_at', 'DESC')->with('user', 'banque', 'dossierable')->paginate(10);
                 break;
             case ('staff'):
-                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'prospect')->paginate(10);
+                return $this->dossier->owner()->orderBy('created_at', 'DESC')->with('user', 'banque', 'dossierable')->paginate(10);
                 break;
         }
         return null;
     }
 
     /**
-     *
+     * Retourne la vue filtré par l'utilisateur
+     * @param array $inputs
+     * @return $this|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Model|\Illuminate\Pagination\LengthAwarePaginator|mixed|null
      */
     public function getFilter(array $inputs)
     {
         $dossiers = $this->getAll();
 
         //Filtre sur les commerciaux
-        if( isset($inputs['user']) && $inputs['user'] != '' ) {
-            $dossiers = $this->filter->FilterBySales($this->dossier, $inputs['user']);
+        if( isset($inputs['user'])) {
+            $dossiers = $this->filter->FilterBySales($dossiers, $inputs['user']);
         }
 
         //recherche par mois
-        if(isset($inputs['mois']) && $inputs['mois'] != '') {
-            $dossiers = $this->filter->FilterByMonth($this->dossier, $inputs['mois']);
+        if(isset($inputs['mois'])) {
+            $dossiers = $this->filter->FilterByMonth($dossiers, $inputs['mois']);
         }
 
         //Filtre par année
-        if( isset($inputs['annee']) && $inputs['annee'] != '' ){
-            $dossiers = $this->filter->FilterByYear($this->dossier, $inputs['annee']);
+        if( isset($inputs['annee'])){
+            $dossiers = $this->filter->FilterByYear($dossiers, $inputs['annee']);
         }
 
         //recherche par nom
         if(isset($inputs['search'])) {
-            $dossiers = $this->filter->filterDossierByName($this->dossier, $inputs['search'], 'nom');
+            $dossiers = $this->filter->filterDossierByName($dossiers, $inputs['search'], 'nom');
         }
 
         //filter par status
         if(isset($inputs['status'])){
-            $dossiers = $this->filter->filterDossierByStatus($this->dossier, $inputs['status']);
+            $dossiers = $this->filter->filterDossierByStatus($dossiers, $inputs['status']);
         }
 
         //recherche par iban
         if(isset($inputs['iban'])){
             $dossiers = $this->filter->filterDossierByIban($this->dossier, $inputs['iban']);
+        }
+
+        //recherche par mois et par année
+        if(isset($inputs['mois']) && isset($inputs['annee'])){
+            $dossiers = $this->filter->FilterByMonthAndYear($dossiers, $inputs['annee'], $inputs['mois']);
+        }
+
+        //recherche par mois, par année et par status
+        if(isset($inputs['mois']) && isset($inputs['annee']) && isset($inputs['status'])){
+            $dossiers = $this->filter->FilterByMonthAndYearAndStatus($dossiers, $inputs['annee'], $inputs['mois'], $inputs['status']);
         }
 
         return $dossiers;
@@ -153,22 +165,24 @@ class DossierRepository
         $dossier->num_dossier_banque = $inputs['num_dossier_banque'];
         $dossier->status = $inputs['status'];
         $dossier->banque_id = $inputs['banque_id'];
-        $dossier->iban = $inputs['iban'];
-        $dossier->prospect_id = $inputs['prospect_id'];
         $dossier->user_id = $inputs['user_id'];
 
-        DB::transaction(function () use ($dossier) {
+        //Code placé dans une transaction afin de s'assurer de la mise en DB des bons éléments
+        DB::transaction(function () use ($dossier, $inputs) {
+            //1. Identification du prospect
+            $prospect = Prospect::findOrFail( $inputs['prospect_id']);
 
+            //2. Si l'input contient l'iban, on met à jour le prospect
+            if(isset($inputs['iban']) && $inputs['iban'] != ''){
+                $prospect->update(['iban' => $inputs['iban']]);
+            }
+
+            //3. Enregistrement du nouveau dossier.
             $dossier->save();
 
-            $user = User::findOrFail( $dossier->user_id );
-
-            if($dossier->iban){
-                $user->prospect()->update(['iban' => $dossier->iban]);
-            }
+            //4. Met à jour la table dossier avec la cle polymorphique qui va bien
+            $prospect->dossiers()->save($dossier);
         });
-
-
     }
 
     /**
@@ -198,13 +212,16 @@ class DossierRepository
         //itère sur la collection pour peupler lz tableau array
         foreach ($results as $prospect)
         {
-            $array[] = ['value' => $prospect->nom.' / '.$prospect->prenom.' / '.$prospect->email.' / '.$prospect->iban, 'prospect_id' => $prospect->id , 'user_id' => $prospect->user_id];
+            $array[] = [
+                        'value' => $prospect->nom.' / '.$prospect->prenom.' / '.$prospect->email.' / '.$prospect->iban,
+                        'prospect_id' => $prospect->id,
+                        'user_id' => $prospect->user_id];
         }
 
         //test si le tableau est rempli
         if(count($array))
             return $array;
         else
-            return ['value'=>'Pas de résultat','id'=>''];
+            return ['value'=>'Pas de résultat'];
     }
 }

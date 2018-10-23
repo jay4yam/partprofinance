@@ -44,7 +44,7 @@
             <div class="icon">
                 <i class="ion ion-folder"></i>
             </div>
-            <a href="{{ route('dossiers.index', ['mois' => \Carbon\Carbon::now()->format('m'), 'annee' => \Carbon\Carbon::now()->format('Y'), 'status' =>'Accepté']) }}"
+            <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'), 'mois' => \Carbon\Carbon::now()->format('m'),'status' =>'Accepté']) }}"
                class="small-box-footer">
                 More info <i class="fa fa-arrow-circle-right"></i>
             </a>

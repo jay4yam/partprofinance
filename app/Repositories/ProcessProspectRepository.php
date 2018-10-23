@@ -111,8 +111,10 @@ class ProcessProspectRepository
     {
         $nexmo = app('Nexmo\Client');
 
+        $num = $prospect->tel_portable;
+
         $nexmo->message()->send([
-                'to' => '33'.$prospect->tel_portable,
+                'to' => '33'.$num,
                 'from' => '0615805566',
                 'text' => $text,
             ]);
@@ -126,12 +128,16 @@ class ProcessProspectRepository
     public function updateRelancesDate(TempProspect $prospect)
     {
         try {
-            $prospect->processProspect()->update([
+            $process = new ProcessProspect([
                 'relance_status' => 'relance_1',
                 'relance_j1' => Carbon::tomorrow(),
-                'relance_j4' => Carbon::now()->addDays(4),
+                'relance_j4' => Carbon::now()->addDays(4)
             ]);
+
+            $prospect->processProspect()->save($process);
+
             $prospect->save();
+
         }catch (\Exception $exception){
             throw new \Exception('Impossible de mettre à jour');
         }

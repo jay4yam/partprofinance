@@ -37,7 +37,6 @@ class DossierController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -46,13 +45,16 @@ class DossierController extends Controller
     }
 
     /**
+     * Gère l'enregistrement d'un nouveau dossier
      * @param DossierRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(DossierRequest $request)
     {
         try {
+
             $dossier = $this->dossierRepository->store($request->all());
+
         }catch (\Exception $exception){
             return back()->with( ['message' => $exception->getMessage()] );
         }
@@ -62,19 +64,7 @@ class DossierController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -87,7 +77,6 @@ class DossierController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -108,7 +97,6 @@ class DossierController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -138,7 +126,7 @@ class DossierController extends Controller
 
     /**
      * GET : Renvois la vue qui affiche le mail a envoyer a seb et portet
-     * @param Dossier $dossier
+     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function sendMailShow($id)
@@ -162,7 +150,7 @@ class DossierController extends Controller
 
             \Mail::send('mails.dossiercreated', ['content' => $content], function ($message) use($subject, $file){
                 $message->subject($subject);
-                $message->from(\Auth::user()->email, 'PartPro Finance CRM');
+                $message->from('partprofinance@partprofinance.ovh', 'PartPro Finance CRM');
                 $message->to('descolo.pp@gmail.com');
                 $message->cc('partprofinance@gmail.com');
                 if($file){ $message->attach($file); }

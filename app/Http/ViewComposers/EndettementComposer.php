@@ -55,7 +55,7 @@ class EndettementComposer
         {
             $dossier = $this->dossierRepository->getById($this->dossierId);
 
-            $user = $this->prospectRepository->getById( $dossier->prospect_id );
+            $user = $this->prospectRepository->getById( $dossier->dossierable_id );
         }
         //si la route est celle des prospect
         if($this->prospectId) {

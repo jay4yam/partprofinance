@@ -134,12 +134,11 @@
                                     <th>Ajouté le</th>
                                     <th>Source</th>
                                     <th>Nom</th>
-                                    <th>Tel Fixe</th>
                                     <th>Tel Port</th>
-                                    <th>Email</th>
+                                    <th style="width: 10%">Email</th>
                                     <th>Status</th>
                                     <th>Relance</th>
-                                    <th>Action</th>
+                                    <th style="width: 10%">Actions</th>
                                 </tr>
                                 </thead>
                                 @foreach($prospectsTemp as $prospect)
@@ -148,14 +147,13 @@
                                         <td>{{ $prospect->created_at->format('d M Y') }}</td>
                                         <td>{{ $prospect->prospect_source }}</td>
                                         <td>{{ $prospect->nom }}</td>
-                                        <td>{{ $prospect->tel_fixe }}</td>
                                         <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
                                         <td>
                                             {{ Form::open(['route' =>'process.update.status', 'method' => 'POST', 'class' => 'form-inline']) }}
-                                            {{ Form::hidden('temp_prospect_id', $prospect->id) }}
-                                            {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], @$prospect->processProspect->status , ['class'=> 'form-control']) }}
-                                            <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                                {{ Form::hidden('temp_prospect_id', $prospect->id) }}
+                                                {{ Form::select('status', ['non traite' => 'non traite','nrp' => 'nrp', 'faux num'=> 'faux num', 'intérêt' => 'intérêt', 'sans suite' => 'sans suite'], @$prospect->processProspect->status , ['class'=> 'form-control']) }}
+                                                <button type="submit" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                                             {{ Form::close() }}
                                         </td>
                                         <td>
@@ -195,6 +193,12 @@
                                             <button class="btn btn-danger pull-right">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
+                                            {{ Form::close() }}
+                                            <a href="{{ url()->route('temp_prospect.edit', ['id' => $prospect->id]) }}">
+                                                <button class="btn btn-default pull-right mr5">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
                                             {{ Form::close() }}
                                         </td>
                                     </tr>

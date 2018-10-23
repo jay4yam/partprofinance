@@ -21,8 +21,13 @@ class Task extends Model
         return $this->belongsTo(User::class, 'task_creator_user_id');
     }
 
-    public function prospect()
+
+    /**
+     * Get all of the owning task models.
+     */
+    public function taskable()
     {
-        return $this->belongsTo(Prospect::class, 'prospect_id');
+        return $this->morphTo();
     }
 }
+

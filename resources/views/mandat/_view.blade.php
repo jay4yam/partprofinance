@@ -107,7 +107,7 @@
                 de dossiers une somme égale à {{ $zeDossier->taux_commission }} %
                 du montant effectivement prêté par la banque émettrice du crédit,
                 encaissable exclusivement lorsque le financement sera accordé
-                (soit {{ $prospect->dossier->first()->taux_commission }} %) et le prêt mis en place
+                (soit {{ $prospect->dossiers->first()->taux_commission }} %) et le prêt mis en place
                 (en application des articles L 341-1 et L 341-2 du Code Monétaire et Financier).
             </p>
             <p>
