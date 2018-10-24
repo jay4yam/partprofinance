@@ -130,7 +130,13 @@ class ProcessProspectRepository
     {
         $nexmo = app('Nexmo\Client');
 
-        $num = $prospect->tel_portable;
+        //$num = $prospect->tel_portable;
+        $num = "06.65.70.18.87";
+
+        if(strlen($num) > 10){
+            $num = str_replace('.', '', $num);
+            $num = trim($num, 0);
+        }
 
         $nexmo->message()->send([
                 'to' => '33'.$num,

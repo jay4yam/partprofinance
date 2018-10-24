@@ -86,7 +86,7 @@ class ProspectProcessController extends Controller
     private function getMailContent(TempProspect $prospect)
     {
         $message = "Bonjour ".$prospect->civilite." ".$prospect->nom."\n\n";
-        $message .= "Suite à votre demande de crédit de restructuration et compte tenu des premiers";
+        $message .= "Suite à votre demande de crédit de restructuration et compte tenu des premiers ";
         $message .= "éléments fournis, nous vous proposons les solutions de financement suivantes :\n\n";
         $message .= "Reprise de vos encours de prêts 00 € + une trésorerie de 00€ (plus si vous le désirez) :";
         $message .= "Sur 96 mois, mensualités de 159,32 €\n";
