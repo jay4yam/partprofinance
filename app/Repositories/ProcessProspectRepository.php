@@ -47,20 +47,24 @@ class ProcessProspectRepository
         //recup le process a mettre à jour
         $processProspect = $this->processProspect->findOrFail($id);
 
-        //test l'input type
-        switch ($inputs['type']){
-            //si
-            case 'relance_status':
-                //met à jour la date de la relance
-                $newRelance_j1 = Carbon::now()->addDay(1);
+        if($inputs['type'] == 'relance_status'){
+            //test l'input type
+            switch ($inputs['value']){
+                case 'relance_1':
+                    $processProspect->update([$inputs['type'] => $inputs['value']]);
+                    break;
+                case 'relance_2':
+                    //met à jour la date de la relance
+                    $newRelance_j1 = Carbon::now()->addDay(1);
 
-                //met à jout le nom de l'item relance_status
-                $processProspect->update([
-                    $inputs['type'] => $inputs['value'],
-                    'relance_j1' => $newRelance_j1 ]);
-                //sauv. le process
-                $processProspect->save();
-                break;
+                    //met à jout le nom de l'item relance_status
+                    $processProspect->update([
+                        $inputs['type'] => $inputs['value'],
+                        'relance_j1' => $newRelance_j1 ]);
+                    //sauv. le process
+                    $processProspect->save();
+                    break;
+            }
         }
     }
 
