@@ -60,6 +60,7 @@
                     </thead>
                     <tbody>
                     @foreach($dossiers as $dossier)
+                        {{ dd($dossier) }}
                         <tr>
                             <td>{{ $dossier->id }}</td>
                             @if(Auth::user()->role == "admin")
