@@ -155,6 +155,6 @@ class ProspectProcessController extends Controller
             return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
         }
 
-        return redirect()->route('prospect.import')->with(['message' => 'relance 1...Envoyée']);
+        return redirect()->route('temp_prospect.index')->with(['message' => 'relance 1...Envoyée']);
     }
 }
