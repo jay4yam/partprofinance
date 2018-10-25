@@ -54,7 +54,6 @@ class UploadProspect extends Controller
         return view('prospects.createImported', compact('user', 'tempProspect'));
     }
 
-
     /**
      * Gère l'enregistrement du fichier csv uploader par l'utilisateur
      * @param UploadProspectCSVRequest $request

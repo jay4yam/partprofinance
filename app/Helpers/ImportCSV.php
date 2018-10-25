@@ -52,6 +52,8 @@ class ImportCSV extends ExcelFile
         //itère sur la collection passée en paramètre
         switch ($prospectSource){
             case 'assuragency':
+                $count = $results->count();
+                $iter = 1;
                 foreach ($results as $items)
                 {
                     //correction du 22 mai 2018
