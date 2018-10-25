@@ -21,7 +21,7 @@ class UploadProspect extends Controller
      * Renvois la vue "index" d'upload de fichier .csv
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function import()
     {
         return view('temp-prospects.upload');
     }
@@ -54,30 +54,6 @@ class UploadProspect extends Controller
         return view('prospects.createImported', compact('user', 'tempProspect'));
     }
 
-    /**
-     * Suppression d'une ligne de la table tempprospect
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function delete(Request $request, $id)
-    {
-        try {
-
-            //1. recupere l'enregistrement à effacer
-            $temp = TempProspect::with('processProspect')->findOrFail($id);
-
-            //2. Efface l'enregistrement
-            $temp->processProspect()->delete();
-            $temp->delete();
-
-        }catch (\Exception $exception){
-            //renvois un mesage si erreur
-            return back()->with(['message' => $exception->getMessage()]);
-        }
-        // renvois un message si succès
-        return back()->with(['message' => 'suppression du prospect OK']);
-    }
 
     /**
      * Gère l'enregistrement du fichier csv uploader par l'utilisateur

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Import de prospects', 'activeDashboard' => 'active'])
+@extends('layouts.app', ['title' => 'Import de prospects', 'activeProspect' => 'active'])
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -114,49 +114,4 @@
         </div>
     </section>
 
-@endsection
-
-@section('js')
-    <script type="text/javascript">
-        $(function () {
-            $('select[name="relancestatus"]').on('change', function (e) {
-                e.preventDefault();
-
-                var processId = $(this).data('processid');
-                var selectValue = $(this).val();
-
-                $.ajax({
-                    method: "PUT",
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: 'http://' + location.host + '/process/update/' + processId,
-                    data: {type: 'relance_status', value: selectValue},
-                    beforeSend: function () {
-                        $('.ajax-spinner').show();
-                    },
-                    success: function () {
-                        var value = '';
-                        var classs = '';
-                        $('.ajax-spinner').hide();
-                        switch (selectValue){
-                            case 'relance_1':
-                                value = 33;
-                                classs = 'progress-bar-success';
-                                break;
-                            case 'relance_2':
-                                value = 66;
-                                classs = 'progress-bar-warning';
-                                break;
-                            case 'relance_3':
-                                value = 100;
-                                classs = 'progress-bar-danger';
-                                break;
-                        }
-                        var progress = $('#progress-'+processId);
-                        progress.attr('aria-valuenow', value);
-                        progress.width(value+'%').removeClass().addClass('progress-bar '+ classs +' progress-bar-striped');
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

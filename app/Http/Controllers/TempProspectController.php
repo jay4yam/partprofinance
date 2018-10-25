@@ -84,4 +84,25 @@ class TempProspectController extends Controller
         }
         return redirect()->route('temp_prospect.edit', ['$prospect' => $id])->with(['message' => 'Mise à jour Ok']);
     }
+
+    public function destroy(int $id)
+    {
+        try {
+
+            //1. recupere l'enregistrement à effacer
+            $temp = TempProspect::with('processProspect')->findOrFail($id);
+
+            //2. Efface les elements de la table processProspect de ce leads
+            $temp->processProspect()->delete();
+
+            //3. Efface le leads de la table temp_prospects
+            $temp->delete();
+
+        }catch (\Exception $exception){
+            //renvois un mesage si erreur
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+        // renvois un message si succès
+        return back()->with(['message' => 'suppression du prospect OK']);
+    }
 }

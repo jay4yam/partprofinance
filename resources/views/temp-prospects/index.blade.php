@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Import de prospects', 'activeProspect' => 'active'])
+@extends('layouts.app', ['title' => 'Liste de leads', 'activeProspect' => 'active'])
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -96,7 +96,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ Form::open(['route' => ['delete.temp.prospect', $prospect], 'method' => 'DELETE']) }}
+                                            {{ Form::open(['route' => ['temp_prospect.destroy', $prospect], 'method' => 'DELETE', 'class' => 'delete']) }}
                                             <button class="btn btn-danger pull-right">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
@@ -164,6 +164,10 @@
                     }
                 });
             });
+        });
+
+        $(".delete").on("submit", function(){
+            return confirm("La suppression est definitive, êtes vous sure ?");
         });
     </script>
 @endsection
