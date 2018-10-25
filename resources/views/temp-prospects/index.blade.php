@@ -1,5 +1,10 @@
 @extends('layouts.app', ['title' => 'Liste de leads', 'activeProspect' => 'active'])
 
+@section('css')
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+@endsection
+
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -34,12 +39,11 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <table class="table table-striped">
+                            <table class="table table-bordered table-hover" id="tempprospect">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Ajouté le</th>
-                                    <th>Source</th>
                                     <th>Nom</th>
                                     <th>Tel Port</th>
                                     <th style="width: 10%">Email</th>
@@ -51,8 +55,10 @@
                                 @foreach($prospectsTemp as $prospect)
                                     <tr>
                                         <td>{{ $prospect->id }}</td>
-                                        <td>{{ $prospect->created_at->format('d M Y') }}</td>
-                                        <td>{{ $prospect->prospect_source }}</td>
+                                        <td>
+                                            {{ $prospect->created_at->format('d M Y') }}<br>
+                                            via {{ $prospect->prospect_source }}
+                                        </td>
                                         <td>{{ $prospect->nom }}</td>
                                         <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
@@ -124,7 +130,24 @@
 @endsection
 
 @section('js')
+    <!-- DataTables -->
+    <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+
     <script type="text/javascript">
+
+        $(function () {
+            $('#tempprospect').DataTable({
+                'paging'      : false,
+                'lengthChange': false,
+                'searching'   : false,
+                'ordering'    : true,
+                'order'       : [[0, 'desc']],
+                'info'        : true,
+                'autoWidth'   : true
+            });
+        });
+
         $(function () {
             $('select[name="relancestatus"]').on('change', function (e) {
                 e.preventDefault();
