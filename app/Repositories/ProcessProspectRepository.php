@@ -54,15 +54,20 @@ class ProcessProspectRepository
                     $processProspect->update([$inputs['type'] => $inputs['value']]);
                     break;
                 case 'relance_2':
+                    //Envois l'email de relance n°2
+                    $this->sendEmail($this->textRelance2($processProspect), $processProspect->tempProspect);
+
                     //met à jour la date de la relance
                     $newRelance_j1 = Carbon::now()->addDay(1);
 
-                    //met à jout le nom de l'item relance_status
+                    //met à jour le nom de l'item relance_status
                     $processProspect->update([
                         $inputs['type'] => $inputs['value'],
                         'relance_j1' => $newRelance_j1 ]);
+
                     //sauv. le process
                     $processProspect->save();
+
                     break;
             }
         }
@@ -161,5 +166,28 @@ class ProcessProspectRepository
         }catch (\Exception $exception){
             throw new \Exception('Impossible de mettre à jour');
         }
+    }
+
+    /**
+     * Renvois le contenu du message de relance 2
+     * @param ProcessProspect $process
+     * @return string
+     */
+    private function textRelance2(ProcessProspect $process)
+    {
+        $message = 'Bonjour '.ucfirst($process->tempProspect->nom).'\n';
+        $message .= 'Nous vous rappelons que nous demeurons en attente de votre retour à la suite de votre demande de financement.\n';
+        $message .= 'Nous vous rappelons également de ne pas multiplier les demandes sur Internet, cette démarche pourrait ';
+        $message .= 'en effet nuire à votre demande de financement et aux conditions obtenues pour votre crédit.\n\n';
+        $message .= 'UN CREDIT VOUS ENGAGE ET DOIT ETRE REMBOURSE.\n';
+        $message .= 'VERIFIEZ VOS CAPACITES DE REMBOURSEMENT AVANT DE VOUS ENGAGER.\n\n';
+        $message .= 'DESCOLO / PART PRO FINANCE  2721 Chemin de Saint Claude 06600 Antibes.\n';
+        $message .= 'Mme POHIER : 06.15.80.55.66\n';
+        $message .= 'Mr PORTET : 06.46.45.80.35\n';
+        $message .= 'Fixe : 04.89.68.41.02\n';
+        $message .= 'Cordialement\n';
+        $message .= 'Vos conseillers financiers';
+
+        return $message;
     }
 }
