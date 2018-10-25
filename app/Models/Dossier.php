@@ -148,9 +148,9 @@ class Dossier extends Model
      */
     public function scopeDossierOfTheMonthForSale($query, $userId)
     {
-        return $query->where('user_id', '=', $userId)
-            ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
+                    ->where('user_id', '=', $userId);
     }
 
     /**
@@ -173,10 +173,10 @@ class Dossier extends Model
      */
     public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId)
     {
-        return $query->where('user_id', '=', $userId)
-            ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('updated_at', Carbon::now()->format('m'))
-            ->where('status', '=', 'Accepté');
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
+                    ->where('status', '=', 'Accepté')
+                    ->where('user_id', '=', $userId);
     }
 
     /**
@@ -189,7 +189,7 @@ class Dossier extends Model
     {
         return $query->where('user_id', '=', $userId)
             ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
 

@@ -104,6 +104,7 @@ class TempProspect extends Model
     /**
      * Retourne la liste des utilisateurs du mois en cours pour l'utilisateur actif
      * @param $query
+     * @param $userId
      * @return mixed
      */
     public function scopeCountUserOfTheMonthForSale($query, $userId)
