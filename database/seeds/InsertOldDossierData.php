@@ -64,6 +64,8 @@ class InsertOldDossierData extends Seeder
             $dossier->apporteur = $result->apporteur;
             $dossier->status = $result->status;
             $dossier->num_dossier_banque = $result->num_dossier_banque;
+            $dossier->dossierable_id = $this->replaceProspectId( $result->user_id);
+            $dossier->dossierable_type = 'App\Models\Prospect';
             $dossier->created_at = $result->created_at;
             $dossier->updated_at = $result->updated_at;
             $dossier->user_id = 2;
