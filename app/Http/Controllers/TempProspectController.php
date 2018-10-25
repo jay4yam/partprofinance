@@ -23,7 +23,6 @@ class TempProspectController extends Controller
         return view('temp-prospects.create');
     }
 
-
     /**
      * Enregistre un nouveau prospect temporaire
      * @param Request $request
