@@ -59,7 +59,10 @@
                                             {{ $prospect->created_at->format('d M Y') }}<br>
                                             via {{ $prospect->prospect_source }}
                                         </td>
-                                        <td>{{ $prospect->nom }}</td>
+                                        <td>
+                                            <b>{{ ucfirst( strtolower($prospect->nom) ) }}</b>
+                                            <div class="notes">{!!  $prospect->notes  !!}</div>
+                                        </td>
                                         <td>{{ $prospect->tel_portable }}</td>
                                         <td>{{ $prospect->email }}</td>
                                         <td>

@@ -5796,5 +5796,8 @@ a.updateData, a.deleteCredit{
   margin-right: 5px;
 }
 
-
+.notes{
+  font-size: 9px;
+  font-style: italic;
+}
 /* FIN CSS PERSO JAY*/

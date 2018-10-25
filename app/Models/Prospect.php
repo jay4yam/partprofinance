@@ -58,7 +58,8 @@ class Prospect extends Model
         'prospect_id',
         'mandat_status',
         'user_id',
-        'prospect_source'
+        'prospect_source',
+        'created_at'
     ];
 
     protected $dates = [

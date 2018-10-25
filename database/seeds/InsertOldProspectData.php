@@ -21,6 +21,10 @@ class InsertOldProspectData extends Seeder
         return json_decode(utf8_encode($file));
     }
 
+    /**
+     * @param int $old_user_id
+     * @return string
+     */
     private function replaceOldEmail(int $old_user_id)
     {
         //Récupère le nom du fichier importer par l'utilisateur
@@ -36,6 +40,20 @@ class InsertOldProspectData extends Seeder
         }
     }
 
+    private function replaceOldCreated_at(int $old_user_id)
+    {
+        //Récupère le nom du fichier importer par l'utilisateur
+        $filePath = storage_path('app/public/update_db/users.json');
+
+        $file = file_get_contents($filePath);
+
+        $results = json_decode(utf8_encode($file));
+
+        foreach ($results as $result)
+        {
+            if($result->id == $old_user_id) return $result->created_at;
+        }
+    }
     /**
      * Run the database seeds.
      *
@@ -89,6 +107,7 @@ class InsertOldProspectData extends Seeder
             $prospect->prospect_source = $result->prospect_source;
             $prospect->user_id = 2;
             $prospect->mandat_status = $result->mandat_status;
+            $prospect->created_at = $this->replaceOldCreated_at($result->user_id);
 
             $prospect->save();
         }
