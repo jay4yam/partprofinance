@@ -63,7 +63,7 @@ class MonthsAndYearsForFilterComposer
             $arrayMonth = $this->getArrayMonth();
 
             $arrayDiff = array_intersect_key($arrayMonth, $array);
-
+            dd($arrayDiff);
             //retour de la valeur en cache
             return $arrayDiff;
         });
