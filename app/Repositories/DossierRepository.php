@@ -106,6 +106,11 @@ class DossierRepository
         }
 
         //recherche par mois, par année et par status
+        if(isset($inputs['mois']) && isset($inputs['status'])){
+            $dossiers = $this->filter->FilterByMonthAndStatus($dossiers, $inputs['mois'], $inputs['status']);
+        }
+
+        //recherche par mois, par année et par status
         if(isset($inputs['mois']) && isset($inputs['annee']) && isset($inputs['status'])){
             $dossiers = $this->filter->FilterByMonthAndYearAndStatus($dossiers, $inputs['annee'], $inputs['mois'], $inputs['status']);
         }

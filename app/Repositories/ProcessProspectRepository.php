@@ -153,13 +153,11 @@ class ProcessProspectRepository
     public function updateRelancesDate(TempProspect $prospect)
     {
         try {
-
             $prospect->processProspect()->update([
                 'relance_status' => 'relance_1',
                 'relance_j1' => Carbon::tomorrow(),
                 'relance_j4' => Carbon::now()->addDays(4)
             ]);
-
         }catch (\Exception $exception){
             throw new \Exception('Impossible de mettre à jour');
         }

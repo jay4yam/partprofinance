@@ -117,6 +117,7 @@ class FilterModelByDate
      * Retourne la liste des dossiers filtré par mois et par année
      * @param $model
      * @param $annee
+     * @param $status
      * @param $mois
      * @return LengthAwarePaginator
      */
@@ -126,7 +127,35 @@ class FilterModelByDate
             $array = [];
             $modelFiltered = $model->each(function ($items) use($annee, $mois, $status, &$array){
                 $array = $items->whereYear('created_at', $annee)
-                                ->whereMonth('created_at', $mois)
+                    ->whereMonth('created_at', $mois)
+                    ->where('status', '=', $status)
+                    ->get();
+            });
+
+            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            return $modelsFiltredToReturn;
+        }
+        return null;
+    }
+
+    /**
+     * Retourne la liste des dossiers filtré par mois et par année
+     * @param $model
+     * @param $status
+     * @param $mois
+     * @return LengthAwarePaginator
+     */
+    public function FilterByMonthAndStatus($model, $mois, $status)
+    {
+        if(isset($mois) && isset($status)) {
+            $array = [];
+            $modelFiltered = $model->each(function ($items) use($mois, $status, &$array){
+                $array = $items->whereMonth('created_at', $mois)
                                 ->where('status', '=', $status)
                                 ->get();
             });
