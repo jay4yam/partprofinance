@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TempProspect;
 use App\Repositories\TempProspectRepository;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,18 @@ class TempProspectController extends Controller
     public function __construct(TempProspectRepository $tempProspectRepository)
     {
         $this->tempProspectRepository = $tempProspectRepository;
+    }
+
+    /**
+     * Renvois la vue "index" d'upload de fichier .csv
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        //Récupère la liste des prospects de la table tempProspects
+        $prospectsTemp = TempProspect::with('processProspect')->orderBy('id', 'desc')->paginate('10');
+
+        return view('temp-prospects.index', compact('prospectsTemp'));
     }
 
     /**

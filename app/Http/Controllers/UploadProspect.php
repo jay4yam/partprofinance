@@ -23,12 +23,7 @@ class UploadProspect extends Controller
      */
     public function index()
     {
-        //Récupère la liste des prospects de la table tempProspects
-        $prospectsTemp = TempProspect::with('processProspect')
-            ->orderBy('id', 'desc')
-            ->paginate('10');
-
-        return view('temp-prospects.upload', compact('prospectsTemp'));
+        return view('temp-prospects.upload');
     }
 
     /**
@@ -150,11 +145,12 @@ class UploadProspect extends Controller
 
             //Enregistre en session dans un tableau de prospects
             $import->storeInTemp($results, $prospectSource);
+
         }catch (\Exception $exception){
             return back()->with(['message' => $exception->getMessage()]);
         }
 
-        return back()->with(['message' => 'Traitement fichier OK']);
+        return redirect()->route('temp_prospect.index')->with(['message' => 'Traitement fichier OK']);
     }
 
     /**

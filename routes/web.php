@@ -47,7 +47,9 @@ Route::group(['middleware' => 'auth'], function(){
     //7. Affiche la vue creation de prospect depuis l'import d'un fichier
     Route::get('create/imported/prospect/{prospectId}', 'UploadProspect@createImportedProspect' )->name('create.imported.prospect');
 
+    //Route pour les pages liées au temp_prospect
     Route::resource('/temp_prospect', 'TempProspectController');
+
     /**
      * GESTION DE PROCESS COMMERCIAUX LIES AUX PROSPECTS
      * Gère les différents process liés au traitement d'un prospect
