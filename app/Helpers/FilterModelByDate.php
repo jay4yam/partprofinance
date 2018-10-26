@@ -178,7 +178,7 @@ class FilterModelByDate
      * @param $dbColumn
      * @return LengthAwarePaginator|Model
      */
-    public function filterByName(Model $model = null, $searchedName, $dbColumn)
+    public function filterByName($model = null, $searchedName, $dbColumn)
     {
         //recherche par nom
         if( isset($searchedName) && !empty($searchedName) )
@@ -221,7 +221,7 @@ class FilterModelByDate
      * @param $iban
      * @return LengthAwarePaginator
      */
-    public function filterDossierByIban(Model $model = null, $iban)
+    public function filterDossierByIban($model = null, $iban)
     {
         $modelFiltered2return = null;
 
@@ -276,7 +276,7 @@ class FilterModelByDate
      * @param $task
      * @return LengthAwarePaginator
      */
-    public function filterByTask(Model $model = null, $task)
+    public function filterByTask($model = null, $task)
     {
         $modelsWithTask2return = null;
 
@@ -301,7 +301,7 @@ class FilterModelByDate
      * @param $dossier
      * @return LengthAwarePaginator
      */
-    public function filterByDossier(Model $model = null, $dossier)
+    public function filterByDossier( $model = null, $dossier)
     {
         $modelsWithDossier2return = null;
 
@@ -322,46 +322,17 @@ class FilterModelByDate
     }
 
     /**
-     * Retourne les models qui ont signé le mandat
-     * @param Model|null $model
-     * @param $mandat
-     * @return LengthAwarePaginator
-     */
-    public function filterByMandat(Model $model = null, $mandat)
-    {
-        $modelsWithMandat2return = null;
-
-        if( isset($mandat) && $mandat = 'on')
-        {
-            $allModels = $model->with('user', 'dossiers', 'tasks')->get();
-            $modelFiltered = $allModels->filter(function ($model) {
-                if ($model->mandat_status) {
-                    return $model;
-                }
-            });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
-            $modelsWithMandat2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
-        }
-
-        return $modelsWithMandat2return;
-    }
-
-    /**
      * Filtre par iban
      * @param Model|null $model
      * @param $iban
      * @return LengthAwarePaginator
      */
-    public function filterByIban(Model $model = null, $iban)
+    public function filterByIban($model = null, $iban)
     {
         $modelFiltered2return = null;
 
         if(isset($iban) && $iban = 'on') {
-            $allModels = $model->with('user', 'dossiers', 'tasks')->get();
-            $modelFiltered = $allModels->filter(function ($model) {
+            $modelFiltered = $model->filter(function ($model) {
                 if ($model->iban != '') return $model;
             });
 
