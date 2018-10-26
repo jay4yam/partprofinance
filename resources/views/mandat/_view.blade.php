@@ -11,13 +11,20 @@
 
         @page {
             size: 21cm 29.7cm;
-            margin: 10mm 10mm 10mm 10mm;
+            margin: 10mm 10mm 10mm 0;
+        }
+
+        .page-break {
+            page-break-after: always;
         }
 
         .mandatcontainer{
             font-family:Calibri; background-color: white; padding: 20px;
             background-color: white;
         }
+
+        table .data{ background-color: #CCCCCC; text-transform: uppercase; border: 1px dotted black; padding-left: 10px;}
+        table th.signature{ background-color: #CCC;  border: 1px solid black; vertical-align: text-top; padding: 10px 0 0 10px;}
 
         .a4{border: 1px solid blue;}
         .mandatcontainer h5{ text-decoration: underline; font-weight: bolder; text-align: center;}
@@ -190,6 +197,125 @@
                     <td class="tg-0lax"></td>
                 </tr>
             </table>
+        </div>
+        <br>
+        <div class="page-break"></div>
+        <div class="header">
+            <img src="{{ public_path('img/header-mandat.png')}}" class="img-responsive" width="100%">
+        </div>
+        <div style="padding-top: 10px;">
+            <div class="text-center">Référence Unique de Mandat (RUM) : <b>2015DESCO11007</b><br></div>
+            <b><u>En signant ce formulaire de mandat, vous autorisez :</u></b><br>
+            - le créancier à envoyer des instructions à votre banque pour débiter votre compte,<br>
+            - votre banque à débiter votre compte conformément aux instructions du créancier.</br>
+            Vous bénéficiez du droit d’être remboursé par votre banque selon les conditions décrites dans la convention que vous avez passée avec elle. Une demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé.
+            Veuillez vérifier et/ou compléter les champs marqués *.
+        </div>
+        <div style="padding-top: 10px;">
+            <b>Vos informations</b>
+            <table style="width: 600px">
+                <thead>
+                    <th style="width: 50%"></th><th style="width: 50%"></th>
+                </thead>
+                <tbody>
+                    <tr></tr>
+                    <tr>
+                        <td>Nom – Prénom(s)* :</td>
+                        <td class="data">{{ strtoupper($prospect->nom) }} {{ strtoupper($prospect->prenom) }}</td>
+                    </tr>
+                    <tr>
+                    <td>Adresse* :</td>
+                    <td class="data"> {{ $prospect->adresse }}</td>
+                </tr>
+                    <tr>
+                    <td>Code postal* :</td>
+                    <td class="data"> {{ $prospect->codePostal }}</td>
+                </tr>
+                    <tr>
+                    <td>Ville* :</td>
+                    <td class="data"> {{ $prospect->ville }}</td>
+                </tr>
+                    <tr>
+                    <td>Pays* : </td>
+                    <td class="data">France</td>
+                </tr>
+                    <tr>
+                    <td>
+                        IBAN* :<br>
+                        <span style="font-size: 8px; font-style: italic">N° d’identification international du compte bancaire<br>
+                            (International Bank Account Number)</span>
+                    </td>
+                    <td class="data">{{ $prospect->iban }}</td>
+                </tr>
+                    <tr>
+                    <td>BIC* :</td>
+                    <td class="data"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="padding-top: 10px;">
+            <b>Votre créancier</b>
+            <table style="width: 600px">
+                <thead><tr><th style="width: 50%"></th><th style="width: 50%"></th></tr></thead>
+                <tbody>
+                <tr>
+                    <td>Identifiant Créancier SEPA (ICS) :</td>
+                    <td><b>FR19ZZZ805C50</b></td>
+                </tr>
+                <tr>
+                    <td>Nom du créancier :</td>
+                    <td>SASU DESCOLO</td>
+                </tr>
+                <tr>
+                    <td>Adresse :</td>
+                    <td>2721 Chemin de Saint Claude<br>06600 ANTIBES
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pays : </td>
+                    <td>FRANCE</td>
+                </tr>
+             </tbody>
+            </table>
+        </div>
+        <div style="padding-top: 10px;">
+            <table style="width: 600px">
+                <tr>
+                    <th style="width:25%"><u>Type de paiement :</u></th>
+                    <th style="width:25%"><b>Paiement Unique</b></th>
+                    <th style="width:50%" rowspan="3" class="signature">
+                        Fait à : ANTIBES  Date : {{ \Carbon\Carbon::now()->format('d/m/Y') }}<br>
+                        Signature de l'emprunteur:<br>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="tg-0pky">
+                        <u>Note :</u><br>
+                        Vos droits concernant le présent mandat sont expliqués dans un document que vous pouvez obtenir auprès de votre banque.
+                    </td>
+                    <td class="tg-0pky">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0pky">
+                        <u>Adresse de renvoi : </u><br>
+                        DESCOLO 2721 Chemin de Saint Claude 06600 ANTIBES
+                    </td>
+                    <td class="tg-0pky"></td>
+                </tr>
+            </table>
+        </div>
+        <div style="padding-top: 10px;">
+            <p>
+                Les informations contenues dans le présent mandat, qui doit être complété,
+                sont obligatoires et destinées à n’être utilisées par le créancier que pour
+                la gestion de sa relation avec le débiteur. Elles pourront donner lieu à
+                l’exercice, par ce dernier, de ses droits d’opposition, d’accès et de
+                rectification tels que prévus aux articles 38 et suivants de la loi
+                n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers
+                et libertés, en écrivant au Service Consommateur du créancier.
+            </p>
         </div>
     </div>
 </body>
