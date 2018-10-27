@@ -117,7 +117,8 @@
                                             <a class="pull-right" href="{{ route('mandat.edition', ['prospectId' => $prospect->id, 'dossierId' => $dossier->id]) }}">
                                                 <button class="btn btn-warning btn-sm">Générer le mandat</button>
                                             </a>
-                                            @if(is_dir( storage_path('app/public/mandat/'.$prospect->nom.'/'.$dossier->id) ))
+                                            {{ dd( is_dir( storage_path('app/public/mandat/'.$prospect->nom.'/'.$dossier->id) ) ) }}
+                                            @if( is_dir( storage_path('app/public/mandat/'.$prospect->nom.'/'.$dossier->id) ))
                                                 {{'test' }}
                                                 <a href="{{ asset('/storage/mandat/') }}/{{ strtolower($prospect->nom) }}/{{ $dossier->id }}/mandat-{{ str_slug($prospect->nom)}}.pdf" target="_blank">
                                                     <i class="fa fa-file"></i>
