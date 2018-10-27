@@ -123,6 +123,10 @@ class TempProspect extends Model
         return $this->hasOne(ProcessProspect::class, 'temp_prospects_id');
     }
 
+    /**
+     * Relation polymorphique vers la table tasks
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function tasks()
     {
         return $this->morphMany(Task::class, 'taskable');

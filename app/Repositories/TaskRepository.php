@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 
+use App\Models\Prospect;
 use App\Models\Task;
 
 class TaskRepository
@@ -24,7 +25,7 @@ class TaskRepository
      */
     public function __construct(Task $task)
     {
-        $this->task = $task->with('user', 'prospect');
+        $this->task = $task->with('user', 'taskable');
     }
 
     /**
@@ -66,13 +67,17 @@ class TaskRepository
      */
     private function save(Task $task, array $inputs)
     {
-        $task->task_creator_user_id = $inputs['task_creator_user_id'];
         $task->taskdate = $inputs['taskdate'];
         $task->taskcontent = $inputs['taskcontent'];
         $task->level = $inputs['level'];
-        $task->prospect_id = $inputs['prospect_id'];
-
+        $task->user_id = $inputs['user_id'];
         $task->save();
+
+        $prospect = Prospect::findOrFail($inputs['prospect_id']);
+
+        $prospect->tasks()->save($task);
+
+        \Cache::forget('tasks');
     }
 
     /**
@@ -88,6 +93,17 @@ class TaskRepository
 
         $task->save();
 
+        \Cache::forget('tasks');
+    }
+
+    /**
+     * Supprime une tache
+     * @param $id
+     */
+    public function delete($id)
+    {
+        $task = $this->task->findOrFail($id);
+        $task->delete();
         \Cache::forget('tasks');
     }
 }

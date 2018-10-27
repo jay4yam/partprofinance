@@ -5800,4 +5800,6 @@ a.updateData, a.deleteCredit{
   font-size: 9px;
   font-style: italic;
 }
+
+.delete-task{ cursor: pointer;}
 /* FIN CSS PERSO JAY*/

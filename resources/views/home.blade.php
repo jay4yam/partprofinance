@@ -74,4 +74,10 @@
 
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('js/pages/dashboard.js') }}"></script>
+
+    <script>
+        $('.delete-task').on('click', function () {
+            $(this).parents('form').submit();
+        });
+    </script>
 @endsection

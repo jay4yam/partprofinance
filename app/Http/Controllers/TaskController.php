@@ -48,4 +48,14 @@ class TaskController extends Controller
         }
         return response()->json(['message' => 'success']);
     }
+
+    public function destroy($id)
+    {
+        try{
+            $this->taskRepository->delete($id);
+        }catch (\Exception $exception){
+            return back()->with('message', $exception->getMessage());
+        }
+        return back()->with('message', 'Tache supprimée');
+    }
 }
