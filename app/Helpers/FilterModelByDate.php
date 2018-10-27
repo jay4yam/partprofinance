@@ -24,11 +24,21 @@ class FilterModelByDate
      */
     public function filterBySales($model, $userId)
     {
-        if(isset($userId) && !empty($userId)) {
-            $modelFiltered = $model->where('user_id', $userId)->paginate(10);
-            return $modelFiltered;
-        }
-        return $model;
+        //1. Init un array vide
+        $array = [];
+
+        //3. Parcours la collection
+        $modelFiltered = $model->each(function ($items) use($userId, &$array){
+            $array = $items->where('user_id', $userId)->get();
+        });
+
+        //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+        $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+        $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+
+        return $modelsFiltredToReturn;
     }
 
     /**
@@ -307,14 +317,13 @@ class FilterModelByDate
 
         if( isset($dossier) && $dossier = 'on')
         {
-            $allModels = $model->with('user', 'dossiers', 'tasks')->get();
-            $modelsWithTask = $allModels->filter(function ($model){
+            $modelsWithDossier = $model->filter(function ($model){
                 if(count($model->dossiers)){ return $model;}
             });
             //Get current page form url e.g. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelsWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithTask), 10);
+            $currentPageItems = $modelsWithDossier->slice(($currentPage - 1) * 10, 10);
+            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithDossier), 10);
             $modelsWithDossier2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
         }
 
