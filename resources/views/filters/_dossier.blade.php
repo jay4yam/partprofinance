@@ -2,20 +2,21 @@
     {{ Form::open([ 'route' => 'dossiers.index', 'method' => 'GET', 'class' => 'form-inline']) }}
     @if(Auth::user()->role == 'admin')
         <div class="form-group sep">
-            {{ Form::select('user', $commerciaux, '', ['class' => 'form-control', 'placeholder' => 'choisissez un commercial']) }}
+            {{ Form::select('user', $commerciaux, Request::get('user') ? Request::get('user') : '', ['class' => 'form-control', 'placeholder' => 'choisissez un commercial']) }}
         </div>
     @endif
     <div class="form-group sep">
-        {{ Form::select('annee', $dossierYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
+        {{ Form::select('annee', $dossierYears, Request::get('annee') ? Request::get('annee') : '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::select('mois', $dossierMonths, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
+        {{ Form::select('mois', $dossierMonths, Request::get('mois') ? Request::get('mois') : '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::select('status', ['Refusé'=>'Refusé','A l étude'=>'A l étude','Accepté'=> 'Accepté','Payé'=>'Payé','Impayé'=>'Impayé'], '', ['class' => 'form-control', 'placeholder' => 'choisissez le status']) }}
+        {{ Form::select('status', ['Refusé'=>'Refusé','A l étude'=>'A l étude','Accepté'=> 'Accepté','Payé'=>'Payé','Impayé'=>'Impayé'],
+        Request::get('status') ? Request::get('status') : '', ['class' => 'form-control', 'placeholder' => 'choisissez le status']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'recherche par nom']) }}
+        {{ Form::text('search', Request::get('search') ? Request::get('search') : '', ['class' => 'form-control', 'placeholder' => 'recherche par nom']) }}
     </div>
     <div class="form-group sep">
         {{ Form::label('iban', 'iban') }}
