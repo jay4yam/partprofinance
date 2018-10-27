@@ -113,7 +113,7 @@
                                     <label for="mandat_status">Liste des dossiers:</label>
                                     <ul class="dossier-liste">
                                     @foreach($prospect->dossiers as $dossier)
-                                        <li>({{ $dossier->id }}) |    {{ $dossier->montant_demande }} | {{ $dossier->montant_final }}
+                                        <li>{{ $dossier->montant_demande }} € | {{ $dossier->montant_final }} €
                                             <a class="pull-right" href="{{ route('mandat.edition', ['prospectId' => $prospect->id, 'dossierId' => $dossier->id]) }}">
                                                 <button class="btn btn-warning btn-sm">Générer le mandat</button>
                                             </a>
