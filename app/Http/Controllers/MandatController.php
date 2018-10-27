@@ -48,7 +48,8 @@ class MandatController extends Controller
     {
         //1. Options de la génération de pdf
         PDF::setOptions([
-            'dpi' => 150,
+            'dpi' => 96,
+            'fontHeightRatio' => 1,
             'defaultFont' => 'sans-serif',
             'defaultPaperSize' => 'a4',
             'isHtml5ParserEnabled' => true,
@@ -68,8 +69,17 @@ class MandatController extends Controller
                 return $zeDossier = $dossier;
         });
 
-        //5. Génère le pdf, en passant la vue mandat._view et les variables prospect et dossier le pdf
-        $pdf = PDF::loadView('mandat._view', ['prospect' => $prospect, 'zeDossier' => $zeDossier]);
+        //test si le dossier "mandat/$prospect->nom
+        if( !is_dir( storage_path('app/public/mandat/'.str_slug($prospect->nom)) ) )
+        {
+            \File::makeDirectory(storage_path('app/public/mandat').'/'.str_slug($prospect->nom).'/'.$zeDossier->id,0777,true);
+        }
+
+        //défini le chemin ou enregistrer le fichier
+        $path = storage_path('app/public/mandat/'.str_slug($prospect->nom).'/'.$zeDossier->id);
+
+        //
+        $pdf = PDF::loadView('mandat._view', ['prospect' => $prospect, 'zeDossier' => $zeDossier])->save( $path.'/mandat-' . str_slug($prospect->nom) . '.pdf' );
 
         return $pdf->download('mandat-' . str_slug($prospect->nom) . '.pdf');
 

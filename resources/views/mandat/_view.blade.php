@@ -11,7 +11,7 @@
 
         @page {
             size: 21cm 29.7cm;
-            margin: 10mm 10mm 10mm 0;
+            margin: 10mm 10mm 10mm 10mm;
         }
 
         .page-break {
@@ -269,7 +269,7 @@
                 </tr>
                 <tr>
                     <td>Adresse :</td>
-                    <td>2721 Chemin de Saint Claude<br>06600 ANTIBES
+                    <td>2721 Chemin de Saint Claude - 06600 ANTIBES
                     </td>
                 </tr>
                 <tr>
@@ -290,19 +290,16 @@
                     </th>
                 </tr>
                 <tr>
-                    <td class="tg-0pky">
+                    <td class="tg-0pky" colspan="2">
                         <u>Note :</u><br>
                         Vos droits concernant le présent mandat sont expliqués dans un document que vous pouvez obtenir auprès de votre banque.
                     </td>
-                    <td class="tg-0pky">
-                    </td>
                 </tr>
                 <tr>
-                    <td class="tg-0pky">
+                    <td class="tg-0pky" colspan="2">
                         <u>Adresse de renvoi : </u><br>
-                        DESCOLO 2721 Chemin de Saint Claude 06600 ANTIBES
+                        DESCOLO<br> 2721 Chemin de Saint Claude 06600 ANTIBES
                     </td>
-                    <td class="tg-0pky"></td>
                 </tr>
             </table>
         </div>
