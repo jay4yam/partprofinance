@@ -66,12 +66,14 @@
                                         <!-- checkbox -->
                                         <input type="checkbox" value="{{ $task->status }}" class="taskdone" data-taskid="{{ $task->id }}" title="done" {{ $task->status == 0 ? 'checked' :'' }}>
                                         <!-- todo text -->
-                                        <span class="text">{{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->taskable->id]) }}">{{ $task->taskable->nom }}</a></span>
+                                        <span class="text text-task" id="task-{{ $task->id }}">
+                                            {{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->taskable->id]) }}">{{ $task->taskable->nom }}</a>
+                                        </span>
                                         <!-- Emphasis label -->
                                         <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
                                         <!-- General tools such as edit or delete-->
                                         <div class="tools">
-                                            <i class="fa fa-edit"></i>
+                                            <i class="fa fa-edit edit-task" data-task-id="{{ $task->id }}"></i>
                                             {{ Form::open(['route' => ['task.destroy', $task], 'method' => 'DELETE', 'class' => 'delete pull-right']) }}
                                                 <i class="fa fa-trash-o delete-task"></i>
                                             {{ Form::close() }}
@@ -653,6 +655,7 @@
 @section('js')
     <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script src="{{ asset('js/editProspect.js') }}"></script>
+    <script src="{{ asset('js/task.js') }}"></script>
     <script>
         $(document).ready(function () {
             editProspect.showEditButton();
@@ -661,6 +664,8 @@
             editProspect.ajaxUpdateMandatStatus();
             editProspect.addCredit();
             editProspect.deleteCredit();
+            task.updateTask();
+            task.updateTaskDoneOrNot();
         });
 
         $(".delete").on("submit", function(){

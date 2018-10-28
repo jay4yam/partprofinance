@@ -1,5 +1,5 @@
 /*
- * Author: Abdullah A Almsaeed
+ * Author: jay ben
  * Date: 4 Jan 2014
  * Description:
  *      This is a demo file used only for the main dashboard (index.html)
@@ -27,41 +27,4 @@ $(function () {
     zIndex              : 999999
   });
 
-  /* The todo list plugin */
-  $('.todo-list').todoList({
-    onCheck  : function () {
-        //recupere la task id
-        var taskid = $(this).data('taskid');
-
-        $.ajax({
-            method: "PUT",
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: 'http://'+location.host+'/task/'+taskid,
-            data: { type:'status', value:0 },
-            beforeSend:function () {
-                $('.ajax-spinner').show();
-            },
-            success:function () {
-                $('.ajax-spinner').hide();
-            }
-        });
-    },
-    onUnCheck: function () {
-        //recupere la task id
-        var taskid = $(this).data('taskid');
-
-        $.ajax({
-            method: "PUT",
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: 'http://'+location.host+'/task/'+taskid,
-            data: { type:'status', value:1 },
-            beforeSend:function () {
-                $('.ajax-spinner').show();
-            },
-            success:function () {
-                $('.ajax-spinner').hide();
-            }
-        });
-    }
-  });
 });

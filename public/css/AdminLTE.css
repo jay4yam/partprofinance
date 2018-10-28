@@ -5792,14 +5792,11 @@ a.updateData, a.deleteCredit{
   padding: 15px 0;
 }
 
-.mr5{
-  margin-right: 5px;
-}
+.mr5{ margin-right: 5px;  }
 
-.notes{
-  font-size: 9px;
-  font-style: italic;
-}
+.notes{ font-size: 9px;  font-style: italic;  }
 
 .delete-task{ cursor: pointer;}
+
+.update-task-js{  position: relative; width: 300px; }
 /* FIN CSS PERSO JAY*/
