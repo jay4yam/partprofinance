@@ -55,7 +55,6 @@ class Prospect extends Model
         'BanqueDepuis',
         'iban',
         'notes',
-        'prospect_id',
         'mandat_status',
         'user_id',
         'prospect_source',

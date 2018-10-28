@@ -18,7 +18,7 @@
     <section class="content">
         <div class="container-fluid">
             {{ Form::open(['route' =>'prospect.store', 'method' => 'POST']) }}
-            {{ Form::hidden('tempProspectId', $tempProspect->id, ['class' => 'form-control']) }}
+            {{ Form::hidden('tempProspectId', $tempProspect->id) }}
             <div class="row">
                 <!-- col gauche -->
                 <div class="col-md-8 col-xs-12">
@@ -40,13 +40,13 @@
                                 <tr>
                                     <td><label for="civilite">Source </label></td>
                                     <td class="data">
-                                        {{ Form::text('prospect_source', $tempProspect->prospect_source) }}
+                                        {{ Form::text('prospect_source', $tempProspect->prospect_source, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="civilite">Civilité</label></td>
                                     <td class="data">
-                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], 'Madame' , ['class' => 'form-control']) }}
+                                        {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], $tempProspect->civilite , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -110,7 +110,7 @@
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
                                         <?php if( $tempProspect->date_de_naissance == null ){ $dateN = '1900-01-01';}else{ $dateN =  @Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->date_de_naissance);} ?>
-                                        {{ Form::date('dateDeNaissance', $dateN  , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {{ Form::date('dateDeNaissance', $dateN , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -128,31 +128,31 @@
                                 <tr>
                                     <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
                                     <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
-                                        {{ Form::text('nbEnfantACharge', 0, ['class' => 'form-control']) }}
+                                        {{ Form::text('nbEnfantACharge', $tempProspect->nombre_denfants_a_charge, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nationalite">nationalite</label></td>
                                     <td class="data {{ $errors->has('nationalite') ? ' has-error' : '' }}">
-                                        {{ Form::text('nationalite', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('nationalite', $tempProspect->nationalite, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="paysNaissance">Pays de Naissance</label></td>
                                     <td class="data {{ $errors->has('paysNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('paysNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('paysNaissance', $tempProspect->pays_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="departementNaissance">Département de Naissance</label></td>
                                     <td class="data {{ $errors->has('departementNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('departementNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('departementNaissance', $tempProspect->dpt_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="VilleDeNaissance">VilleDeNaissance</label></td>
                                     <td class="data {{ $errors->has('VilleDeNaissance') ? ' has-error' : '' }}">
-                                        {{ Form::text('VilleDeNaissance', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('VilleDeNaissance', $tempProspect->ville_de_naissance, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
@@ -380,7 +380,7 @@
                                 <tr>
                                     <td><label for="pensionAlimentaire">pension alimentaire</label></td>
                                     <td id="pensionAlimentaire" class="data">
-                                        {{ Form::text('pensionAlimentaire', null , ['class' => 'form-control']) }}
+                                        {{ Form::text('pensionAlimentaire', $tempProspect->pension_alimentaire , ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr id="creditrow-0">
@@ -418,13 +418,13 @@
                                 <tr>
                                     <td><label for="NomBanque">Banque</label></td>
                                     <td class="data {{ $errors->has('NomBanque') ? ' has-error' : '' }}">
-                                        {{ Form::text('NomBanque', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('NomBanque', $tempProspect->banque, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="pensionAlimentaire">Banque depuis le </label></td>
                                     <td>
-                                        {{ Form::date('BanqueDepuis', Carbon\Carbon::now()->subYear(1), ['class' => 'form-control']) }}
+                                        {{ Form::date('BanqueDepuis', $tempProspect->banque_depuis, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
