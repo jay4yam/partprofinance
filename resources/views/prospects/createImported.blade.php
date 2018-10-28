@@ -424,6 +424,7 @@
                                 <tr>
                                     <td><label for="pensionAlimentaire">Banque depuis le </label></td>
                                     <td>
+                                        <?php if( $tempProspect->banque_depuis == null ){ $dateN = '1900-01-01';}else{ $dateN =  @Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->banque_depuis);} ?>
                                         {{ Form::date('BanqueDepuis', $tempProspect->banque_depuis, ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
