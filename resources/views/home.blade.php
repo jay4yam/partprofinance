@@ -31,6 +31,10 @@
         <!-- 2 ligne de stats -->
         @if(Auth::user()->role == 'admin')
             @include('stats._statsHome')
+
+            @foreach(\App\Models\User::where('role', '=', 'staff')->get(['id', 'name']) as $user)
+                @include('stats._statsForEachSales', ['id' => $user->id, 'name' => $user->name])
+            @endforeach
         @endif
         <!-- /.row -->
 

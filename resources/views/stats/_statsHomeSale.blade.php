@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <!-- num de dossier réfusé-->
+    <!-- num de dossiers refusés -->
     <div class="col-lg-2 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-red">
@@ -94,7 +94,7 @@
 
 <!-- 2eme ligne de stats -->
 <div class="row">
-    <!-- commsission du mois -->
+    <!-- commission du mois -->
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-yellow">
