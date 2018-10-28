@@ -44,8 +44,25 @@ class TaskController extends Controller
         try{
             $this->taskRepository->update($id, $request->all());
         }catch (\Exception $exception){
-            return response()->json(['message' => $exception->getMessage()]);
+            if($request->ajax()){ return response()->json(['fail' => $exception->getMessage()]); }
+            return back()->with(['message' => $exception->getMessage()]);
         }
-        return response()->json(['message' => 'success']);
+        if($request->ajax()){ return response()->json(['success' => 'maj OK']); }
+        return back()->with(['message' => 'Tache mise à jour avec succès']);
+    }
+
+    /**
+     * Supprime une tache
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        try{
+            $this->taskRepository->delete($id);
+        }catch (\Exception $exception){
+            return back()->with('message', $exception->getMessage());
+        }
+        return back()->with('message', 'Tache supprimée');
     }
 }

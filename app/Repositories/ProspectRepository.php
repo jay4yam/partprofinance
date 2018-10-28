@@ -80,42 +80,46 @@ class ProspectRepository
 
         //Filtre par commerciaux
         if( isset($inputs['user']) && $inputs['user'] != '' ) {
-            $prospects = $this->filter->FilterBySales($this->prospect, $inputs['user']);
+            $prospects = $this->filter->FilterBySales($prospects, $inputs['user']);
         }
 
         //recherche par mois
         if(isset($inputs['mois']) && $inputs['mois'] != '') {
-            $prospects = $this->filter->FilterByMonth($this->prospect, $inputs['mois']);
+            $prospects = $this->filter->FilterByMonth($prospects, $inputs['mois']);
         }
 
         //Filtre par année
         if( isset($inputs['annee']) && $inputs['annee'] != '' ){
-            $prospects = $this->filter->FilterByYear($this->prospect, $inputs['annee']);
+            $prospects = $this->filter->FilterByYear($prospects, $inputs['annee']);
+        }
+
+        if( isset($inputs['annee']) && $inputs['mois'] != '' ){
+            $prospects = $this->filter->FilterByMonthAndYear($prospects, $inputs['annee'], $inputs['mois']);
         }
 
         //recherche par nom
         if(isset($inputs['search'])) {
-            $prospects = $this->filter->filterByName($this->prospect, $inputs['search'], 'nom');
+            $prospects = $this->filter->filterByName($prospects, $inputs['search'], 'nom');
         }
 
         //recherche par iban
         if(isset($inputs['iban'])){
-            $prospects = $this->filter->filterByIban($this->prospect, $inputs['iban']);
+            $prospects = $this->filter->filterByIban($prospects, $inputs['iban']);
         }
 
         //recherche par rappel
         if(isset($inputs['rappel'])){
-            $prospects = $this->filter->filterByTask($this->prospect, $inputs['rappel']);
+            $prospects = $this->filter->filterByTask($prospects, $inputs['rappel']);
         }
 
         //recherche par dossier
         if(isset($inputs['dossier'])){
-            $prospects = $this->filter->filterByDossier($this->prospect, $inputs['dossier']);
+            $prospects = $this->filter->filterByDossier($prospects, $inputs['dossier']);
         }
 
         //recherche par mandat
         if(isset($inputs['mandat'])){
-            $prospects = $this->filter->filterByMandat($this->prospect, $inputs['mandat']);
+            $prospects = $this->filter->filterByMandat($prospects, $inputs['mandat']);
         }
 
         return $prospects;

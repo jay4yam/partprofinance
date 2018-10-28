@@ -534,8 +534,8 @@
 
                     <!-- bouton submit -->
                     <div class="text-center col-md-12">
-                        <button class="btn btn-lg btn-warning">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Mettre à jour
+                        <button class="btn btn-lg btn-success">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Créer
                         </button>
                     </div>
                     <!-- ./ bouton submit -->

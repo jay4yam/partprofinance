@@ -32,8 +32,9 @@ Route::group(['middleware' => 'auth'], function(){
     /**
      * IMPORT DE PROSPECT & PROSPECT TEMPORAIRE
      */
-    //1. Affiche la vue prospect.index avec la liste des prospectTemps
-    Route::get('import', 'UploadProspect@index')->name('prospect.import');
+
+    //1. Affiche la vue d'importation de leads via assur agency et devisprox
+    Route::get('import', 'UploadProspect@import')->name('prospect.import');
     //2. Gère l'upload de fichier .csv
     Route::post('import/upload', 'UploadProspect@uploadFile')->name('prospect.upload');
     //3. Suprrime l'un des fichiers .csv
@@ -42,12 +43,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('import/csv/builder', 'UploadProspect@csvBuilder')->name('prospect.csv.import');
     //5. Gère la sauv. d'un prospect
     Route::post('save/temp/prospect/{id}', 'UploadProspect@save')->name('save.temp.prospect');
-    //6. supprime un prospect temp de la table
-    Route::delete('delete/temp/prospect/{id}', 'UploadProspect@delete')->name('delete.temp.prospect');
-    //7. Affiche la vue creation de prospect depuis l'import d'un fichier
+
+    //6. Affiche la vue creation de prospect depuis l'import d'un fichier
     Route::get('create/imported/prospect/{prospectId}', 'UploadProspect@createImportedProspect' )->name('create.imported.prospect');
 
+    //Route pour les pages liées au temp_prospect
     Route::resource('/temp_prospect', 'TempProspectController');
+
     /**
      * GESTION DE PROCESS COMMERCIAUX LIES AUX PROSPECTS
      * Gère les différents process liés au traitement d'un prospect

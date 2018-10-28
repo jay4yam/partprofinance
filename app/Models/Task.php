@@ -10,7 +10,7 @@ class Task extends Model
 
     protected $dates = ['created_at', 'taskdate', 'updated_at'];
 
-    protected $fillable = [ 'task_creator_user_id', 'taskdate', 'taskcontent', 'status', 'level', 'created_at', 'updated_at', 'user_id'];
+    protected $fillable = [ 'taskdate', 'taskcontent', 'level', 'status', 'taskable_id', 'taskable_type', 'created_at', 'updated_at', 'user_id'];
 
     /**
      * Inverse de la relation 1:n vers la table user
@@ -18,7 +18,7 @@ class Task extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'task_creator_user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

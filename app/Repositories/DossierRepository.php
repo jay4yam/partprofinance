@@ -106,6 +106,11 @@ class DossierRepository
         }
 
         //recherche par mois, par année et par status
+        if(isset($inputs['mois']) && isset($inputs['status'])){
+            $dossiers = $this->filter->FilterByMonthAndStatus($dossiers, $inputs['mois'], $inputs['status']);
+        }
+
+        //recherche par mois, par année et par status
         if(isset($inputs['mois']) && isset($inputs['annee']) && isset($inputs['status'])){
             $dossiers = $this->filter->FilterByMonthAndYearAndStatus($dossiers, $inputs['annee'], $inputs['mois'], $inputs['status']);
         }
@@ -170,7 +175,7 @@ class DossierRepository
         //Code placé dans une transaction afin de s'assurer de la mise en DB des bons éléments
         DB::transaction(function () use ($dossier, $inputs) {
             //1. Identification du prospect
-            $prospect = Prospect::findOrFail( $inputs['prospect_id']);
+            $prospect = Prospect::findOrFail( $inputs['prospect_id'] );
 
             //2. Si l'input contient l'iban, on met à jour le prospect
             if(isset($inputs['iban']) && $inputs['iban'] != ''){

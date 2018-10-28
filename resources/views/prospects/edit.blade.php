@@ -33,7 +33,7 @@
                         </div>
                         <div class="box-body">
                             {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST', 'class' => 'form-group']) }}
-                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
+                                {{ Form::hidden('user_id', Auth::user()->id) }}
                                 {{ Form::hidden('prospect_id', $prospect->id) }}
                                 <div class="col-xs-3">
                                     {{ Form::label('taskdate', 'Programmez une date.') }}
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-xs-2">
                                     {{ Form::label('level', 'Importance.') }}
-                                    {{ Form::select('level', array('very-high', 'high','normal','low'), null,['class' => 'form-control', 'id' => 'level']) }}
+                                    {{ Form::select('level', ['very high'=>'very high', 'high'=>'high', 'normal'=>'normal', 'low'=>'low'], null,['class' => 'form-control', 'id' => 'level']) }}
                                 </div>
                                 <div class="col-xs-2">
                                     {{ Form::label('tasksubmit', 'Sauv.') }}
@@ -66,13 +66,17 @@
                                         <!-- checkbox -->
                                         <input type="checkbox" value="{{ $task->status }}" class="taskdone" data-taskid="{{ $task->id }}" title="done" {{ $task->status == 0 ? 'checked' :'' }}>
                                         <!-- todo text -->
-                                        <span class="text">{{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->prospect->id]) }}">{{ $task->prospect->nom }}</a></span>
+                                        <span class="text text-task" id="task-{{ $task->id }}">
+                                            {{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->taskable->id]) }}">{{ $task->taskable->nom }}</a>
+                                        </span>
                                         <!-- Emphasis label -->
                                         <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
                                         <!-- General tools such as edit or delete-->
                                         <div class="tools">
-                                            <i class="fa fa-edit"></i>
-                                            <i class="fa fa-trash-o"></i>
+                                            <i class="fa fa-edit edit-task" data-task-id="{{ $task->id }}"></i>
+                                            {{ Form::open(['route' => ['task.destroy', $task], 'method' => 'DELETE', 'class' => 'delete pull-right']) }}
+                                                <i class="fa fa-trash-o delete-task"></i>
+                                            {{ Form::close() }}
                                         </div>
                                     </li>
                                 @endforeach
@@ -99,7 +103,6 @@
                             <div class="box-body">
                                 <div class="col-md-12">
                                 {{ Form::open([ 'route' => ['task.store'], 'method' => 'POST']) }}
-                                {{ Form::hidden('task_creator_user_id', Auth::user()->id) }}
                                 {{ Form::hidden('prospect_id', $prospect->id) }}
                                     <label for="mandat_status">Etat du mandat:</label>
                                     <span class="button-checkbox">
@@ -112,10 +115,15 @@
                                     <label for="mandat_status">Liste des dossiers:</label>
                                     <ul class="dossier-liste">
                                     @foreach($prospect->dossiers as $dossier)
-                                        <li>({{ $dossier->id }}) |    {{ $dossier->montant_demande }} | {{ $dossier->montant_final }}
+                                        <li>{{ $dossier->montant_demande }} € | {{ $dossier->montant_final }} €
                                             <a class="pull-right" href="{{ route('mandat.edition', ['prospectId' => $prospect->id, 'dossierId' => $dossier->id]) }}">
                                                 <button class="btn btn-warning btn-sm">Générer le mandat</button>
                                             </a>
+                                            @if( is_dir( storage_path( 'app/public/mandat/'.strtolower($prospect->nom).'/'.$dossier->id ) ) )
+                                                <a href="{{ asset('/storage/mandat/') }}/{{ strtolower($prospect->nom) }}/{{ $dossier->id }}/mandat-{{ str_slug($prospect->nom)}}.pdf" target="_blank">
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+                                            @endif
                                         </li>
                                     @endforeach
                                     </ul>
@@ -647,6 +655,7 @@
 @section('js')
     <script src="{{ asset('bower_components/jquery-mask/jquery.mask.js') }}" type="application/javascript"></script>
     <script src="{{ asset('js/editProspect.js') }}"></script>
+    <script src="{{ asset('js/task.js') }}"></script>
     <script>
         $(document).ready(function () {
             editProspect.showEditButton();
@@ -655,10 +664,16 @@
             editProspect.ajaxUpdateMandatStatus();
             editProspect.addCredit();
             editProspect.deleteCredit();
+            task.updateTask();
+            task.updateTaskDoneOrNot();
         });
 
         $(".delete").on("submit", function(){
             return confirm("La suppression est definitive, êtes vous sure ?");
+        });
+
+        $('.delete-task').on('click', function () {
+            $(this).parents('form').submit();
         });
     </script>
 @endsection

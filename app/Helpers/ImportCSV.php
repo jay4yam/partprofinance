@@ -52,6 +52,8 @@ class ImportCSV extends ExcelFile
         //itère sur la collection passée en paramètre
         switch ($prospectSource){
             case 'assuragency':
+                $count = $results->count();
+                $iter = 1;
                 foreach ($results as $items)
                 {
                     //correction du 22 mai 2018
@@ -103,6 +105,7 @@ class ImportCSV extends ExcelFile
                     $tempData->salaire_conjoint = $items['60'];
                     $tempData->periodicite_salaire_conjoint = $items['61'];
                     $tempData->nombre_de_credits_en_cours = $items['62'];
+                    $tempData->user_id = \Auth::user()->id;
 
                     //Sauv. le model
                     $tempData->save();
@@ -119,6 +122,7 @@ class ImportCSV extends ExcelFile
                     $tempData->nom = $items[2];
                     $tempData->prenom = $items[3];
                     $tempData->email = $items[4];
+                    $tempData->user_id = \Auth::user()->id;
 
                     //Sauv. le model
                     $tempData->save();

@@ -45,15 +45,12 @@ class ProspectProcessController extends Controller
      */
     public function updateStatus(Request $request)
     {
-
-        //1. utilise le repo pour mettre a jour le status quoi q'il arrive
-        $this->processProspectRepository->updateStatus($request->all());
-
         //1.gère les différente action en fonction du status
         switch ($request['status'])
         {
             case 'nrp':
                 //redirection vers la vue qui affiche le form Mail et SMS
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'] ,$request['status']);
                 return redirect()->route('process.relanceUne', ['id' => $request->temp_prospect_id]);
                 break;
             case 'intérêt':
@@ -62,7 +59,6 @@ class ProspectProcessController extends Controller
             default:
                 break;
         }
-
         return back();
     }
 
@@ -90,7 +86,7 @@ class ProspectProcessController extends Controller
     private function getMailContent(TempProspect $prospect)
     {
         $message = "Bonjour ".$prospect->civilite." ".$prospect->nom."\n\n";
-        $message .= "Suite à votre demande de crédit de restructuration et compte tenu des premiers";
+        $message .= "Suite à votre demande de crédit de restructuration et compte tenu des premiers ";
         $message .= "éléments fournis, nous vous proposons les solutions de financement suivantes :\n\n";
         $message .= "Reprise de vos encours de prêts 00 € + une trésorerie de 00€ (plus si vous le désirez) :";
         $message .= "Sur 96 mois, mensualités de 159,32 €\n";
@@ -159,6 +155,6 @@ class ProspectProcessController extends Controller
             return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
         }
 
-        return redirect()->route('prospect.import')->with(['message' => 'relance 1...Envoyée']);
+        return redirect()->route('temp_prospect.index')->with(['message' => 'relance 1...Envoyée']);
     }
 }

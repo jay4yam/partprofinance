@@ -21,14 +21,9 @@ class UploadProspect extends Controller
      * Renvois la vue "index" d'upload de fichier .csv
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function import()
     {
-        //Récupère la liste des prospects de la table tempProspects
-        $prospectsTemp = TempProspect::with('processProspect')
-            ->orderBy('id', 'desc')
-            ->paginate('10');
-
-        return view('temp-prospects.upload', compact('prospectsTemp'));
+        return view('temp-prospects.upload');
     }
 
     /**
@@ -57,31 +52,6 @@ class UploadProspect extends Controller
 
         //Retourne la vue en lui passant en paramètre le user et le tempProspect
         return view('prospects.createImported', compact('user', 'tempProspect'));
-    }
-
-    /**
-     * Suppression d'une ligne de la table tempprospect
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function delete(Request $request, $id)
-    {
-        try {
-
-            //1. recupere l'enregistrement à effacer
-            $temp = TempProspect::with('processProspect')->findOrFail($id);
-
-            //2. Efface l'enregistrement
-            $temp->processProspect()->delete();
-            $temp->delete();
-
-        }catch (\Exception $exception){
-            //renvois un mesage si erreur
-            return back()->with(['message' => $exception->getMessage()]);
-        }
-        // renvois un message si succès
-        return back()->with(['message' => 'suppression du prospect OK']);
     }
 
     /**
@@ -150,11 +120,12 @@ class UploadProspect extends Controller
 
             //Enregistre en session dans un tableau de prospects
             $import->storeInTemp($results, $prospectSource);
+
         }catch (\Exception $exception){
             return back()->with(['message' => $exception->getMessage()]);
         }
 
-        return back()->with(['message' => 'Traitement fichier OK']);
+        return redirect()->route('temp_prospect.index')->with(['message' => 'Traitement fichier OK']);
     }
 
     /**

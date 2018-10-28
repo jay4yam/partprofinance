@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TempProspect;
 use App\Repositories\TempProspectRepository;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,18 @@ class TempProspectController extends Controller
     }
 
     /**
+     * Renvois la vue "index" d'upload de fichier .csv
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        //Récupère la liste des prospects de la table tempProspects
+        $prospectsTemp = TempProspect::with('processProspect')->orderBy('id', 'desc')->paginate('10');
+
+        return view('temp-prospects.index', compact('prospectsTemp'));
+    }
+
+    /**
      * Affiche la page de création de prospect from scratch /// distinct de la page création après importation
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -22,7 +35,6 @@ class TempProspectController extends Controller
     {
         return view('temp-prospects.create');
     }
-
 
     /**
      * Enregistre un nouveau prospect temporaire
@@ -71,5 +83,26 @@ class TempProspectController extends Controller
             return redirect()->route('prospect.import')->with(['message' => $exception->getMessage()]);
         }
         return redirect()->route('temp_prospect.edit', ['$prospect' => $id])->with(['message' => 'Mise à jour Ok']);
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+
+            //1. recupere l'enregistrement à effacer
+            $temp = TempProspect::with('processProspect')->findOrFail($id);
+
+            //2. Efface les elements de la table processProspect de ce leads
+            $temp->processProspect()->delete();
+
+            //3. Efface le leads de la table temp_prospects
+            $temp->delete();
+
+        }catch (\Exception $exception){
+            //renvois un mesage si erreur
+            return back()->with(['message' => $exception->getMessage()]);
+        }
+        // renvois un message si succès
+        return back()->with(['message' => 'suppression du prospect OK']);
     }
 }

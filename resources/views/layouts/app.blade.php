@@ -352,7 +352,7 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <li class="treeview {{ @$activeProspect }}">
                     <a href="#">
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <span>Prospects</span>
@@ -369,6 +369,11 @@
                         <li>
                             <a href="{{ url()->route('temp_prospect.create') }}">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i> Créer un prospect
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url()->route('temp_prospect.index') }}">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Liste de leads importés
                             </a>
                         </li>
                         <li>
