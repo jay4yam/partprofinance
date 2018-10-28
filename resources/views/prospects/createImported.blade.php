@@ -109,8 +109,7 @@
                                 <tr>
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
-                                        <?php if( $tempProspect->date_de_naissance == null ){ $dateN = '1900-01-01';}else{ $dateN =  @Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->date_de_naissance);} ?>
-                                        {{ Form::date('dateDeNaissance', $dateN , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {{ Form::date('dateDeNaissance', @Carbon\Carbon::now() , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -199,7 +198,7 @@
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
                                         <?php $date = Carbon\Carbon::createFromDate($tempProspect->depuis_contrat_annee, $tempProspect->depuis_contrat_mois, 01) ? Carbon\Carbon::createFromDate($tempProspect->depuis_contrat_annee, $tempProspect->depuis_contrat_mois, 01) : '01/01/1900' ; ?>
-                                        {{ Form::date('professionDepuis', $date, ['class' => 'form-control', 'id' => 'professionDepuis']) }}
+                                        {{ Form::date('professionDepuis',$date , ['class' => 'form-control', 'id' => 'professionDepuis']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -424,8 +423,7 @@
                                 <tr>
                                     <td><label for="pensionAlimentaire">Banque depuis le </label></td>
                                     <td>
-                                        <?php if( $tempProspect->banque_depuis == null ){ $dateN = '1900-01-01';}else{ $dateN =  @Carbon\Carbon::createFromFormat('d/m/Y', $tempProspect->banque_depuis);} ?>
-                                        {{ Form::date('BanqueDepuis', $tempProspect->banque_depuis, ['class' => 'form-control']) }}
+                                        {{ Form::date('BanqueDepuis',  @Carbon\Carbon::now(), ['class' => 'form-control']) }}
                                     </td>
                                 </tr>
                             </table>
