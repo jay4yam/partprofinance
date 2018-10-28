@@ -14,11 +14,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProspectRepository
 {
     /**
-     * @var User
-     */
-    protected $user;
-
-    /**
      * @var Prospect
      */
     protected $prospect;
@@ -30,13 +25,11 @@ class ProspectRepository
 
     /**
      * ProspectRepository constructor.
-     * @param User $user
      * @param Prospect $prospect
      * @param FilterModelByDate $filter
      */
-    public function __construct(User $user, Prospect $prospect, FilterModelByDate $filter)
+    public function __construct(Prospect $prospect, FilterModelByDate $filter)
     {
-        $this->user = $user;
         $this->prospect = $prospect;
         $this->filter = $filter;
     }
