@@ -59,6 +59,15 @@ class ProspectProcessController extends Controller
             case 'sans suite':
                 $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
                 return back();
+                break;
+            case 'non traite':
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
+                return back();
+                break;
+            case 'faux num':
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
+                return back();
+                break;
             default:
                 break;
         }
