@@ -135,8 +135,7 @@ class ProcessProspectRepository
     {
         $nexmo = app("Nexmo\Client");
 
-        //$num = $prospect->tel_portable;
-        $num = "06.65.70.18.87";
+        $num = $prospect->tel_portable;
 
         if(strlen($num) > 10){
             $num = str_replace(".", "", $num);

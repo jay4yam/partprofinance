@@ -44,7 +44,6 @@ class StatistiquesComposer
         $numRefusADate = $this->stat->countRefusedDossierADate($this->month, $this->year);
         //$commissionPartPro = $this->stat->commissionOfTheMonth();
         $commissionPartProADate = $this->stat->commissionForMonthAndYear($this->month, $this->year);
-        //$commissionPaid = $this->stat->commissionPaid();
         //$commissionDossierAccepted = $this->stat->commissionAccepted();
         $commissionDossierAcceptedADate = $this->stat->commissionAcceptedADate($this->month, $this->year);
         //$commissionPaye = $this->stat->commissionPayee();

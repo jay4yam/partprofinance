@@ -135,7 +135,6 @@ class StatistiquesHelper
 
     /**
      * Retourne le nombre de dossiers acceptés ce mois ci
-     * @param int $userId
      * @return mixed
      */
     public function countPaidDossier()
@@ -152,7 +151,8 @@ class StatistiquesHelper
 
     /**
      * Retourne le nombre de dossiers acceptés les mois / années passé en paramètre
-     * @param int $userId
+     * @param $month
+     * @param $year
      * @return mixed
      */
     public function countPaidDossierADate($month, $year)
@@ -180,6 +180,8 @@ class StatistiquesHelper
 
     /**
      * Retourne le nombre de dossier refusé du mois en cours
+     * @param $month
+     * @param $year
      * @return mixed
      */
     public function countRefusedDossierADate($month, $year)
@@ -191,7 +193,7 @@ class StatistiquesHelper
     }
 
     /**
-     * Retourne la sommes de tous les dossiers du mois
+     * Retourne la somme de tous les dossiers du mois
      * @return mixed
      */
     public function commissionOfTheMonth()
@@ -298,7 +300,7 @@ class StatistiquesHelper
     }
 
     /**
-     * Retourne la somme des commisions payée ce mois
+     * Retourne la somme des commissions payées ce mois
      * @return int
      */
     public function commissionPayee()
@@ -341,7 +343,11 @@ class StatistiquesHelper
 
 
 
+    /****************************/
+    /*                          */
     /* STATS POUR UN COMMERCIAL */
+    /*                          */
+    /****************************/
 
     /***
      * Retourne les prospect de l'utilisateur du mois en cours

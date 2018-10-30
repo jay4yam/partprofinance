@@ -56,6 +56,18 @@ class ProspectProcessController extends Controller
             case 'intérêt':
                 return redirect()->route('create.imported.prospect', ['prospectId' => $request->temp_prospect_id]);
                 break;
+            case 'sans suite':
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
+                return back();
+                break;
+            case 'non traite':
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
+                return back();
+                break;
+            case 'faux num':
+                $this->processProspectRepository->updateStatus($request['temp_prospect_id'], $request['status']);
+                return back();
+                break;
             default:
                 break;
         }

@@ -7,16 +7,12 @@ use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProspectRepository
 {
-    /**
-     * @var User
-     */
-    protected $user;
-
     /**
      * @var Prospect
      */
@@ -29,11 +25,11 @@ class ProspectRepository
 
     /**
      * ProspectRepository constructor.
-     * @param User $user
+     * @param Prospect $prospect
+     * @param FilterModelByDate $filter
      */
-    public function __construct(User $user, Prospect $prospect, FilterModelByDate $filter)
+    public function __construct(Prospect $prospect, FilterModelByDate $filter)
     {
-        $this->user = $user;
         $this->prospect = $prospect;
         $this->filter = $filter;
     }
@@ -145,31 +141,24 @@ class ProspectRepository
     {
         \DB::transaction(function () use($prospect, $inputs) {
 
-            //1. Crée l'utilisateur sur la table user
+            //1. Récupère l'utilisateur sur la table user
            $user = \Auth::user();
 
             //2. vérifier si inputs contients // credit-name & credit montant
             $inputs = $this->checkInputCredit($inputs);
 
-            try{
             //3. enregistre le model
-            $user->prospect()->create($inputs);
-            }catch (\Exception $exception){
-                throw new $exception;
-            }
+            $prospect->create($inputs);
 
-            //4. Si il s'agit d'un import de prospect
-            if(isset($inputs['tempProspectId']))
-            {
-                //recupère le prospect temporaire
-                $tempProspect = TempProspect::FindOrfail($inputs['tempProspectId']);
+            //recupère le prospect temporaire
+            $tempProspect = TempProspect::FindOrfail($inputs['tempProspectId']);
 
-                //Supprime l'entrée dans la table processProspect
-                $tempProspect->processProspect()->delete();
+            //Supprime l'entrée dans la table processProspect
+            $tempProspect->processProspect()->delete();
 
-                //Supprime le prospect temporaire
-                $tempProspect->delete();
-            }
+            //Supprime le prospect temporaire
+            $tempProspect->delete();
+
         });
     }
 
@@ -210,6 +199,8 @@ class ProspectRepository
             //enregistre les nouvels valeurs dans un nouveau tableau de credit
             $credits [$arrayNom[$i]] =  $arrayMontant[$i] ;
         }
+
+        $newInputs['user_id'] = Auth::user()->id;
 
         //ajoute le nouveau tableau de credit encodé en json pour enregistrement en base
         $newInputs['credits'] = json_encode($credits);
