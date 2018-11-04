@@ -101,7 +101,7 @@
                                 {!! @$prospect->mandat_status ? '<small class="label bg-green">Oui</small>' : '<small class="label bg-red">Non</small>' !!}
                             </td>
                             <td>
-                                @if(Auth::user()->id == @$dossier->user_id || Auth::user()->role == 'admin')
+                                @if(Auth::user()->id == @$dossier->user_id)
                                     <a href="{{ url()->route('prospect.show', ['prospect' => $prospect]) }}" class="btn btn-default">
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Détails
                                     </a>
