@@ -142,13 +142,16 @@ class FilterModelByDate
                     ->get();
             });
 
-            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
-            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
-            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($array) {
+                //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+                $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+                $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
 
-            return $modelsFiltredToReturn;
+                return $modelsFiltredToReturn;
+            }
+            else{ return $model;}
         }
         return null;
     }
@@ -170,13 +173,15 @@ class FilterModelByDate
                                 ->get();
             });
 
-            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
-            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
-            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($array) {
+                //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+                $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+                $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
 
-            return $modelsFiltredToReturn;
+                return $modelsFiltredToReturn;
+            }else{ return $model;}
         }
         return null;
     }
@@ -198,12 +203,14 @@ class FilterModelByDate
                 $array = $items->where($dbColumn, 'LIKE', '%'.$searchedName.'%')->get();
             });
 
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
-            $modelsFiltredToReturn = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($array) {
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+                $usersPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+                $modelsFiltredToReturn = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
 
-            return $modelsFiltredToReturn;
+                return $modelsFiltredToReturn;
+            }else{ return $model;}
         }
         return $model;
     }
@@ -246,11 +253,13 @@ class FilterModelByDate
                 }
             });
 
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
-            $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($modelFiltered) {
+                //Get current page form url e.g. &page=1
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
+                $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
+                $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            }else { return $model;}
         }
 
         return $modelFiltered2return;
@@ -272,13 +281,15 @@ class FilterModelByDate
                 $array = $items->where('status', '=', $status)->get();
             });
 
-            //4. Recrée le LengthAwarePaginator pour reproduire la pagination
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
-            $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
-            $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($array) {
+                //4. Recrée le LengthAwarePaginator pour reproduire la pagination
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $array->slice(($currentPage - 1) * 10, 10);
+                $modelPaginate = new LengthAwarePaginator($currentPageItems, count($array), 10);
+                $modelsFiltredToReturn = $modelPaginate->setPath($_SERVER['REQUEST_URI']);
 
-            return $modelsFiltredToReturn;
+                return $modelsFiltredToReturn;
+            }else{ return $model;}
         }
         return null;
     }
@@ -299,11 +310,16 @@ class FilterModelByDate
             $modelsWithTask = $allModels->filter(function ($model){
                 if(count($model->tasks)){ return $model;}
             });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelsWithTask->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithTask), 10);
-            $modelsWithTask2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            if($modelsWithTask) {
+                //Get current page form url e.g. &page=1
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $modelsWithTask->slice(($currentPage - 1) * 10, 10);
+                $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithTask), 10);
+                $modelsWithTask2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+
+                return $modelsWithTask2return;
+            }else{ return $model; }
         }
 
         return $modelsWithTask2return;
@@ -323,14 +339,17 @@ class FilterModelByDate
             $modelsWithDossier = $model->filter(function ($model){
                 if(count($model->dossiers)){ return $model;}
             });
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelsWithDossier->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithDossier), 10);
-            $modelsWithDossier2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+
+            if($modelsWithDossier) {
+                //Get current page form url e.g. &page=1
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $modelsWithDossier->slice(($currentPage - 1) * 10, 10);
+                $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelsWithDossier), 10);
+                $modelsWithDossier2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+                return $modelsWithDossier2return;
+            }else{ return $model;}
         }
 
-        return $modelsWithDossier2return;
     }
 
     /**
@@ -348,13 +367,17 @@ class FilterModelByDate
                 if ($model->iban != '') return $model;
             });
 
-            //Get current page form url e.g. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
-            $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
-            $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+            if($modelFiltered) {
+                //Get current page form url e.g. &page=1
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentPageItems = $modelFiltered->slice(($currentPage - 1) * 10, 10);
+                $usersPaginate = new LengthAwarePaginator($currentPageItems, count($modelFiltered), 10);
+                $modelFiltered2return = $usersPaginate->setPath($_SERVER['REQUEST_URI']);
+
+                return $modelFiltered2return;
+            }else{ return $model;}
         }
 
-        return $modelFiltered2return;
+
     }
 }
