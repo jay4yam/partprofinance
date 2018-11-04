@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TempProspectRequest;
 use App\Models\TempProspect;
 use App\Repositories\TempProspectRepository;
 use Illuminate\Http\Request;
@@ -38,10 +39,10 @@ class TempProspectController extends Controller
 
     /**
      * Enregistre un nouveau prospect temporaire
-     * @param Request $request
+     * @param TempProspectRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(TempProspectRequest $request)
     {
         try {
 

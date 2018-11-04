@@ -47,14 +47,23 @@
                             <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                 {{ Form::label('nom', 'Nom : ') }}
                                 {{ Form::text('nom', null, ['class' => 'form-control']) }}
+                                @if($errors->has('nom'))
+                                    <small style="color: red">{{ $errors->first('nom') }}</small>
+                                @endif
                             </div>
                             <div class="col-md-4 {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                 {{ Form::label('prenom', 'Prenom : ') }}
                                 {{ Form::text('prenom', null, ['class' => 'form-control']) }}
+                                @if($errors->has('prenom'))
+                                    <small style="color: red">{{ $errors->first('prenom') }}</small>
+                                @endif
                             </div>
                             <div class="col-md-4 {{ $errors->has('email') ? ' has-error' : '' }}">
                                 {{ Form::label('email', 'Email : ') }}
                                 {{ Form::text('email', null, ['class' => 'form-control']) }}
+                                @if($errors->has('email'))
+                                    <small style="color: red">{{ $errors->first('email') }}</small>
+                                @endif
                             </div>
                         </div>
                         <!-- ./Infos prospect (non editable) -->
@@ -77,10 +86,16 @@
                             <div class="col-md-3 {{ $errors->has('montant_demande') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_demande', 'Montant demandé : ') }}
                                 {{ Form::text('montant_demande', null, ['class' => 'form-control']) }}
+                                @if($errors->has('montant_demande'))
+                                    <small style="color: red">{{ $errors->first('montant_demande') }}</small>
+                                @endif
                             </div>
                             <div class="col-md-2 {{ $errors->has('montant_final') ? ' has-error' : '' }}">
                                 {{ Form::label('montant_final', 'Montant final : ') }}
                                 {{ Form::text('montant_final', null, ['class' => 'form-control']) }}
+                                @if($errors->has('montant_final'))
+                                    <small style="color: red">{{ $errors->first('montant_final') }}</small>
+                                @endif
                             </div>
                             <div class="col-md-2 {{ $errors->has('duree_du_pret') ? ' has-error' : '' }}">
                                 {{ Form::label('duree_du_pret', 'duree_du_pret : ') }}
