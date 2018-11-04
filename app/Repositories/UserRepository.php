@@ -33,6 +33,7 @@ class UserRepository
 
     /**
      * @param int $id
+     * @return \Illuminate\Database\Eloquent\Collection|Model
      */
     public function getById(int $id)
     {
@@ -44,7 +45,7 @@ class UserRepository
      * @param array $inputs
      * @param UploadedFile $avatar
      */
-    public function store(array $inputs, UploadedFile $avatar)
+    public function store(array $inputs, UploadedFile $avatar = null)
     {
         $user = new User();
 
