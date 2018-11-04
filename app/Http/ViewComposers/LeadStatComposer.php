@@ -32,16 +32,13 @@ class LeadStatComposer
         //init. un tableau
         $array = [];
 
-        dd($listeSources);
-
         //itère la sur la liste
         foreach ($listeSources as $source)
         {
             $value = DB::table('prospects')
                 ->where('prospect_source', '=', $source->prospect_source )
-                ->join('users', 'users.id', '=', 'prospects.user_id')
-                ->whereYear('users.created_at', Carbon::now()->format('Y'))
-                ->whereMonth('users.created_at', Carbon::now()->format('m'))
+                ->whereYear('created_at', Carbon::now()->format('Y'))
+                ->whereMonth('created_at', Carbon::now()->format('m'))
                 ->count();
 
             $array [] = ['label' => $source->prospect_source, 'value' => $value];
