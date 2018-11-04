@@ -26,9 +26,8 @@ class LeadStatComposer
         //Recupere la liste des items présents dans la colonne 'prospect_source'
         $listeSources = DB::table('prospects')
             ->groupBy('prospect_source')
-            ->join('users', 'users.id', '=', 'prospects.user_id')
-            ->whereYear('users.created_at', Carbon::now()->format('Y'))
-            ->whereMonth('users.created_at', Carbon::now()->format('m'))
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
             ->get(['prospect_source']);
         //init. un tableau
         $array = [];
