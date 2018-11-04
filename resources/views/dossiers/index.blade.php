@@ -139,7 +139,7 @@
                 'lengthChange': false,
                 'searching'   : false,
                 'ordering'    : true,
-                'order'       : [[1, 'desc']],
+                'order'       : [[2, 'desc']],
                 'info'        : true,
                 'autoWidth'   : true
             });
