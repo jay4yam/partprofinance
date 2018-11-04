@@ -91,7 +91,7 @@ var editProspect = {
             $.ajax({
                 method: "PUT",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: 'http://'+location.host+'/prospect/'+prospectId,
+                url: 'https://'+location.host+'/prospect/'+prospectId,
                 data: {id:id, value:value},
                 beforeSend:function () {
                     $('.ajax-spinner').show();
@@ -170,7 +170,7 @@ var editProspect = {
                         $.ajax({
                             method: "PUT",
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                            url: 'http://'+location.host+'/prospect/'+prospectId,
+                            url: 'https://'+location.host+'/prospect/'+prospectId,
                             data: {id:id, value:1},
                             beforeSend:function () {
                                 $('.ajax-spinner').show();
@@ -188,7 +188,7 @@ var editProspect = {
                         $.ajax({
                             method: "PUT",
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                            url: 'http://' + location.host + '/prospect/' + prospectId,
+                            url: 'https://' + location.host + '/prospect/' + prospectId,
                             data: {id: id, value: 0},
                             beforeSend: function () {
                                 $('.ajax-spinner').show();
@@ -241,7 +241,7 @@ var editProspect = {
             $.ajax({
                 method: "DELETE",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: 'http://'+location.host+'/prospect/delete-credit/'+prospectId,
+                url: 'https://'+location.host+'/prospect/delete-credit/'+prospectId,
                 data: {creditToDelete:creditToDelete},
                 beforeSend:function () {
                     $('.ajax-spinner').show();
@@ -300,7 +300,7 @@ var editProspect = {
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: 'http://'+location.host+'/prospect/add-credit/'+prospectId,
+            url: 'https://'+location.host+'/prospect/add-credit/'+prospectId,
             data: {creditName:creditName, creditValue:creditValue},
             beforeSend:function () {
                 $('.ajax-spinner').show();
@@ -591,7 +591,7 @@ var editProspect = {
         $.ajax({
             method: "PUT",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: 'http://'+location.host+'/prospect/'+prospectId,
+            url: 'https://'+location.host+'/prospect/'+prospectId,
             data: {id:id, value:value},
             beforeSend:function () {
                 $('.ajax-spinner').show();
@@ -634,7 +634,7 @@ var editProspect = {
             $.ajax({
                 method: "POST",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: 'http://'+location.host+'/prospect/credit/'+prospectId,
+                url: 'https://'+location.host+'/prospect/credit/'+prospectId,
                 data: {nomCredit:nomCredit, montantCredit:montantCredit, index:index},
                 beforeSend:function () {
                     $('.ajax-spinner').show();

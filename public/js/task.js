@@ -51,7 +51,7 @@ var task = {
                 $.ajax({
                     method: "PUT",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: 'http://'+location.host+'/task/'+taskid,
+                    url: 'https://'+location.host+'/task/'+taskid,
                     data: { type:'status', value:0 },
                     beforeSend:function () {
                         $('.ajax-spinner').show();
@@ -68,7 +68,7 @@ var task = {
                 $.ajax({
                     method: "PUT",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: 'http://'+location.host+'/task/'+taskid,
+                    url: 'https://'+location.host+'/task/'+taskid,
                     data: { type:'status', value:1 },
                     beforeSend:function () {
                         $('.ajax-spinner').show();

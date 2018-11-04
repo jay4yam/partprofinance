@@ -193,7 +193,7 @@
                 $.ajax({
                     method: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: 'http://' + location.host + '/get/dossier/info',
+                    url: 'https://' + location.host + '/get/dossier/info',
                     data: {dossierId: dossierId},
                     beforeSend: function () {
                         $('.ajax-spinner').show();
