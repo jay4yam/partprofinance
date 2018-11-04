@@ -74,7 +74,7 @@ var dossierJS = {
     autocompleteNom:function () {
 
         //url requête ajax
-
+        var url = 'https://'+location.host+'/dossier/prospect/autocomplete/name';
 
         //Auto complete jquery
         $('#nom').autocomplete({
