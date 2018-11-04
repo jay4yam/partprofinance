@@ -161,7 +161,7 @@
                 $.ajax({
                     method: "PUT",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: 'https://' + location.host + '/process/update/' + processId,
+
                     data: {type: 'relance_status', value: selectValue},
                     beforeSend: function () {
                         $('.ajax-spinner').show();
