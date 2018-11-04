@@ -33,6 +33,8 @@ class LeadStatComposer
         //init. un tableau
         $array = [];
 
+        dd($listeSources);
+
         //itère la sur la liste
         foreach ($listeSources as $source)
         {
