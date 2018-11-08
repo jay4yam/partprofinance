@@ -39,48 +39,56 @@
                                     <td><label for="civilite">Source </label></td>
                                     <td class="data">
                                         {{ Form::text('prospect_source', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('prospect_source', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="civilite">Civilité</label></td>
                                     <td class="data">
                                         {{ Form::select('civilite', ['Madame' => 'Madame', 'Monsieur' => 'Monsieur' ], null , ['class' => 'form-control']) }}
+                                        {!! $errors->first('civilite', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">nom</label></td>
                                     <td class="data {{ $errors->has('nom') ? ' has-error' : '' }}">
                                         {{ Form::text('nom', null , ['class' => 'form-control', 'id' => 'nom']) }}
+                                        {!! $errors->first('nom', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nom">nom jeune fille</label></td>
                                     <td class="data {{ $errors->has('nomjeunefille') ? ' has-error' : '' }}">
                                         {{ Form::text('nomjeunefille', null , ['class' => 'form-control', 'id' => 'nomjeunefille']) }}
+                                        {!! $errors->first('nomjeunefille', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="prenom">prenom</label></td>
                                     <td class="data {{ $errors->has('prenom') ? ' has-error' : '' }}">
                                         {{ Form::text('prenom', null , ['class' => 'form-control', 'id' => 'prenom']) }}
+                                        {!! $errors->first('prenom', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="email">email</label></td>
                                     <td class="data {{ $errors->has('email') ? ' has-error' : '' }}">
                                         {{ Form::email('email', null , ['class' => 'form-control', 'id' => 'email']) }}
+                                        {!! $errors->first('email', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelFixe">Téléphone Fixe</label></td>
                                     <td class="data">
                                         {{ Form::text('numTelFixe', null, ['class' => 'form-control', 'id' => 'numTelFixe']) }}
+                                        {!! $errors->first('numTelFixe', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="numTelPortable">Téléphone Portable</label></td>
                                     <td class="data {{ $errors->has('numTelPortable') ? ' has-error' : '' }}">
                                         {{ Form::text('numTelPortable', null , ['class' => 'form-control', 'id' => 'numTelPortable']) }}
+                                        {!! $errors->first('numTelPortable', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                             </table>
@@ -107,6 +115,7 @@
                                     <td><label for="dateDeNaissance">Date De Naissance</label></td>
                                     <td class="data">
                                         {{ Form::date('dateDeNaissance', null , ['class' => 'form-control', 'id' => 'dateDeNaissance']) }}
+                                        {!! $errors->first('dateDeNaissance', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
@@ -125,30 +134,35 @@
                                     <td><label for="nbEnfantACharge">Nb Enfants à charge</label></td>
                                     <td class="data {{ $errors->has('nbEnfantACharge') ? ' has-error' : '' }}">
                                         {{ Form::text('nbEnfantACharge',null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('nbEnfantACharge', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="nationalite">nationalite</label></td>
                                     <td class="data {{ $errors->has('nationalite') ? ' has-error' : '' }}">
                                         {{ Form::text('nationalite', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('nationalite', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="paysNaissance">Pays de Naissance</label></td>
                                     <td class="data {{ $errors->has('paysNaissance') ? ' has-error' : '' }}">
                                         {{ Form::text('paysNaissance', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('paysNaissance', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="departementNaissance">Département de Naissance</label></td>
                                     <td class="data {{ $errors->has('departementNaissance') ? ' has-error' : '' }}">
                                         {{ Form::text('departementNaissance', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('departementNaissance', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="VilleDeNaissance">VilleDeNaissance</label></td>
                                     <td class="data {{ $errors->has('VilleDeNaissance') ? ' has-error' : '' }}">
                                         {{ Form::text('VilleDeNaissance', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('VilleDeNaissance', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                             </table>
@@ -185,36 +199,42 @@
                                     <td><label for="profession">Type de Contrat</label></td>
                                     <td class="data {{ $errors->has('type_de_votre_contrat') ? ' has-error' : '' }}">
                                         {{ Form::text('type_de_votre_contrat', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('type_de_votre_contrat', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="profession">profession</label></td>
                                     <td class="data {{ $errors->has('profession') ? ' has-error' : '' }}">
                                         {{ Form::text('profession', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('profession', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="professionDepuis">professionDepuis</label></td>
                                     <td class="data">
                                         {{ Form::date('professionDepuis', Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'professionDepuis']) }}
+                                        {!! $errors->first('professionDepuis', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="revenusNetMensuel">revenusNetMensuel</label></td>
                                     <td class="data {{ $errors->has('revenusNetMensuel') ? ' has-error' : '' }}">
                                         {{ Form::text('revenusNetMensuel', null, ['class' => 'form-control', 'id' => 'revenusNetMensuel']) }}
+                                        {!! $errors->first('revenusNetMensuel', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="profession">Périodicité Salaire</label></td>
                                     <td class="data {{ $errors->has('periodicite_salaire') ? ' has-error' : '' }}">
                                         {{ Form::text('periodicite_salaire', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('periodicite_salaire', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="profession">Autre revenu</label></td>
                                     <td class="data {{ $errors->has('autre_revenu') ? ' has-error' : '' }}">
                                         {{ Form::text('autre_revenu', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('autre_revenu', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                             </table>
@@ -365,24 +385,28 @@
                                     <td><label for="adresse">adresse</label></td>
                                     <td class="data {{ $errors->has('adresse') ? ' has-error' : '' }}">
                                         {{ Form::text('adresse', null, ['class' => 'form-control'] ) }}
+                                        {!! $errors->first('adresse', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="complementAdresse">complement adresse</label></td>
                                     <td class="data">
                                         {{ Form::text('complementAdresse', null, ['class' => 'form-control'] ) }}
+                                        {!! $errors->first('complementAdresse', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="codePostal">code postal</label></td>
                                     <td class="data {{ $errors->has('codePostal') ? ' has-error' : '' }}">
                                         {{ Form::text('codePostal', null, ['class' => 'form-control', 'id' => 'codePostal'] ) }}
+                                        {!! $errors->first('codePostal', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="ville">ville</label></td>
                                     <td class="data {{ $errors->has('ville') ? ' has-error' : '' }}">
                                         {{ Form::text('ville', null, ['class' => 'form-control'] ) }}
+                                        {!! $errors->first('ville', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                             </table>
@@ -434,6 +458,7 @@
                                     <td><label for="loyer">loyer</label></td>
                                     <td>
                                         {{ Form::text('loyer', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('loyer', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
@@ -464,18 +489,21 @@
                                     <td><label for="nombre_de_credits_en_cours">Nb credits en cours</label></td>
                                     <td>
                                         {{ Form::text('nombre_de_credits_en_cours', null , ['class' => 'form-control']) }}
+                                        {!! $errors->first('nombre_de_credits_en_cours', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="total_credit">Montant restant dû</label></td>
                                     <td>
                                         {{ Form::text('total_credit', null , ['class' => 'form-control']) }}
+                                        {!! $errors->first('total_credit', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="total_credit_mensualite">Mensualite credit</label></td>
                                     <td>
                                         {{ Form::text('total_credit_mensualite', null , ['class' => 'form-control']) }}
+                                        {!! $errors->first('total_credit_mensualite', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <!--
@@ -518,6 +546,7 @@
                                     <td><label for="NomBanque">Banque</label></td>
                                     <td class="data {{ $errors->has('banque') ? ' has-error' : '' }}">
                                         {{ Form::text('banque', null, ['class' => 'form-control']) }}
+                                        {!! $errors->first('banque', '<small class="help-block">:message</small>') !!}
                                     </td>
                                 </tr>
                                 <tr>

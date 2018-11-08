@@ -27,7 +27,6 @@ class TempProspectRequest extends FormRequest
             'nom' => 'required',
             'prenom' => 'required',
             'email' => 'required|email',
-            'numTelFixe' => 'required',
             'numTelPortable' => 'required',
             'nationalite' => 'required',
             'paysNaissance' => 'required',
