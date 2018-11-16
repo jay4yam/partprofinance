@@ -69,6 +69,9 @@ class ProcessProspectRepository
                     $processProspect->save();
 
                     break;
+                case "relance_3":
+                    $processProspect->update([$inputs["type"] => $inputs["value"]]);
+                    break;
             }
         }
     }
