@@ -13,12 +13,12 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <!-- num de dossier -->
+                <!-- num de Prospect -->
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>{{ $stats->getDossierSaleThisMonth($id) }}</h3>
+                            <h3>{{ $stats->getProspectSaleThisMonth($id) }}</h3>
 
                             <p>Prospects ce mois ci</p>
                         </div>
