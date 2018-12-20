@@ -34,7 +34,7 @@ class StatistiquesComposer
         $prospectsADate = $this->stat->getProspectForMonthAndYear($this->month, $this->year);
 
         $dossierADate = $this->stat->getDossierForMonthAndYear($this->month, $this->year);
-        dd($dossierADate);
+
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
         //$numAccepted = $this->stat->countAcceptedDossier();
         $numAcceptedADate = $this->stat->countAcceptedDossierForMonthAndYear($this->month, $this->year);
