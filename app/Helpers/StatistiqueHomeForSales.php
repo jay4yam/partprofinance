@@ -29,6 +29,7 @@ class StatistiqueHomeForSales
         $prospect = new Prospect();
         $prospectOfTheMonth = $prospect->salers($userId)->monthly()->count();
 
+
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
 
