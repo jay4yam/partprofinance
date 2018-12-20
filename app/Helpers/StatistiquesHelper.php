@@ -356,15 +356,12 @@ class StatistiquesHelper
      */
     public function getProspectSaleThisMonth(int $userId)
     {
-        $tempProspectOftheMonth = Cache::remember('currentSalesMonthTempProspect', 10, function () use ($userId) {
-            $tempProspect = new TempProspect();
-            return  $tempProspect->countUserOfTheMonthForSale($userId)->count();
-        });
+        $tempProspect = new TempProspect();
+        $tempProspectOftheMonth = $tempProspect->countUserOfTheMonthForSale($userId)->count();
 
-        $prospectOfTheMonth = Cache::remember('currentSalesMonthUser', 10, function () use ($userId) {
-            $prospect = new Prospect();
-            return  $prospect->salers($userId)->monthly()->count();
-        });
+        $prospect = new Prospect();
+        $prospectOfTheMonth = $prospect->salers($userId)->monthly()->count();
+
         dd($tempProspectOftheMonth + $prospectOfTheMonth);
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
