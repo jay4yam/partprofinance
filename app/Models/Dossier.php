@@ -149,8 +149,9 @@ class Dossier extends Model
      */
     public function scopeDossierOfTheMonthForSale($query, $userId)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))
-                    ->whereMonth('updated_at', Carbon::now()->format('m'));
+        return $query->where('user_id', '=', $userId)
+                    ->whereYear('created_at', Carbon::now()->format('Y'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'));
     }
 
     /**
