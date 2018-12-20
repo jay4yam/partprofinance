@@ -40,16 +40,11 @@ class StatistiqueHomeForSales
      */
     public function getDossierSaleThisMonth(int $userId)
     {
-        $value = Cache::remember('numOfDossierForSale'.$userId, 10, function () use($userId) {
-
             $dossier = new Dossier();
 
             $numOfDossier = $dossier->dossierOfTheMonthForSale($userId)->count();
 
             return $numOfDossier;
-        });
-
-        return $value;
     }
 
     /**
