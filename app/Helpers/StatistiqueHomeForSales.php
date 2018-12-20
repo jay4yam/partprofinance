@@ -23,6 +23,7 @@ class StatistiqueHomeForSales
      */
     public function getProspectSaleThisMonth(int $userId)
     {
+        dd($userId);
         $tempProspectOftheMonth = Cache::remember('currentSalesMonthTempProspect'.$userId, 10, function () use ($userId) {
             $tempProspect = new TempProspect();
             return  $tempProspect->countUserOfTheMonthForSale($userId)->count();
