@@ -362,7 +362,6 @@ class StatistiquesHelper
         $prospect = new Prospect();
         $prospectOfTheMonth = $prospect->salers($userId)->monthly()->count();
 
-        dd($tempProspectOftheMonth + $prospectOfTheMonth);
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
 
