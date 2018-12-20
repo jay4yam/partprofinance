@@ -44,6 +44,8 @@ class StatistiqueHomeForSales
 
             $numOfDossier = $dossier->dossierOfTheMonthForSale($userId)->count();
 
+            dd($numOfDossier);
+
             return $numOfDossier;
     }
 
