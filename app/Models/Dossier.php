@@ -127,7 +127,8 @@ class Dossier extends Model
 
     public function scopeDossierPayeeForMonthAndYear($query, $month, $year)
     {
-        return $query->whereYear('created_at', $year)->whereMonth('created_at', $month)
+        return $query->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
             ->where('status', '=', 'Payé');
     }
 
@@ -190,7 +191,7 @@ class Dossier extends Model
     {
         return $query->where('user_id', '=', $userId)
             ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('updated_at', Carbon::now()->format('m'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
             ->where('status', '=', 'Payé');
     }
 
