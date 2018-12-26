@@ -46,7 +46,8 @@ class Dossier extends Model
     public function scopeDossierForMonthAndYear($query, $month, $year)
     {
         return $query->whereYear('created_at', $year)
-            ->whereMonth('created_at', $month);
+            ->whereMonth('created_at', $month)
+            ->where('status', '!=', 'Refusé' );
     }
 
     /**
