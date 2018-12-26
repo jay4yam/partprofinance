@@ -153,7 +153,8 @@ class Dossier extends Model
     {
         return $query->where('user_id', '=', $userId)
                     ->whereYear('created_at', Carbon::now()->format('Y'))
-                    ->whereMonth('created_at', Carbon::now()->format('m'));
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
+                    ->where('status', '!=', 'Refusé');
     }
 
     /**
