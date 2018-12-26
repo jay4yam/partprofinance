@@ -38,6 +38,12 @@ class StatistiquesHelper
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
 
+    /**
+     * retourne le nombre de prospects du mois (tempPropects & Prospect)
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
     public function getProspectForMonthAndYear($month, $year)
     {
         $tempProspectOftheMonth = Cache::remember('TempProspectForAdmin', 100, function () use($month, $year){
