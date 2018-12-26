@@ -40,11 +40,15 @@ class StatistiquesHelper
 
     public function getProspectForMonthAndYear($month, $year)
     {
-        $tempProspect = new TempProspect();
-        $tempProspectOftheMonth = $tempProspect->countUserWithDate($month, $year)->count();
+        $tempProspectOftheMonth = Cache::remember('TempProspectForAdmin', 100, function () use($month, $year){
+            $tempProspect = new TempProspect();
+            return $tempProspect->countUserWithDate($month, $year)->count();
+        });
 
-        $prospect = new Prospect();
-        $prospectOfTheMonth = $prospect->countUserWithDate($month, $year)->count();
+        $prospectOfTheMonth = Cache::remember('ProspectForAdmin', 100, function () use ($month, $year){
+            $prospect = new Prospect();
+            return $prospect->countUserWithDate($month, $year)->count();
+        });
 
         return $tempProspectOftheMonth + $prospectOfTheMonth;
     }
