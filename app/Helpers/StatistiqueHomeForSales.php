@@ -23,12 +23,12 @@ class StatistiqueHomeForSales
      */
     public function getProspectSaleThisMonth(int $userId)
     {
-        $tempProspectOftheMonth = Cache::remember('tempProspectForSale'.$userId, 100, function () use ($userId){
+        $tempProspectOftheMonth = Cache::remember('tempProspectForSale'.$userId, 10, function () use ($userId){
             $tempProspect = new TempProspect();
             return $tempProspect->countUserOfTheMonthForSale($userId)->count();
         });
 
-        $prospectOfTheMonth = Cache::remember('ProspectForSale'.$userId, 100, function () use ($userId){
+        $prospectOfTheMonth = Cache::remember('ProspectForSale'.$userId, 10, function () use ($userId){
             $prospect = new Prospect();
             return $prospect->salers($userId)->monthly()->count();
         });
@@ -43,7 +43,7 @@ class StatistiqueHomeForSales
      */
     public function getDossierSaleThisMonth(int $userId)
     {
-        $numOfDossier = Cache::remember('numOfDossierForSale'.$userId, 100, function () use($userId){
+        $numOfDossier = Cache::remember('numOfDossierForSale'.$userId, 10, function () use($userId){
             $dossier = new Dossier();
             return $dossier->dossierOfTheMonthForSale($userId)->count();
         });

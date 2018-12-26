@@ -171,12 +171,13 @@ class Dossier extends Model
     /**
      * Retourne les dossiers du mois acceptés
      * @param $query
+     * @param $userId
      * @return mixed
      */
     public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId)
     {
         return $query->whereYear('created_at', Carbon::now()->format('Y'))
-                    ->whereMonth('updated_at', Carbon::now()->format('m'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
                     ->where('status', '=', 'Accepté')
                     ->where('user_id', '=', $userId);
     }
