@@ -1,10 +1,10 @@
 <div class="box">
     {{ Form::open([ 'route' => 'home', 'method' => 'GET', 'class' => 'form-inline']) }}
     <div class="form-group sep">
-        {{ Form::select('annee', $dossierYears, '', ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
+        {{ Form::select('annee', $dossierYears, request()->get('annee'), ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
     </div>
     <div class="form-group sep">
-        {{ Form::select('mois', $dossierMonths, '', ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
+        {{ Form::select('mois', $dossierMonths, request()->get('mois'), ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-success">
