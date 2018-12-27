@@ -176,7 +176,7 @@ class Dossier extends Model
      * @param $userId
      * @return mixed
      */
-    public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId)
+    public function scopeDossierAcceptedOfTheMonthForSale($query, $userId, $month, $year)
     {
         return $query->whereYear('created_at', Carbon::now()->format('Y'))
                     ->whereMonth('created_at', Carbon::now()->format('m'))
