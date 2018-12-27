@@ -35,24 +35,21 @@ class StatistiquesComposer
 
         $dossierADate = $this->stat->getDossierForMonthAndYear($this->month, $this->year);
 
-        $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
-        //$numAccepted = $this->stat->countAcceptedDossier();
         $numAcceptedADate = $this->stat->countAcceptedDossierForMonthAndYear($this->month, $this->year);
-        //$numPaid = $this->stat->countPaidDossier();
+
         $numPaidADate = $this->stat->countPaidDossierADate($this->month, $this->year);
-        //$numRefus = $this->stat->countRefusedDossier();
+
         $numRefusADate = $this->stat->countRefusedDossierADate($this->month, $this->year);
-        //$commissionPartPro = $this->stat->commissionOfTheMonth();
+
         $commissionPartProADate = $this->stat->commissionForMonthAndYear($this->month, $this->year);
-        //$commissionDossierAccepted = $this->stat->commissionAccepted();
+
         $commissionDossierAcceptedADate = $this->stat->commissionAcceptedADate($this->month, $this->year);
-        //$commissionPaye = $this->stat->commissionPayee();
+
         $commissionPayeADate = $this->stat->commissionPayeeADate($this->month, $this->year);
 
         $view->with([
             'prospectsADate' => $prospectsADate,
             'dossierADate' => $dossierADate,
-            'percentageOfDossier' => $percentageOfDossier,
             'numAcceptedADate' => $numAcceptedADate,
             'numPaidADate' => $numPaidADate,
             'numRefusADate' => $numRefusADate,
