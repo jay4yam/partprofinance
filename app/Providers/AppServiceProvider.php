@@ -31,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
         // utilise la classe statistiqueComposer pour renvoyer des variables à vue 'home' (stats)
         View::composer('home', StatistiquesComposer::class);
 
-        View::composer('stats._statsHomeSale', StatistiquesSaleComposer::class);
-
         // utilise la classe LeadStatComposer pour renvoyer des variables à vue 'stats._leadsStats' (stats)
         View::composer('stats._leadsStats', LeadStatComposer::class);
 
