@@ -119,7 +119,7 @@ class StatistiqueHomeForSales
      */
     public function commissionOfTheMonthForSale(int $userId)
     {
-        $value = Cache::remember('allCommissionsForSale'.$userId, 10, function () use ($userId) {
+        $value = Cache::remember('allCommissionsForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use ($userId) {
 
             $dossier = new Dossier();
 
