@@ -85,7 +85,7 @@ class StatistiqueHomeForSales
      */
     public function countPaidDossierForSale(int $userId)
     {
-        $value = Cache::remember('dossiersPaidForSale'.$userId, 10, function () use($userId) {
+        $value = Cache::remember('dossiersPaidForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use($userId) {
 
             $dossier = new Dossier();
 
