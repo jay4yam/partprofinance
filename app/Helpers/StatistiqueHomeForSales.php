@@ -53,9 +53,9 @@ class StatistiqueHomeForSales
      */
     public function getDossierSaleThisMonth(int $userId)
     {
-        $numOfDossier = Cache::remember('numOfDossierForSale'.$userId, 10, function () use($userId){
+        $numOfDossier = Cache::remember('numOfDossierForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use($userId){
             $dossier = new Dossier();
-            return $dossier->dossierOfTheMonthForSale($userId)->count();
+            return $dossier->dossierOfTheMonthForSale($userId, $this->month, $this->year)->count();
         });
 
          return $numOfDossier;
