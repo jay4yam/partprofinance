@@ -60,7 +60,7 @@
 
         @if(Auth::user()->role == 'staff')
             <!-- stat d'un commercial -->
-            @include('stats._statsHomeSale')
+            @include('stats._statsForEachSales', ['id' => Auth::user()->id, 'name' => Auth::user()->name])
         @endif
 
         <!-- Main row -->
