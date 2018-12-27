@@ -28,6 +28,24 @@
 
     <!-- Main content -->
     <section class="content">
+        <div class="box">
+            {{ Form::open([ 'route' => 'home', 'method' => 'GET', 'class' => 'form-inline']) }}
+            <div class="form-group sep">
+                {{ Form::select('annee', $dossierYears, request()->get('annee'), ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
+            </div>
+            <div class="form-group sep">
+                {{ Form::select('mois', $dossierMonths, request()->get('mois'), ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-search" aria-hidden="true"></i> Filtre
+                </button>
+            </div>
+            <div class="form-group">
+                <a href="{{ url()->route('home') }}" class="btn btn-warning">raz filtre</a>
+            </div>
+            {{ Form::close() }}
+        </div>
 
         <!-- 2 ligne de stats -->
         @if(Auth::user()->role == 'admin')
