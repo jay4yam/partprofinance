@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <!-- num de dossier  réfusé-->
+                <!-- num de dossiers refusés -->
                 <div class="col-lg-2 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-red">

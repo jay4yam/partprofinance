@@ -102,11 +102,11 @@ class StatistiqueHomeForSales
      */
     public function countRefusedDossierForSale(int $userId)
     {
-        $value = Cache::remember('dossiersRefusesSale'.$userId, 10, function () use ($userId) {
+        $value = Cache::remember('dossiersRefusesSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use ($userId) {
 
             $dossier = new Dossier();
 
-            return $dossier->dossierRefusedOfTheMonthForSale($userId)->count();
+            return $dossier->dossierRefusedOfTheMonthForSale($userId, $this->month, $this->year)->count();
         });
 
         return $value;

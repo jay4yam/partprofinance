@@ -160,19 +160,6 @@ class Dossier extends Model
     }
 
     /**
-     * Retourne les dossiers du mois refusés du commercial
-     * @param $query
-     * @return mixed
-     */
-    public function scopeDossierRefusedOfTheMonthForSale($query, int $userId)
-    {
-        return $query->where('user_id', '=', $userId)
-            ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->whereMonth('created_at', Carbon::now()->format('m'))
-            ->where('status', '=', 'Refusé');
-    }
-
-    /**
      * Retourne les dossiers du mois acceptés
      * @param $query
      * @param $userId
@@ -202,6 +189,21 @@ class Dossier extends Model
             ->where('status', '=', 'Payé');
     }
 
+    /**
+     * Retourne les dossiers du mois refusés du commercial
+     * @param $query
+     * @param $userId
+     * @param $month
+     * @param $year
+     * @return mixed
+     */
+    public function scopeDossierRefusedOfTheMonthForSale($query, $userId, $month, $year)
+    {
+        return $query->where('user_id', '=', $userId)
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->where('status', '=', 'Refusé');
+    }
 
     /**
      * RELATION ENTRE MODEL
