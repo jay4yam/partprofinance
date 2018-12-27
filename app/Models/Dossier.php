@@ -149,11 +149,11 @@ class Dossier extends Model
      * @param $query
      * @return mixed
      */
-    public function scopeDossierOfTheMonthForSale($query, $userId, $month, $year)
+    public function scopeDossierOfTheMonthForSale($query, $userId)
     {
         return $query->where('user_id', '=', $userId)
-                    ->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
+                    ->whereYear('created_at', Carbon::now()->format('Y'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
                     ->where('status', '!=', 'Refusé');
     }
 
@@ -176,10 +176,10 @@ class Dossier extends Model
      * @param $userId
      * @return mixed
      */
-    public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId, $month, $year)
+    public function scopeDossierAcceptedOfTheMonthForSale($query, int $userId)
     {
-        return $query->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
+        return $query->whereYear('created_at', Carbon::now()->format('Y'))
+                    ->whereMonth('created_at', Carbon::now()->format('m'))
                     ->where('status', '=', 'Accepté')
                     ->where('user_id', '=', $userId);
     }
