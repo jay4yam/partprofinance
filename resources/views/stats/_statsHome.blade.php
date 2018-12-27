@@ -18,7 +18,7 @@
 </div>
 
     <div class="row">
-        <!-- num de dossier -->
+        <!-- num de prospect -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-aqua">
@@ -41,7 +41,7 @@
                 <div class="inner">
                     <h3>{{ $dossierADate }} </h3>
 
-                    <p>{{ round($percentageOfDossier,2) }} % de dossier passés</p>
+                    <p>{{ round( $dossierADate / $prospectsADate  * 100 ,2) }} % de dossier passés</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
