@@ -89,7 +89,7 @@ class StatistiqueHomeForSales
 
             $dossier = new Dossier();
 
-            return $dossier->dossierPaidOfTheMonthForSale($userId)->count();
+            return $dossier->dossierPaidOfTheMonthForSale($userId, $this->month, $this->year)->count();
         });
 
         return $value;
@@ -170,7 +170,7 @@ class StatistiqueHomeForSales
     {
         $dossier = new Dossier();
 
-        $dossiers = $dossier->dossierPaidOfTheMonthForSale($userId)->get();
+        $dossiers = $dossier->dossierPaidOfTheMonthForSale($userId, $this->month, $this->year)->get();
 
         $montant = 0;
 
