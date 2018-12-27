@@ -151,7 +151,7 @@ class Dossier extends Model
      * @param $year
      * @return mixed
      */
-    public function scopeDossierOfTheMonthForSale($query, $userId, $month, $year)
+    public function scopeDossierOfTheMonthForSales($query, $userId, $month, $year)
     {
         return $query->where('user_id', '=', $userId)
                     ->whereYear('created_at', $year)
@@ -178,7 +178,7 @@ class Dossier extends Model
      * @param $userId
      * @return mixed
      */
-    public function scopeDossierAcceptedOfTheMonthForSale($query, $userId, $month, $year)
+    public function scopeDossierAcceptedOfTheMonthForSales($query, $userId, $month, $year)
     {
         return $query->whereYear('created_at', $year)
                     ->whereMonth('created_at', $month)

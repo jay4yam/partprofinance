@@ -55,7 +55,7 @@ class StatistiqueHomeForSales
     {
         $numOfDossier = Cache::remember('numOfDossierForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use($userId){
             $dossier = new Dossier();
-            return $dossier->dossierOfTheMonthForSale($userId, $this->month, $this->year)->count();
+            return $dossier->dossierOfTheMonthForSales($userId, $this->month, $this->year)->count();
         });
 
          return $numOfDossier;
@@ -72,7 +72,7 @@ class StatistiqueHomeForSales
 
             $dossier = new Dossier();
 
-            return $dossier->dossierAcceptedOfTheMonthForSale($userId, $this->month, $this->year)->count();
+            return $dossier->dossierAcceptedOfTheMonthForSales($userId, $this->month, $this->year)->count();
         });
 
         return $value;
@@ -123,7 +123,7 @@ class StatistiqueHomeForSales
 
             $dossier = new Dossier();
 
-            $dossierOfTheMonth = $dossier->dossierOfTheMonthForSale($userId)->get();
+            $dossierOfTheMonth = $dossier->dossierOfTheMonthForSales($userId, $this->month, $this->year)->get();
 
             $commissionPartProFinance = 0;
 
@@ -147,7 +147,7 @@ class StatistiqueHomeForSales
         $value = Cache::remember('commissionForSalaireForSale'.$userId, 10, function () use($userId){
             $dossier = new Dossier();
 
-            $dossiers = $dossier->dossierAcceptedOfTheMonthForSale($userId)->get();
+            $dossiers = $dossier->dossierAcceptedOfTheMonthForSales($userId, $this->month, $this->year)->get();
 
             $montant = 0;
 
