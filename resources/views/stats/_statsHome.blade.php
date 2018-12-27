@@ -24,7 +24,10 @@
                 <div class="inner">
                     <h3>{{ $dossierADate }} </h3>
 
-                    <p>@if($prospectsADate != 0) round( @$dossierADate / @$prospectsADate  * 100 ,2)@endif % de dossier passés </p>
+                    <p>@if($prospectsADate != 0)
+                            {{ round( @$dossierADate / @$prospectsADate  * 100 ,2) }}
+                        @endif % de dossier passés
+                    </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
