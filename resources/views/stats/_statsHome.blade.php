@@ -1,21 +1,4 @@
-<div class="box">
-    {{ Form::open([ 'route' => 'home', 'method' => 'GET', 'class' => 'form-inline']) }}
-    <div class="form-group sep">
-        {{ Form::select('annee', $dossierYears, request()->get('annee'), ['class' => 'form-control', 'placeholder' => 'choisissez l\'annee']) }}
-    </div>
-    <div class="form-group sep">
-        {{ Form::select('mois', $dossierMonths, request()->get('mois'), ['class' => 'form-control', 'placeholder' => 'choisissez le mois']) }}
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-success">
-            <i class="fa fa-search" aria-hidden="true"></i> Filtre
-        </button>
-    </div>
-    <div class="form-group">
-        <a href="{{ url()->route('home') }}" class="btn btn-warning">raz filtre</a>
-    </div>
-    {{ Form::close() }}
-</div>
+
 
     <div class="row">
         <!-- num de prospect -->
@@ -41,7 +24,7 @@
                 <div class="inner">
                     <h3>{{ $dossierADate }} </h3>
 
-                    <p>{{ round( $dossierADate / $prospectsADate  * 100 ,2) }} % de dossier passés</p>
+                    <p>@if($prospectsADate != 0) round( @$dossierADate / @$prospectsADate  * 100 ,2)@endif % de dossier passés </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
