@@ -168,17 +168,21 @@ class StatistiqueHomeForSales
      */
     public function commissionPayeeForSale(int $userId)
     {
-        $dossier = new Dossier();
+        $value = Cache::remember('commissionForPayeForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use($userId) {
+            $dossier = new Dossier();
 
-        $dossiers = $dossier->dossierPaidOfTheMonthForSale($userId, $this->month, $this->year)->get();
+            $dossiers = $dossier->dossierPaidOfTheMonthForSale($userId, $this->month, $this->year)->get();
 
-        $montant = 0;
+            $montant = 0;
 
-        foreach ($dossiers as $dossier)
-        {
-            $montant += $dossier->montant_commission_partpro;
-        }
+            foreach ($dossiers as $dossier) {
+                $montant += $dossier->montant_commission_partpro;
+            }
 
-        return $montant;
+            return $montant;
+        });
+
+        return $value;
+
     }
 }
