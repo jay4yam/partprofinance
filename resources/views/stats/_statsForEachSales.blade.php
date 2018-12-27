@@ -36,7 +36,12 @@
                         <div class="inner">
                             <h3>{{ $stats->getDossierSaleThisMonth($id) }} </h3>
 
-                            <p>{{ round( $stats->getDossierSaleThisMonth($id) / $stats->getProspectSaleThisMonth($id) * 100 ,2) }} % de dossier passés</p>
+                            <p>
+                                @if($stats->getDossierSaleThisMonth($id) != 0)
+                                    {{ round( $stats->getDossierSaleThisMonth($id) / $stats->getProspectSaleThisMonth($id) * 100 ,2) }}
+                                @endif
+                                    % de dossier passés
+                            </p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
