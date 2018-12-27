@@ -145,8 +145,10 @@ class Dossier extends Model
 
     /**
      * Retourne les dossiers du mois pour un commercial
-     * @param int $userId
+     * @param $userId
      * @param $query
+     * @param $month
+     * @param $year
      * @return mixed
      */
     public function scopeDossierOfTheMonthForSale($query, $userId, $month, $year)
