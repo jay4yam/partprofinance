@@ -1,6 +1,6 @@
 @php
     //Appel de la class StatistiqueHomeForSales
-    //$stats = new \App\Helpers\StatistiqueHomeForSales();
+    $stats = new \App\Helpers\StatistiqueHomeForSales();
 @endphp
 <div class="box">
     <div class="box-header with-border">
