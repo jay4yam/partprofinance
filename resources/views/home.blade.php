@@ -30,15 +30,17 @@
     <section class="content">
         <!-- 2 ligne de stats -->
         @if(Auth::user()->role == 'admin')
+            <!-- stat admin -->
             @include('stats._statsHome')
 
             @foreach(\App\Models\User::where('role', '=', 'staff')->get(['id', 'name']) as $user)
-                @include('stats._statsForEachSales', ['id' => $user->id, 'name' => $user->name])
+                @include('stats._statsForEachSales', ['id' => $user->id, 'name' => $user->name, 'stats' => \App\Helpers\StatistiqueHomeForSales()])
             @endforeach
         @endif
         <!-- /.row -->
 
         @if(Auth::user()->role == 'staff')
+            <!-- stat d'un commercial -->
             @include('stats._statsHomeSale')
         @endif
 
