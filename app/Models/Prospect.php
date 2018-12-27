@@ -79,9 +79,9 @@ class Prospect extends Model
         return $query->where('user_id', '=', \Auth::user()->id);
     }
 
-    public function scopeMonthly($query)
+    public function scopeMonthly($query, $month, $year)
     {
-        return $query->whereMonth('created_at', Carbon::now()->format('m'));
+        return $query->whereMonth('created_at', $month)->whereYear('created_at', $year);
     }
 
     public function scopeSalers($query, $userId)

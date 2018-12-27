@@ -46,11 +46,12 @@
             </div>
             {{ Form::close() }}
         </div>
-        <!-- 2 ligne de stats -->
+
+        <!-- stats -->
         @if(Auth::user()->role == 'admin')
             <!-- stat admin -->
             @include('stats._statsHome')
-
+            <!-- stat pour chaque commerciaux -->
             @foreach(\App\Models\User::where('role', '=', 'staff')->get(['id', 'name']) as $user)
                 @include('stats._statsForEachSales', ['id' => $user->id, 'name' => $user->name])
             @endforeach

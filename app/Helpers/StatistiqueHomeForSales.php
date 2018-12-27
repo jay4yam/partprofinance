@@ -11,11 +11,21 @@ namespace App\Helpers;
 use App\Models\Dossier;
 use App\Models\Prospect;
 use App\Models\TempProspect;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class StatistiqueHomeForSales
 {
+    protected $year;
+    protected $month;
+
+    public function __construct()
+    {
+        $this->year = \Request::get('annee') ? \Request::get('annee') : Carbon::now()->format('Y');
+        $this->month = \Request::get('mois') ? \Request::get('mois') : Carbon::now()->format('m');
+    }
+
     /***
      * Retourne les prospect de l'utilisateur du mois en cours
      * @param int $userId
@@ -23,14 +33,14 @@ class StatistiqueHomeForSales
      */
     public function getProspectSaleThisMonth(int $userId)
     {
-        $tempProspectOftheMonth = Cache::remember('tempProspectForSale'.$userId, 10, function () use ($userId){
+        $tempProspectOftheMonth = Cache::remember('tempProspectForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use ($userId){
             $tempProspect = new TempProspect();
-            return $tempProspect->countUserOfTheMonthForSale($userId)->count();
+            return $tempProspect->countUserOfTheMonthForSale($userId, $this->month, $this->year)->count();
         });
 
-        $prospectOfTheMonth = Cache::remember('ProspectForSale'.$userId, 10, function () use ($userId){
+        $prospectOfTheMonth = Cache::remember('ProspectForSale'.$userId.'-'.$this->month.'-'.$this->year, 10, function () use ($userId){
             $prospect = new Prospect();
-            return $prospect->salers($userId)->monthly()->count();
+            return $prospect->salers($userId)->monthly($this->month, $this->year)->count();
         });
 
         return $tempProspectOftheMonth + $prospectOfTheMonth;
