@@ -152,7 +152,7 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ round( $stats->commissionAcceptedForSale($id) + $stats->commissionPayeeForSale($id) * 0.05, 2) }} €</h3>
+                            <h3>{{ round( $stats->commissionOfTheMonthForSale($id) * 0.05, 2) }} €</h3>
 
                             <p>Prime Possible</p>
                         </div>
