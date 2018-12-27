@@ -178,8 +178,8 @@ class Dossier extends Model
      */
     public function scopeDossierAcceptedOfTheMonthForSale($query, $userId, $month, $year)
     {
-        return $query->whereYear('created_at', Carbon::now()->format('Y'))
-                    ->whereMonth('created_at', Carbon::now()->format('m'))
+        return $query->whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month)
                     ->where('status', '=', 'Accepté')
                     ->where('user_id', '=', $userId);
     }
