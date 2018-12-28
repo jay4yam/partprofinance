@@ -156,8 +156,7 @@ class Dossier extends Model
     {
         return $query->where('user_id', '=', $userId)
                     ->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
-                    ->where('status', '!=', 'Refusé');
+                    ->whereMonth('created_at', $month);
     }
 
     /**

@@ -115,7 +115,6 @@ class StatistiquesHelper
         return $pourcentage;
     }
 
-
     /**
      * Retourne dossier acceptés pour les dates passés en parametre
      * @param $month
