@@ -86,7 +86,7 @@ class StatistiquesHelper
      */
     public function getDossierForMonthAndYear($month, $year)
     {
-        $numOfDossier = Cache::remember('dossierForMonthYearForAdmin', 10, function () use($month, $year){
+        $numOfDossier = Cache::remember('dossierForMonthYearForAdmin'.'-'.$month.'-'.$year, 10, function () use($month, $year){
             $dossier = new Dossier();
             return $dossier->dossierForMonthAndYear($month, $year)->count();
         });
