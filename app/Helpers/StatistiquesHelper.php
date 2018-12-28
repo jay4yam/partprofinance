@@ -12,6 +12,7 @@ use App\Models\Dossier;
 use App\Models\Prospect;
 use App\Models\TempProspect;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -78,16 +79,17 @@ class StatistiquesHelper
     }
 
     /**
-     * Retourne les dossiers du mois et de l'année passé en paramètre
+     * OK Retourne les dossiers du mois et de l'année passé en paramètre
      * @param $month
      * @param $year
      * @return mixed
      */
     public function getDossierForMonthAndYear($month, $year)
     {
-        $dossier = new Dossier();
-
-        $numOfDossier = $dossier->dossierForMonthAndYear($month, $year)->count();
+        $numOfDossier = Cache::remember('dossierForMonthYearForAdmin', 10, function () use($month, $year){
+            $dossier = new Dossier();
+            return $dossier->dossierForMonthAndYear($month, $year)->count();
+        });
 
         return $numOfDossier;
     }

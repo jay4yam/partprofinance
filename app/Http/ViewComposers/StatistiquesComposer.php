@@ -31,8 +31,10 @@ class StatistiquesComposer
      */
     public function compose(View $view)
     {
+        //Ok
         $prospectsADate = $this->stat->getProspectForMonthAndYear($this->month, $this->year);
 
+        //OK
         $dossierADate = $this->stat->getDossierForMonthAndYear($this->month, $this->year);
 
         $percentageOfDossier = $this->stat->countTransfoProspectToDossier();
