@@ -39,15 +39,16 @@ class Dossier extends Model
     }
 
     /**
-     * Retourne les dossiers du mois
+     * OK - Retourne les dossiers du mois
      * @param $query
+     * @param $month
+     * @param $year
      * @return mixed
      */
     public function scopeDossierForMonthAndYear($query, $month, $year)
     {
         return $query->whereYear('created_at', $year)
-            ->whereMonth('created_at', $month)
-            ->where('status', '!=', 'Refusé' );
+            ->whereMonth('created_at', $month);
     }
 
     /**

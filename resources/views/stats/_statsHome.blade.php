@@ -1,6 +1,4 @@
-
-
-    <div class="row">
+ <div class="row">
         <!-- num de prospect -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
