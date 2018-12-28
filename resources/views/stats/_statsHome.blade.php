@@ -13,7 +13,7 @@
                 </div>
                 @if( Request::get('mois') && Request::get('annee') )
                     <a href="/prospect?mois={{ Request::get('mois') }}&annee={{Request::get('annee')}}"
-                       class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                       class="small-box-footer">Voir les prospects du mois <i class="fa fa-arrow-circle-right"></i></a>
                 @else
                 <a href="/prospect?mois={{\Carbon\Carbon::now()->format('m')}}&annee={{\Carbon\Carbon::now()->format('Y')}}"
                    class="small-box-footer">Voir les prospects du mois <i class="fa fa-arrow-circle-right"></i></a>
