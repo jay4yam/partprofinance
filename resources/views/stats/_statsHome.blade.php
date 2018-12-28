@@ -145,7 +145,7 @@
                 <div class="icon">
                     <i class="ion ion-social-euro"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -156,12 +156,12 @@
                 <div class="inner">
                     <h3>{{ round($commissionDossierAcceptedADate + $commissionPayeADate, 2) }} €</h3>
 
-                    <p>Acceptes + Payés</p>
+                    <p>Com Acceptées & Payées</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-social-euro"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -177,7 +177,7 @@
                 <div class="icon">
                     <i class="ion ion-social-euro"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -188,12 +188,12 @@
                 <div class="inner">
                     <h3>{{ round( ($commissionPayeADate - ($commissionPayeADate * 0.2)), 2) }} €</h3>
 
-                    <p>Com' payées</p>
+                    <p>Com' Payées</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-social-euro"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -204,12 +204,12 @@
                 <div class="inner">
                     <h3>{{ round($commissionPayeADate * 0.05, 2) }} €</h3>
 
-                    <p>Prime réelle</p>
+                    <p>Prime Réelle</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-social-euro"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Voir <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
