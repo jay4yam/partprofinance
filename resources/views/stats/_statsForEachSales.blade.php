@@ -52,10 +52,17 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
+                        @if( Request::get('mois') && Request::get('annee') )
+                            <a href="{{ route('dossiers.index', ['mois' => Request::get('mois'), 'annee' => Request::get('annee')]) }}"
+                               class="small-box-footer">
+                                Voir les dossiers du mois <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @else
                         <a href="{{ route('dossiers.index', ['mois' => \Carbon\Carbon::now()->format('m'), 'annee' => \Carbon\Carbon::now()->format('Y')]) }}"
                            class="small-box-footer">
                             Voir les dossiers du mois <i class="fa fa-arrow-circle-right"></i>
                         </a>
+                        @endif
                     </div>
                 </div>
 
@@ -71,10 +78,17 @@
                         <div class="icon">
                             <i class="ion ion-folder"></i>
                         </div>
+                        @if( Request::get('mois') && Request::get('annee') )
+                            <a href="{{ route('dossiers.index', ['annee' => Request::get('annee'),'mois' => Request::get('mois'), 'status' =>'Accepté']) }}"
+                               class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @else
                         <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'),'mois' => \Carbon\Carbon::now()->format('m'), 'status' =>'Accepté']) }}"
                            class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>
                         </a>
+                        @endif
                     </div>
                 </div>
 
@@ -90,10 +104,17 @@
                         <div class="icon">
                             <i class="ion ion-social-euro"></i>
                         </div>
-                        <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'), 'mois' => \Carbon\Carbon::now()->format('m'),'status' => 'Payé']) }}"
-                           class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
+                        @if( Request::get('mois') && Request::get('annee') )
+                            <a href="{{ route('dossiers.index', ['annee' => Request::get('annee'), 'mois' => Request::get('mois'),'status' => 'Payé']) }}"
+                               class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @else
+                            <a href="{{ route('dossiers.index', ['annee' => \Carbon\Carbon::now()->format('Y'), 'mois' => \Carbon\Carbon::now()->format('m'),'status' => 'Payé']) }}"
+                               class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
 
@@ -109,10 +130,17 @@
                         <div class="icon">
                             <i class="ion ion-help-buoy"></i>
                         </div>
+                        @if( Request::get('mois') && Request::get('annee') )
+                            <a href="{{ route('dossiers.index', ['mois' => Request::get('mois'), 'annee' => Request::get('annee'), 'status' => 'Refusé']) }}"
+                               class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @else
                         <a href="{{ route('dossiers.index', ['mois' => \Carbon\Carbon::now()->format('m'), 'annee' => \Carbon\Carbon::now()->format('Y'), 'status' => 'Refusé']) }}"
                            class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>
                         </a>
+                        @endif
                     </div>
                 </div>
                 <!-- ./col -->
