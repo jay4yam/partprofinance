@@ -25,7 +25,13 @@
                         <div class="icon">
                             <i class="ion ion ion-person-add"></i>
                         </div>
-                        <a href="/prospect?mois={{\Carbon\Carbon::now()->format('m')}}&annee={{\Carbon\Carbon::now()->format('Y')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        @if( Request::get('mois') && Request::get('annee') )
+                            <a href="/prospect?mois={{Request::get('mois')}}&annee={{Request::get('annee')}}"
+                               class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        @else
+                        <a href="/prospect?mois={{\Carbon\Carbon::now()->format('m')}}&annee={{\Carbon\Carbon::now()->format('Y')}}"
+                           class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        @endif
                     </div>
                 </div>
 

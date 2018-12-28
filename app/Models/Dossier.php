@@ -28,7 +28,7 @@ class Dossier extends Model
     ];
 
     /**
-     * Retourne les dossiers du mois
+     * OK Retourne les dossiers du mois
      * @param $query
      * @return mixed
      */
@@ -145,7 +145,7 @@ class Dossier extends Model
     }
 
     /**
-     * Retourne les dossiers du mois pour un commercial
+     * OK Retourne les dossiers du mois pour un commercial
      * @param $userId
      * @param $query
      * @param $month
