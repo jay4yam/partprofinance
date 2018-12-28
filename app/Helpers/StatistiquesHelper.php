@@ -94,42 +94,6 @@ class StatistiquesHelper
         return $numOfDossier;
     }
 
-    /**
-     * Retourne le taux de transfo des prospects vers les dossiers
-     * @return float|int
-     */
-    public function countTransfoProspectToDossier()
-    {
-        //Nombre d'utilisateur creés ce mois ci
-        $numOfUsers = $this->getProspectThisMonth();
-
-        //Nombre de dossiers du mois
-        $numOfDossier = $this->getDossierThisMonth();
-
-        $pourcentage = 0;
-
-        if($numOfUsers > 0) {
-            $pourcentage = $numOfDossier / $numOfUsers * 100;
-        }
-
-        return $pourcentage;
-    }
-
-    /**
-     * Retourne le nombre de dossiers acceptés ce mois ci
-     * @return mixed
-     */
-    public function countAcceptedDossier()
-    {
-        $value = Cache::remember('dossiersAcceptes', 10, function () {
-
-            $dossier = new Dossier();
-
-            return $dossier->dossierAcceptedOfTheMonth()->count();
-        });
-
-        return $value;
-    }
 
     /**
      * Retourne dossier acceptés pour les dates passés en parametre
