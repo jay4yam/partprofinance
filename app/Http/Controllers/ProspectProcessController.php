@@ -141,7 +141,7 @@ class ProspectProcessController extends Controller
         $message .= "Suite à votre demande de rachat de crédit, nous répondons favorablement à cette demande";
         $message .= ", nous vous invitons au 04.89.68.41.02 ou au 06.15.80.55.66, afin de constituer votre dossier\n";
         $message .= "Cordialement\n\n";
-        $message .= "Emilie Pohier, votre conseiller financier.\n";
+        $message .= Auth::user()->name." votre conseiller financier.\n";
         return $message;
 
     }

@@ -78,7 +78,7 @@ var dossierJS = {
 
         //Auto complete jquery
         $('#nom').autocomplete({
-            minLength:3,
+            minLength:2,
             dataType: "json",
             // source de données via requete ajax
             // la subtilité c'est d'utiliser un callback pour récupérer la requête et la response
