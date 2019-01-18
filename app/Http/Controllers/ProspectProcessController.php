@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TempProspect;
 use App\Repositories\ProcessProspectRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProspectProcessController extends Controller
 {
@@ -141,7 +142,6 @@ class ProspectProcessController extends Controller
         $message .= ", nous vous invitons au 04.89.68.41.02 ou au 06.15.80.55.66, afin de constituer votre dossier\n";
         $message .= "Cordialement\n\n";
         $message .= "Emilie Pohier, votre conseiller financier.\n";
-
         return $message;
 
     }

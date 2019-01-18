@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DossierRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -11,13 +12,16 @@ class UserController extends Controller
      * @var UserRepository
      */
     protected $userRepository;
+    protected $dossierRepository;
 
     /**
      * UserController constructor.
      * @param UserRepository $userRepository
+     * @param DossierRepository $dossierRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, DossierRepository $dossierRepository)
     {
+        $this->dossierRepository = $dossierRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -76,5 +80,11 @@ class UserController extends Controller
             return redirect()->back()->with(['message' => $exception->getMessage()]);
         }
         return redirect()->route('user.edit', ['id' => $userId])->with(['message' => 'utilisateur modifié avec succès']);
+    }
+
+    public function destroy($id){
+        $user = $this->userRepository->getById($id);
+
+        $user->delete();
     }
 }

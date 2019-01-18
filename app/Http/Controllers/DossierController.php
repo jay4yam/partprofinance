@@ -151,8 +151,7 @@ class DossierController extends Controller
             \Mail::send('mails.dossiercreated', ['content' => $content], function ($message) use($subject, $file){
                 $message->subject($subject);
                 $message->from('partprofinance@partprofinance.ovh', 'PartPro Finance CRM');
-                $message->to('descolo.pp@gmail.com');
-                $message->cc('partprofinance@gmail.com');
+                $message->to('partprofinance@gmail.com');
                 if($file){ $message->attach($file); }
             });
         }catch (\Exception $exception){
