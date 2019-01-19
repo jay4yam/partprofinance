@@ -72,11 +72,11 @@ class User extends Authenticatable
 
     /**
      * Relation 1/1 vers la table prospect
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function prospect()
+    public function prospects()
     {
-        return $this->hasOne(Prospect::class, 'user_id');
+        return $this->hasMany(Prospect::class, 'user_id');
     }
 
     /**
@@ -94,6 +94,15 @@ class User extends Authenticatable
      */
     public function dossiers()
     {
-        return $this->hasMany(User::class, 'user_id');
+        return $this->hasMany(Dossier::class, 'user_id');
+    }
+
+    /**
+     * Relation 1:n vers la table tempProspect
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tempProspects()
+    {
+        return $this->hasMany(TempProspect::class, 'user_id');
     }
 }

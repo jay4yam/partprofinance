@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Repositories\DossierRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -82,9 +84,59 @@ class UserController extends Controller
         return redirect()->route('user.edit', ['id' => $userId])->with(['message' => 'utilisateur modifié avec succès']);
     }
 
+    /**
+     * Supression d'un utilisateur
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id){
+        //1. recup l'utilisateur à supprimer
         $user = $this->userRepository->getById($id);
 
+        //2. Vérifie si l'utilisateur a des prospects, des dossiers ou des task
+        $this->checkUserRelationBeforeDelete($user);
+
+        //3. Supprime l'utilisateur
         $user->delete();
+
+        return back()->with(['message' => 'utilisateur supprimé avec succès']);
+    }
+
+    private function checkUserRelationBeforeDelete(User $user){
+        DB::transaction(function () use($user){
+            if($user->has('prospects')){
+
+                foreach ($user->prospects as $prospect)
+                {
+                    $prospect->update(['user_id' => 1]);
+                    $prospect->save();
+                }
+            }
+
+            if($user->has('dossiers')){
+
+                foreach ($user->dossiers as $dossier)
+                {
+                    $dossier->update(['user_id' => 1]);
+                    $dossier->save();
+                }
+            }
+
+            if($user->has('tasks')){
+
+                foreach ($user->tasks as $task)
+                {
+                    $task->update(['user_id' => 1]);
+                }
+            }
+
+            if($user->has('tempProspects')){
+                foreach ($user->tempProspects as $tempProspect)
+                {
+                    $tempProspect->update(['user_id' => 1]);
+                    $tempProspect->save();
+                }
+            }
+        });
     }
 }

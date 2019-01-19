@@ -24,11 +24,12 @@ class Dossier extends Model
         'taux_commission',
         'status',
         'banque_id',
-        'num_dossier_banque'
+        'num_dossier_banque',
+        'user_id'
     ];
 
     /**
-     * OK Retourne les dossiers du mois
+     * Retourne les dossiers du mois
      * @param $query
      * @return mixed
      */
