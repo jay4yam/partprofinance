@@ -2,7 +2,6 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
-    {{ dd($prospect) }}
     <section class="content-header">
         <h1>
             Prospects
@@ -57,7 +56,8 @@
                             {{ Form::close() }}
                             <div class="col-md-12 margin-top30">
                                 <ul class="todo-list">
-                                @foreach($prospect->tasks as $task)
+                                    @if($prospect->has('tasks'))
+                                        @foreach($prospect->tasks as $task)
                                     <li class="{{ $task->status == 0 ? 'done' : '' }}">
                                         <!-- drag handle -->
                                         <span class="handle">
@@ -81,6 +81,7 @@
                                         </div>
                                     </li>
                                 @endforeach
+                                   @endif
                                 </ul>
                             </div>
                         </div>
