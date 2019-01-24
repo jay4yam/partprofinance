@@ -71,7 +71,7 @@
                                             {{ $task->taskcontent }} | <a href="{{ route('prospect.show', ['id' => $task->taskable->id]) }}">{{ $task->taskable->nom }}</a>
                                         </span>
                                         <!-- Emphasis label -->
-                                        <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ $task->taskdate->format('d M Y') }}</small>
+                                        <small class="label level-{{ $task->level ? str_slug($task->level) : 'default' }} pull-right"><i class="fa fa-clock-o"></i> {{ @$task->taskdate->format('d M Y') }}</small>
                                         <!-- General tools such as edit or delete-->
                                         <div class="tools">
                                             <i class="fa fa-edit edit-task" data-task-id="{{ $task->id }}"></i>
