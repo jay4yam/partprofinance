@@ -246,7 +246,7 @@
                                 <tr>
                                     <td>Date de Naissance</td>
                                     <td id="dateDeNaissance" class="data">
-                                        <b class="value">{{ $prospect->dateDeNaissance->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->dateDeNaissance->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -348,7 +348,7 @@
                                 <tr>
                                     <td>Depuis</td>
                                     <td id="professionDepuis" class="data">
-                                        <b class="value">{{ $prospect->professionDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->professionDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -453,7 +453,7 @@
                                 <tr>
                                     <td>Habite Depuis</td>
                                     <td id="habiteDepuis" class="data">
-                                        <b class="value">{{ $prospect->habiteDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->habiteDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
