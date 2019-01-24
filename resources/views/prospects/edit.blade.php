@@ -2,6 +2,7 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
+    {{ dd($prospect) }}
     <section class="content-header">
         <h1>
             Prospects
@@ -623,7 +624,7 @@
                                 <tr>
                                     <td>Depuis le</td>
                                     <td id="BanqueDepuis" class="data">
-                                        <b class="value">{{ $prospect->BanqueDepuis->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->BanqueDepuis->format('d/m/Y') }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
