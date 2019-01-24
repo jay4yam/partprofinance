@@ -13,7 +13,6 @@
             <li class="active">edition</li>
         </ol>
     </section>
-    {{ dd($prospect) }}
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -405,7 +404,7 @@
                                 <tr>
                                     <td>Depuis conjoint</td>
                                     <td id="professionDepuisConjoint" class="data">
-                                        <b class="value">{{ @$prospect->professionDepuisConjoint->format('d/m/Y') }}</b>
+                                        <b class="value">{{ @$prospect->professionDepuisConjoint ? $prospect->professionDepuisConjoint->format('d/m/Y') : '10-10-1900' }}</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
@@ -414,7 +413,7 @@
                                 <tr>
                                     <td>Revenus Net Mensuel conjoint</td>
                                     <td id="revenusNetMensuelConjoint" class="data">
-                                        <b class="value">{{ @$prospect->revenusNetMensuelConjoint }}</b><b> €</b>
+                                        <b class="value">{{ $prospect->revenusNetMensuelConjoint }}</b><b> €</b>
                                         <a href="#" class="updateData pull-right btn-xs btn-success">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
