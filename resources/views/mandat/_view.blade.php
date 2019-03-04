@@ -187,7 +187,6 @@
                     <td class="tg-0lax">Signature</td>
                     <td></td>
                     <td class="tg-0lax">Représenté par Monsieur Frédéric BEAUDET, Gérant</td>
-                    <td><img src="{{ asset('img/tampon_mbc_finances.png') }}" height="30px"></td>
                 </tr>
                 <tr>
                     <td class="tg-0lax">Lu et approuvé. Bon pour mandat.</td>
@@ -197,6 +196,11 @@
                 <tr>
                     <td class="tg-0lax"></td>
                     <td class="tg-0lax"></td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax"></td>
+                    <td class="tg-0lax"></td>
+                    <td><img src="{{ public_path('img/tampon_mbc_finances.png') }}" height="100px"></td>
                 </tr>
             </table>
         </div>
@@ -267,11 +271,11 @@
                 </tr>
                 <tr>
                     <td>Nom du créancier :</td>
-                    <td>SASU DESCOLO</td>
+                    <td>MBCFinances</td>
                 </tr>
                 <tr>
                     <td>Adresse :</td>
-                    <td>2721 Chemin de Saint Claude - 06600 ANTIBES
+                    <td>6 rue de la Couronne 68730 BLOTZHEIM
                     </td>
                 </tr>
                 <tr>
@@ -287,7 +291,7 @@
                     <th style="width:25%"><u>Type de paiement :</u></th>
                     <th style="width:25%"><b>Paiement Unique</b></th>
                     <th style="width:50%" rowspan="3" class="signature">
-                        Fait à : ANTIBES  Date : {{ \Carbon\Carbon::now()->format('d/m/Y') }}<br>
+                        Fait à : BLOTZHEIM  Date : {{ \Carbon\Carbon::now()->format('d/m/Y') }}<br>
                         Signature de l'emprunteur:<br>
                     </th>
                 </tr>
@@ -300,7 +304,7 @@
                 <tr>
                     <td class="tg-0pky" colspan="2">
                         <u>Adresse de renvoi : </u><br>
-                        DESCOLO<br> 2721 Chemin de Saint Claude 06600 ANTIBES
+                        MBC Finances<br> 6 rue de la Couronne 68730 BLOTZHEIM
                     </td>
                 </tr>
             </table>
