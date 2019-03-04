@@ -45,10 +45,11 @@
                     Demeurant : {{ $prospect->adresse  }}, {{ $prospect->codePostal}} {{ $prospect->ville }}<br>
                     Ci-après dénommé (e) (s) : « Le Mandant »<br>
                     <b>Et : </b><br>
-                    La <b>société DESCOLO</b>, SASU, immatriculée au RCS d’ANTIBES, sous le numéro 808781678,
-                    dont le siège social est situé 2721 Chemin de Saint-Claude – 06600 ANTIBES, et inscrite
-                    à l’ORIAS sous le numéro 15002962 en tant que Coutier en Opérations de Banque et Mandataire d’Intermédiaire en Assurance.<br>
-                    Téléphone : 04.22.10.69.23 ou 06.17.16.17.76
+                    La société <b>MBCFINANCES</b> (Sarl Rachat de Crédits et Prêts), immatriculée au RCS de Mulhouse, sous le
+                    numéro 509661252, dont le siège social est situé 6 rue de la Couronne 68730 Blotzheim et inscrite à
+                    l’ORIAS sous le numéro 09050788 en tant que Courtier en Opérations de Banque , Mandataire
+                    d’intermédiaire en Opération de Banques et Courtier en Assurance.
+                    Téléphone : 04.89.68.41.02 ou les 06.15.80.55.66 / 06.22.03.69.89 / 06.46.45.80.35
                 </p>
                 <p>
                     Ci-après dénommée : <b>« Le Mandataire »</b>
@@ -73,8 +74,8 @@
                 </p>
                 <p>
                     Il est précisé toutefois que le Mandataire a la possibilité de modifier les caractéristiques
-                     du prêt envisagé, afin de servir au mieux les intérêts du Mandant et sans qu’il soit nécessaire
-                        d’établir un nouveau mandat de recherche aux fins d’obtention d’un prêt.
+                    du prêt envisagé, afin de servir au mieux les intérêts du Mandant et sans qu’il soit nécessaire
+                    d’établir un nouveau mandat de recherche aux fins d’obtention d’un prêt.
                 </p>
             </div>
         <h5 class="text-center">OBLIGATIONS DU MANDANT :</h5>
@@ -174,7 +175,7 @@
                 présente convention et à lui conserver une totale confidentialité.
             </p>
         </div>
-        <h5>Fait à Antibes, le {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h5>
+        <h5>Fait à BLOTZHEIM, le {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h5>
         <div class="row">
             <table class="table-mandat">
                 <tr>
@@ -185,7 +186,8 @@
                 <tr>
                     <td class="tg-0lax">Signature</td>
                     <td></td>
-                    <td class="tg-0lax">Représenté par Monsieur Patrick PORTET, Président de la SASU DESCOLO</td>
+                    <td class="tg-0lax">Représenté par Monsieur Frédéric BEAUDET, Gérant</td>
+                    <td><img src="{{ asset('img/tampon_mbc_finances.png') }}" height="30px"></td>
                 </tr>
                 <tr>
                     <td class="tg-0lax">Lu et approuvé. Bon pour mandat.</td>
