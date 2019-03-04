@@ -125,6 +125,7 @@ class DossierRepository
     public function update(array $inputs, $id)
     {
         DB::transaction(function () use ($id, $inputs){
+
             $dossier = $this->getById($id);
 
             $dossier->update($inputs);
@@ -132,7 +133,7 @@ class DossierRepository
 
             $user = User::findOrFail( $inputs['user_id']);
 
-            $user->prospect()->update(['iban' => $inputs['iban']]);
+            $user->prospects()->update(['iban' => $inputs['iban']]);
         });
     }
 
