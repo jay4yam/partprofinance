@@ -121,9 +121,10 @@ class ProspectProcessController extends Controller
         $message .= "VERIFIEZ VOS CAPACITES DE REMBOURSEMENT AVANT DE VOUS ENGAGER.\n\n";
         $message .= "DESCOLO / PART PRO FINANCE  2721 Chemin de Saint Claude 06600 Antibes\n";
         $message .= "Nous restons naturellement à votre disposition pour des informations complémentaires.\n";
-        $message .= "Mme POHIER : 06.15.80.55.66\n";
+        $message .= "Mme DEBARRE : 06.15.80.55.66\n";
         $message .= "Mr PORTET : 06.46.45.80.35\n";
-        $message .= "Fixe : 04.89.68.41.02\n\n";
+        $message .= "Mr SANTONI : 06.22.03.69.89\n";
+        $message .= "Fixe : 04.89.68.41.02\n";
         $message .= "Cordialement\n\n";
         $message .= "Vos conseillers financiers";
 

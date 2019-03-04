@@ -125,7 +125,7 @@ class ProcessProspectRepository
     {
         Mail::raw($text, function ($message) use($prospect) {
             $message->to($prospect->email);
-            $message->subject("Descolo & Partprofinance : le rachat de crédit simplifié");
+            $message->subject("MBS FINANCES : le rachat de crédit simplifié");
         });
     }
 
@@ -184,11 +184,15 @@ class ProcessProspectRepository
         $message .= "UN CREDIT VOUS ENGAGE ET DOIT ETRE REMBOURSE.\n";
         $message .= "VERIFIEZ VOS CAPACITES DE REMBOURSEMENT AVANT DE VOUS ENGAGER.\n\n";
         $message .= "DESCOLO / PART PRO FINANCE  2721 Chemin de Saint Claude 06600 Antibes.\n";
-        $message .= "Mme POHIER : 06.15.80.55.66\n";
+        $message .= "Mme DEBARRE : 06.15.80.55.66\n";
         $message .= "Mr PORTET : 06.46.45.80.35\n";
+        $message .= "Mr SANTONI : 06.22.03.69.89\n";
         $message .= "Fixe : 04.89.68.41.02\n";
         $message .= "Cordialement\n";
-        $message .= "Vos conseillers financiers";
+        $message .= "Vos conseillers financiers\n\n\n";
+        $message .= "MBS FINANCES";
+        $message .= "Sarl Rachat de Crédits et Prêts";
+        $message .= "6 Rue de la Couronne 68730 Blotzheim";
 
         return $message;
     }
