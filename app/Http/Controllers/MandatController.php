@@ -81,8 +81,6 @@ class MandatController extends Controller
         //
         $pdf = PDF::loadView('mandat._view', ['prospect' => $prospect, 'zeDossier' => $zeDossier])->save( $path.'/mandat-' . str_slug($prospect->nom) . '.pdf' );
 
-        dd($pdf);
-
         return $pdf->download('mandat-' . str_slug($prospect->nom) . '.pdf');
 
     }
