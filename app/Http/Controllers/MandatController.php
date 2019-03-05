@@ -70,7 +70,7 @@ class MandatController extends Controller
         });
 
         //test si le dossier "mandat/$prospect->nom
-        if( !is_dir( storage_path('app/public/mandat/'.str_slug($prospect->nom)) ) )
+        if( !is_dir( storage_path('app/public/mandat/'.str_slug($prospect->nom).'/'.$zeDossier->id) ) )
         {
             \File::makeDirectory(storage_path('app/public/mandat').'/'.str_slug($prospect->nom).'/'.$zeDossier->id,0777,true);
         }
@@ -78,7 +78,6 @@ class MandatController extends Controller
         //défini le chemin ou enregistrer le fichier
         $path = storage_path('app/public/mandat/'.str_slug($prospect->nom).'/'.$zeDossier->id);
 
-        dd($path);
         //
         $pdf = PDF::loadView('mandat._view', ['prospect' => $prospect, 'zeDossier' => $zeDossier])->save( $path.'/mandat-' . str_slug($prospect->nom) . '.pdf' );
 
