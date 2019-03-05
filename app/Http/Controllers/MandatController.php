@@ -78,8 +78,11 @@ class MandatController extends Controller
         //défini le chemin ou enregistrer le fichier
         $path = storage_path('app/public/mandat/'.str_slug($prospect->nom).'/'.$zeDossier->id);
 
+        dd($path);
         //
         $pdf = PDF::loadView('mandat._view', ['prospect' => $prospect, 'zeDossier' => $zeDossier])->save( $path.'/mandat-' . str_slug($prospect->nom) . '.pdf' );
+
+        dd($pdf);
 
         return $pdf->download('mandat-' . str_slug($prospect->nom) . '.pdf');
 
