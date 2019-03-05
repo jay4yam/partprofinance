@@ -156,7 +156,7 @@
             </p>
             <p>
                 Vous pouvez vous opposer sans frais à ce que vos données personnelles soient utilisées
-                à des fins de sollicitations commerciales en écrivant à : DESCOLO – Service réclamation – 2721, Chemin de St Claude 06600 ANTIBES.
+                à des fins de sollicitations commerciales en écrivant à : MBCFINANCES – Service réclamation – 6 rue de la Couronne 68730 BLOTZHEIM
             </p>
             <p>
                 Vous pouvez signaler toute réclamation auprès de l’ACPR 61 Rue Taitbout 75009 PARIS.
@@ -207,10 +207,10 @@
         <br>
         <div class="page-break"></div>
         <div class="header">
-            <img src="{{ public_path('img/header-mandat.png')}}" class="img-responsive" width="100%">
+            <img src="{{ public_path('img/header-mandat-2.png')}}" class="img-responsive" width="100%">
         </div>
         <div style="padding-top: 10px;">
-            <div class="text-center">Référence Unique de Mandat (RUM) : <b>2015DESCO11007</b><br></div>
+            <div class="text-center">Référence Unique de Mandat (RUM) : <b>{{ date('Y') }}MBC{{ random_int(555,5555555) }}</b><br></div>
             <b><u>En signant ce formulaire de mandat, vous autorisez :</u></b><br>
             - le créancier à envoyer des instructions à votre banque pour débiter votre compte,<br>
             - votre banque à débiter votre compte conformément aux instructions du créancier.</br>
@@ -267,7 +267,7 @@
                 <tbody>
                 <tr>
                     <td>Identifiant Créancier SEPA (ICS) :</td>
-                    <td><b>FR19ZZZ805C50</b></td>
+                    <td><b>FR95ZZZ551103</b></td>
                 </tr>
                 <tr>
                     <td>Nom du créancier :</td>
