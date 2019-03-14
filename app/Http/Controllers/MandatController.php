@@ -97,8 +97,8 @@ class MandatController extends Controller
         $content .= "Demeurant : ".$prospect->adresse.", ".$prospect->codePostal." ".$prospect->ville."\n";
         $content .= "Ci-après dénommé (e) (s) : « Le Mandant »\n\n";
         $content .= "Et :\n\n";
-        $content .= "La société DESCOLO, SASU, immatriculée au RCS d’ANTIBES, sous le numéro 808781678, dont le siège social est";
-        $content .= "situé 2721 Chemin de Saint-Claude – 06600 ANTIBES, et inscrite à l’ORIAS sous le numéro 15002962 en tant que";
+        $content .= "La société MBC FINANCE, SASU, immatriculée au RCS d’MULHOUSE, sous le numéro 509661252, dont le siège social est";
+        $content .= "situé 6 rue de la Couronne 68730 BLOTZHEIM, et inscrite à l’ORIAS sous le numéro 09050788 en tant que";
         $content .= "Coutier en Opérations de Banque et Mandataire d’Intermédiaire en Assurance.\n";
         $content .= "Téléphone : 04.22.10.69.23 ou 06.17.16.17.76\n\n";
         $content .= "Ci-après dénommée : « Le Mandataire »\n\n";
@@ -160,7 +160,7 @@ class MandatController extends Controller
         $content .= "La baisse de la mensualité entraîne l’allongement de la durée de remboursement. Elle doit s’apprécier par rapport à la";
         $content .= "durée restant à courir des prêts objets du regroupement.\n\n";
         $content .= "Vous pouvez vous opposer sans frais à ce que vos données personnelles soient utilisées à des fins de sollicitations ";
-        $content .= "commerciales en écrivant à :\nDESCOLO – Service réclamation – 2721, Chemin de St Claude 06600 ANTIBES.\n\n";
+        $content .= "commerciales en écrivant à :\nMBC FINANCE – Service réclamation – 6 rue de la Couronne 68730 BLOTZHEIM.\n\n";
         $content .= "Vous pouvez signaler toute réclamation auprès de l’ACPR 61 Rue Taitbout 75009 PARIS.\n";
         $content .= "\n";
         $content .= "\t\t***";
@@ -175,7 +175,7 @@ class MandatController extends Controller
         $content .= "Signature\n";
         $content .= "Lu et approuvé. Bon pour mandat.\n\n";
         $content .= "\n";
-        $content .= "Le MANDATAIRE, Représenté par Monsieur Patrick PORTET, Président de la SASU DESCOLO\n";
+        $content .= "Le MANDATAIRE, Représenté par Monsieur BAUDET, Président de MBC FINANCES\n";
         $content .=  "Lu et approuvé, bon pour acceptation de mandat.\n\n";
                     
         return $content;

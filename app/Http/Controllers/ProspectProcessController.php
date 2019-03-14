@@ -119,7 +119,7 @@ class ProspectProcessController extends Controller
         $message .= "en effet nuire à votre demande de financement et aux conditions obtenues pour votre crédit.\n\n";
         $message .= "UN CREDIT VOUS ENGAGE ET DOIT ETRE REMBOURSE.\n";
         $message .= "VERIFIEZ VOS CAPACITES DE REMBOURSEMENT AVANT DE VOUS ENGAGER.\n\n";
-        $message .= "DESCOLO / PART PRO FINANCE  2721 Chemin de Saint Claude 06600 Antibes\n";
+        $message .= "MBC FINANCES 6 rue de la Couronne 68730 BLOTZHEIM\n";
         $message .= "Nous restons naturellement à votre disposition pour des informations complémentaires.\n";
         $message .= "Mme DEBARRE : 06.15.80.55.66\n";
         $message .= "Mr PORTET : 06.46.45.80.35\n";
